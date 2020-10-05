@@ -1,6 +1,6 @@
-# Quiz_app
+# Mini_flutter_projects
 
-A new Flutter project.
+Project made with the intention of learning dart and flutter.
 
 ## Getting Started
 
