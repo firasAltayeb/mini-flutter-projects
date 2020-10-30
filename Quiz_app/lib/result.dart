@@ -10,9 +10,11 @@ class Result extends StatelessWidget {
   String get resultPhrase {
     var resultText;
     if (resultScore == questions.length) {
-      resultText = 'You have answered all question correctly';
-    } else {
+      resultText = 'You have answered all questions correctly';
+    } else if (resultScore >= 2) {
       resultText = 'You have answered ' + resultScore.toString() + ' questions';
+    } else {
+      resultText = 'You have answered ' + resultScore.toString() + ' question';
     }
     return resultText;
   }
