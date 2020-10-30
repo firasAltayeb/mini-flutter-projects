@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 class Result extends StatelessWidget {
   final int resultScore;
   final Function resetHandler;
+  final List<Map<String, Object>> questions;
 
-  Result(this.resultScore, this.resetHandler);
+  Result(this.resultScore, this.resetHandler, this.questions);
 
   String get resultPhrase {
     var resultText;
-    if (resultScore >= 12) {
-      resultText = 'great boy';
-    } else if (resultScore >= 8) {
-      resultText = 'good boy';
+    if (resultScore == questions.length) {
+      resultText = 'You have answered all question correctly';
     } else {
-      resultText = 'bad boy';
+      resultText = 'You have answered ' + resultScore.toString() + ' questions';
     }
     return resultText;
   }

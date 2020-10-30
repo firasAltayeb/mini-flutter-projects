@@ -15,21 +15,30 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final _questions = const [
     {
-      'questionText': 'What\'s your favorite color?',
+      'questionText': 'What\'s Japan capital?',
       'answers': [
-        {'text': 'Red', 'score': 10},
-        {'text': 'Black', 'score': 5},
-        {'text': 'White', 'score': 3},
-        {'text': 'Green', 'score': 1},
+        {'text': 'Tokyo', 'score': 1},
+        {'text': 'Kyoto', 'score': 0},
+        {'text': 'Nara', 'score': 0},
+        {'text': 'Hiroshima', 'score': 0},
       ],
     },
     {
-      'questionText': 'What\'s your favorite animal?',
+      'questionText': 'How many prefecture are there in Japan?',
       'answers': [
-        {'text': 'Dog', 'score': 10},
-        {'text': 'Rabbit', 'score': 5},
-        {'text': 'Cat', 'score': 3},
-        {'text': 'Lion', 'score': 1},
+        {'text': '47', 'score': 1},
+        {'text': '50', 'score': 0},
+        {'text': '10', 'score': 0},
+        {'text': '20', 'score': 0},
+      ],
+    },
+    {
+      'questionText': 'How far is tokyo from california by plane?',
+      'answers': [
+        {'text': '12', 'score': 1},
+        {'text': '8', 'score': 0},
+        {'text': '9', 'score': 0},
+        {'text': '15', 'score': 0},
       ],
     },
   ];
@@ -66,10 +75,7 @@ class _MyAppState extends State<MyApp> {
                 questionIndex: _questionIndex,
                 questions: _questions,
               )
-            : Result(
-                _totalScore,
-                _resetQuiz,
-              ),
+            : Result(_totalScore, _resetQuiz, _questions),
       ),
     );
   }
