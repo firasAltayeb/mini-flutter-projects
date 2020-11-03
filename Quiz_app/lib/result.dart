@@ -31,17 +31,18 @@ class Result extends StatelessWidget {
           ),
           SizedBox(height: 100),
           SizedBox(
-              width: double.infinity,
-              height: 100,
-              child: RaisedButton(
-                child: Text(
-                  'Restart Quiz',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-                textColor: Colors.blue,
-                onPressed: resetHandler,
-              ))
+            width: double.infinity,
+            height: 100,
+            child: RaisedButton(
+              child: Text(
+                'Restart Quiz',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              textColor: Colors.blue,
+              onPressed: resetHandler,
+            ),
+          )
         ],
       ),
     );
