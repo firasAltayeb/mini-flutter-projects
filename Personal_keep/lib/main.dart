@@ -1,6 +1,5 @@
-import 'package:Personal_keep/transaction.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import './widgets/user_transations.dart';
 
 void main() => runApp(Myapp());
 
@@ -15,26 +14,6 @@ class Myapp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
-  final List<Transaction> transactions = [
-    Transaction(
-      id: 't1',
-      title: 'New Shoes',
-      amount: 120.99,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't1',
-      title: 'Sex toys',
-      amount: 69.99,
-      date: DateTime.now(),
-    ),
-  ];
-
-  // String titleInput;
-  // String amountInput;
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,84 +32,7 @@ class MyHomePage extends StatelessWidget {
                 elevation: 5,
               ),
             ),
-            Card(
-              elevation: 5,
-              child: Container(
-                padding: EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    TextField(
-                      decoration: InputDecoration(labelText: 'title'),
-                      controller: titleController,
-                      // onChanged: (value) {
-                      //   titleInput = value;
-                      // },
-                    ),
-                    TextField(
-                      decoration: InputDecoration(labelText: 'amount'),
-                      controller: amountController,
-                      // onChanged: (value) => amountInput = value,
-                    ),
-                    FlatButton(
-                      onPressed: () {
-                        print(titleController.text);
-                        print(amountController.text);
-                      },
-                      child: Text('add Transaction'),
-                      textColor: Colors.purple,
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Column(
-              children: transactions.map((tx) {
-                return Card(
-                  child: Row(
-                    children: [
-                      Container(
-                        margin:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.purple,
-                            width: 2,
-                          ),
-                        ),
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          '\$ ${tx.amount}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.purple,
-                          ),
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            tx.title,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            DateFormat.yMMMd().format(tx.date),
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                );
-              }).toList(),
-            ),
+            UserTransactions(),
           ],
         ));
   }
