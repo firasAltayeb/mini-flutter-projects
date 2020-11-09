@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './widgets/user_transations.dart';
+import 'widgets/user_transactions.dart';
 
 void main() => runApp(MyApp());
 
