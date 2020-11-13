@@ -10,8 +10,13 @@ class NewTransactions extends StatelessWidget {
   NewTransactions(this.addTx);
 
   void submitData() {
-    print(titleController.text);
-    print(amountController.text);
+    final enteredTitle = titleController.text;
+    final enteredAmount = double.parse(amountController.text);
+
+    if (enteredTitle.isEmpty || enteredAmount <= 0) {
+      return;
+    }
+
     addTx(
       titleController.text,
       double.parse(amountController.text),
@@ -30,16 +35,13 @@ class NewTransactions extends StatelessWidget {
             TextField(
               decoration: InputDecoration(labelText: 'title'),
               controller: titleController,
-              onSubmitted: (_) => submitData,
-              // onChanged: (value) {
-              //   titleInput = value;
-              // },
+              onSubmitted: (_) => submitData(),
             ),
             TextField(
               decoration: InputDecoration(labelText: 'amount'),
               controller: amountController,
               keyboardType: TextInputType.numberWithOptions(decimal: true),
-              onSubmitted: (_) => submitData,
+              onSubmitted: (_) => submitData(),
               // onChanged: (value) => amountInput = value,
             ),
             FlatButton(
