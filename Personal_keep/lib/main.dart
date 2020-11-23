@@ -83,7 +83,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Personal Expenses'),
+        title: Text(
+          'Personal Expenses',
+          style: TextStyle(fontFamily: 'OpenSans'),
+        ),
         actions: [
           IconButton(
               icon: Icon(Icons.add),
@@ -92,7 +95,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Chart(_recentTransations),
