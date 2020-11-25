@@ -16,7 +16,7 @@ class _NewTransactionsState extends State<NewTransactions> {
 
   final amountController = TextEditingController();
 
-  void submitData() {
+  void _submitData() {
     final enteredTitle = titleController.text;
     final enteredAmount = double.parse(amountController.text);
 
@@ -32,6 +32,15 @@ class _NewTransactionsState extends State<NewTransactions> {
     Navigator.of(context).pop();
   }
 
+  void _presentDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -44,13 +53,13 @@ class _NewTransactionsState extends State<NewTransactions> {
             TextField(
               decoration: InputDecoration(labelText: 'title'),
               controller: titleController,
-              onSubmitted: (_) => submitData(),
+              onSubmitted: (_) => _submitData(),
             ),
             TextField(
               decoration: InputDecoration(labelText: 'amount'),
               controller: amountController,
               keyboardType: TextInputType.numberWithOptions(decimal: true),
-              onSubmitted: (_) => submitData(),
+              onSubmitted: (_) => _submitData(),
               // onChanged: (value) => amountInput = value,
             ),
             Container(
@@ -59,12 +68,13 @@ class _NewTransactionsState extends State<NewTransactions> {
                 children: [
                   Text('No Date chosen!'),
                   FlatButton(
-                      child: Text(
-                        'Choose Date',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      textColor: Colors.purple,
-                      onPressed: () {})
+                    child: Text(
+                      'Choose Date',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    textColor: Colors.purple,
+                    onPressed: _presentDatePicker,
+                  )
                 ],
               ),
             ),
@@ -72,7 +82,7 @@ class _NewTransactionsState extends State<NewTransactions> {
               color: Colors.purple,
               textColor: Colors.white,
               child: Text('add Transaction'),
-              onPressed: submitData,
+              onPressed: _submitData,
             )
           ],
         ),
