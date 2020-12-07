@@ -113,7 +113,18 @@ class _MyHomePageState extends State<MyHomePage> {
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
     print('main home called');
     final PreferredSizeWidget appBar = Platform.isIOS
-        ? CupertinoNavigationBar()
+        ? CupertinoNavigationBar(
+            middle: Text('Personal Expenses'),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                GestureDetector(
+                  child: Icon(CupertinoIcons.add),
+                  onTap: () => _startAddNewTransaction(context),
+                )
+              ],
+            ),
+          )
         : AppBar(
             title: Text(
               'Personal Expenses',
