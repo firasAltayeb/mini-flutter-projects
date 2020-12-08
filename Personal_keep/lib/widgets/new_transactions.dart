@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import '../widgets/adaptive_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
@@ -90,42 +91,11 @@ class _NewTransactionsState extends State<NewTransactions> {
                             : 'Picked Date: ${DateFormat.yMd().format(_selectedDate)}',
                       ),
                     ),
-                    Platform.isIOS
-                        ? CupertinoButton(
-                            child: Text(
-                              'Choose Date',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            onPressed: _presentDatePicker,
-                          )
-                        : FlatButton(
-                            child: Text(
-                              'Choose Date',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            textColor: Colors.purple,
-                            onPressed: _presentDatePicker,
-                          )
+                    AdaptiveFlatButton('Choose Date', _presentDatePicker),
                   ],
                 ),
               ),
-              Platform.isIOS
-                  ? CupertinoButton(
-                      color: Colors.purple,
-                      child: Text(
-                        'add Transaction',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                      onPressed: _submitData,
-                    )
-                  : RaisedButton(
-                      color: Colors.purple,
-                      textColor: Colors.white,
-                      child: Text('add Transaction'),
-                      onPressed: _submitData,
-                    )
+              AdaptiveFlatButton("add transactions", _submitData),
             ],
           ),
         ),
