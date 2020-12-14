@@ -126,13 +126,13 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           )
         : AppBar(
-            title: Text(
+            title: const Text(
               'Personal Expenses',
               style: TextStyle(fontFamily: 'OpenSans'),
             ),
             actions: [
               IconButton(
-                  icon: Icon(Icons.add),
+                  icon: const Icon(Icons.add),
                   onPressed: () => _startAddNewTransaction(context))
             ],
           );
