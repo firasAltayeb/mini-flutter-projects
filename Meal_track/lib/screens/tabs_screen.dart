@@ -1,3 +1,5 @@
+import 'package:Meal_track/categories_screen.dart';
+import 'package:Meal_track/screens/favorites_screen.dart';
 import 'package:flutter/material.dart';
 
 class TabsScreen extends StatefulWidget {
@@ -10,6 +12,7 @@ class _TabsScreenState extends State<TabsScreen> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
+      initialIndex: 0,
       child: Scaffold(
         appBar: AppBar(
           title: Text('Meals'),
@@ -23,6 +26,12 @@ class _TabsScreenState extends State<TabsScreen> {
               text: 'Favorites',
             ),
           ]),
+        ),
+        body: TabBarView(
+          children: [
+            CategoriesScreen(),
+            FavoritesScreen(),
+          ],
         ),
       ),
     );
