@@ -7,7 +7,21 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Map<String, bool> _filters = {
+    'vegen': false,
+    'gluten': false,
+    'lactose': false,
+    'vegetarian': false,
+  };
+
+  void _setFilters(Map<String, bool> filterDate) {}
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,7 +51,7 @@ class MyApp extends StatelessWidget {
         '/': (ctx) => TabsScreen(),
         CategoryMealScreen.routeName: (ctx) => CategoryMealScreen(),
         MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
-        FilterScreen.routeName: (ctx) => FilterScreen(),
+        FilterScreen.routeName: (ctx) => FilterScreen(_setFilters),
       },
       // onGenerateRoute: (settings) {
       //   print(settings.name);
