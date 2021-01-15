@@ -1,27 +1,14 @@
-import 'package:Meal_track/screens/cat_meal_screen.dart';
-import 'package:Meal_track/screens/categories_screen.dart';
-import 'package:Meal_track/screens/filter_screen.dart';
-import 'package:Meal_track/screens/meal_detail_screen.dart';
-import 'package:Meal_track/screens/tabs_screen.dart';
 import 'package:flutter/material.dart';
+
+import './screens/tabs_screen.dart';
+import './screens/meal_detail_screen.dart';
+import './screens/category_meals_screen.dart';
+import './screens/filters_screen.dart';
+import './screens/categories_screen.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  Map<String, bool> _filters = {
-    'vegen': false,
-    'gluten': false,
-    'lactose': false,
-    'vegetarian': false,
-  };
-
-  void _setFilters(Map<String, bool> filterDate) {}
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -32,33 +19,39 @@ class _MyAppState extends State<MyApp> {
         canvasColor: Color.fromRGBO(255, 254, 229, 1),
         fontFamily: 'Raleway',
         textTheme: ThemeData.light().textTheme.copyWith(
-              bodyText1: TextStyle(
-                color: Color.fromRGBO(20, 51, 51, 1),
-              ),
-              bodyText2: TextStyle(
-                color: Color.fromRGBO(20, 51, 51, 1),
-              ),
-              subtitle1: TextStyle(
-                fontSize: 20,
-                fontFamily: 'RobotoCondensed',
-                fontWeight: FontWeight.bold,
-              ),
+            bodyText1: TextStyle(
+              color: Color.fromRGBO(20, 51, 51, 1),
             ),
+            bodyText2: TextStyle(
+              color: Color.fromRGBO(20, 51, 51, 1),
+            ),
+            subtitle1: TextStyle(
+              fontSize: 20,
+              fontFamily: 'RobotoCondensed',
+              fontWeight: FontWeight.bold,
+            )),
       ),
       // home: CategoriesScreen(),
-      initialRoute: '/',
+      initialRoute: '/', // default is '/'
       routes: {
         '/': (ctx) => TabsScreen(),
-        CategoryMealScreen.routeName: (ctx) => CategoryMealScreen(),
+        CategoryMealsScreen.routeName: (ctx) => CategoryMealsScreen(),
         MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
-        FilterScreen.routeName: (ctx) => FilterScreen(_setFilters),
+        FiltersScreen.routeName: (ctx) => FiltersScreen(),
       },
       // onGenerateRoute: (settings) {
-      //   print(settings.name);
-      //   return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
+      //   print(settings.arguments);
+      //   if (settings.name == '/meal-detail') {
+      //     return ...;
+      //   } else if (settings.name == '/something-else') {
+      //     return ...;
+      //   }
+      //   return MaterialPageRoute(builder: (ctx) => CategoriesScreen(),);
       // },
       onUnknownRoute: (settings) {
-        return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
+        return MaterialPageRoute(
+          builder: (ctx) => CategoriesScreen(),
+        );
       },
     );
   }
