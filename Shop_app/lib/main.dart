@@ -1,5 +1,5 @@
-import 'package:Shop_app/screens/product_detail_screen.dart';
-import 'package:Shop_app/screens/products_overview_screen.dart';
+import 'package:shop_app/screens/product_detail_screen.dart';
+import 'package:shop_app/screens/products_overview_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
