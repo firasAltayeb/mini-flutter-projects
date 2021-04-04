@@ -12,10 +12,10 @@ class ProductsOverviewScreen extends StatefulWidget {
 }
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
+  var _showOnlyFavorites = false;
+
   @override
   Widget build(BuildContext context) {
-    var _showOnlyFavorites = false;
-
     return Scaffold(
       appBar: AppBar(
         title: Text('MyShop'),
@@ -35,11 +35,11 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             ),
             itemBuilder: (_) => [
               PopupMenuItem(
-                child: Text("Only Favorites"),
+                child: Text('Only Favorites'),
                 value: FilterOptions.Favorites,
               ),
               PopupMenuItem(
-                child: Text("Show All"),
+                child: Text('Show All'),
                 value: FilterOptions.All,
               ),
             ],
