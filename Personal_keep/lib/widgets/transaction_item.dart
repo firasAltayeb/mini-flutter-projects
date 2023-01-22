@@ -1,8 +1,8 @@
-import 'dart:math';
-
-import 'package:Personal_keep/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'dart:math';
+
+import '../models/transaction.dart';
 
 class TransactionItem extends StatefulWidget {
   const TransactionItem({
@@ -64,10 +64,14 @@ class _TransactionItemState extends State<TransactionItem> {
           DateFormat.yMMMd().format(widget.transation.date),
         ),
         trailing: MediaQuery.of(context).size.width > 460
-            ? FlatButton.icon(
+            ? TextButton.icon(
                 icon: const Icon(Icons.delete),
-                label: const Text('Delete'),
-                textColor: Colors.red,
+                label: const Text(
+                  'Delete',
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
                 onPressed: () => widget.deleteTx(widget.transation.id),
               )
             : IconButton(

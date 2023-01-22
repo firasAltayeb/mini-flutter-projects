@@ -21,10 +21,16 @@ class AdaptiveFlatButton extends StatelessWidget {
             ),
             onPressed: handler,
           )
-        : RaisedButton(
-            color: Colors.purple,
-            textColor: Colors.white,
-            child: Text(text),
+        : ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.purple,
+            ),
+            child: Text(
+              text,
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
             onPressed: handler,
           );
   }
