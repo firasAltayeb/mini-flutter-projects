@@ -33,13 +33,16 @@ class Result extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             height: 100,
-            child: RaisedButton(
+            child: ElevatedButton(
               child: Text(
                 'Restart Quiz',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                  fontSize: 20,
+                ),
                 textAlign: TextAlign.center,
               ),
-              textColor: Colors.blue,
               onPressed: resetHandler,
             ),
           )
