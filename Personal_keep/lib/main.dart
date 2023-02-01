@@ -1,16 +1,13 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+import '../widgets/new_transactions.dart';
+import '../widgets/transaction_list.dart';
+import '../models/transaction.dart';
+import '../widgets/chart.dart';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import './widgets/chart.dart';
-import './models/transaction.dart';
-import './widgets/new_transactions.dart';
-import './widgets/transaction_list.dart';
-
 void main() {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // SystemChrome.setPreferredOrientations(
-  //     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(MyApp());
 }
 
@@ -18,13 +15,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Personal Expenses',
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-        accentColor: Colors.amber,
-        fontFamily: 'OpenSans',
+      title: 'First project',
+      home: Material(
+        child: Container(
+          child: Text(
+            "Hello world",
+            style: TextStyle(
+              color: Colors.red,
+            ),
+          ),
+        ),
       ),
-      home: MyHomePage(),
     );
   }
 }

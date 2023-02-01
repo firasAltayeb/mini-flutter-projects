@@ -1,6 +1,6 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'dart:io';
 
 class AdaptiveFlatButton extends StatelessWidget {
   final String text;
@@ -23,7 +23,7 @@ class AdaptiveFlatButton extends StatelessWidget {
           )
         : ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: Colors.purple,
+              backgroundColor: Colors.purple,
             ),
             child: Text(
               text,
