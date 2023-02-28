@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 
+import '../app_constants.dart';
 import '../models/screen_arguments.dart';
 
 class ResultScreen extends StatelessWidget {
   const ResultScreen();
 
-  String resultPhrase(int resultScore, questions) {
+  String resultPhrase(int resultScore) {
     var resultText;
-    if (resultScore == questions.length) {
+    if (resultScore == AppConstants.questions.length) {
       resultText = 'You have answered all questions correctly';
-    } else if (resultScore >= 2) {
-      resultText = 'You have answered ' + resultScore.toString() + ' questions';
     } else {
-      resultText = 'You have answered ' + resultScore.toString() + ' question';
+      resultText = 'You have answered $resultScore questions correctly';
     }
     return resultText;
   }
@@ -20,30 +19,42 @@ class ResultScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
-    return Center(
-      child: Column(
+    return Scaffold(
+      backgroundColor: Colors.grey[200],
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("Result Screen"),
+        backgroundColor: Colors.indigo,
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            resultPhrase(args.resultScore, args.questions),
-            style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+            resultPhrase(args.resultScore),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontFamily: "Lato",
+              fontSize: 36,
+            ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 100),
           SizedBox(
             width: double.infinity,
             height: 100,
-            child: ElevatedButton(
-              child: Text(
-                'Restart Quiz',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue,
-                  fontSize: 20,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              onPressed: args.resetHandler,
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.grey[300],
             ),
+            child: Text(
+              'Restart Quiz',
+              style: TextStyle(
+                color: Colors.lightBlue[300],
+                fontSize: 20,
+              ),
+            ),
+            onPressed: args.resetHandler,
           )
         ],
       ),

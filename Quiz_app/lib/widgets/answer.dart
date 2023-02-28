@@ -3,16 +3,19 @@ import 'package:flutter/material.dart';
 class Answer extends StatelessWidget {
   Answer({
     required this.selectHandler,
+    required this.answerScore,
     required this.answerText,
   });
 
-  final void Function() selectHandler;
+  final void Function(int) selectHandler;
   final String answerText;
+  final int answerScore;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
+      width: MediaQuery.of(context).size.width / 2,
+      // alignment: Alignment.center,
       child: ElevatedButton(
         child: Text(
           answerText,
@@ -20,7 +23,7 @@ class Answer extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        onPressed: selectHandler,
+        onPressed: () => selectHandler(answerScore),
       ),
     );
   }

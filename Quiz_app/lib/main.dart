@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       title: "myfirstapp",
       initialRoute: '/',
       routes: {
-        '/': (context) => MainScreen(),
+        '/': (context) => HomeScreen(),
         '/result-screen': (context) {
           // final args =
           //     ModalRoute.of(context)!.settings.arguments as List<dynamic>?;
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(
-          builder: (context) => MainScreen(),
+          builder: (context) => HomeScreen(),
         );
       },
     );

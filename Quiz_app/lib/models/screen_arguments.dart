@@ -1,11 +1,9 @@
 class ScreenArguments {
-  ScreenArguments(
-    this.resetHandler,
-    this.resultScore,
-    this.questions,
-  );
+  ScreenArguments({
+    required this.resetHandler,
+    required this.resultScore,
+  });
 
-  final List<Map<String, Object>> questions;
   final void Function() resetHandler;
   final int resultScore;
 }
