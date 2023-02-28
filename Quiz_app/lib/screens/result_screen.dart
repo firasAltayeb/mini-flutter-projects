@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
-class Result extends StatelessWidget {
-  final int resultScore;
-  final Function resetHandler;
-  final List<Map<String, Object>> questions;
+import '../models/screen_arguments.dart';
 
-  Result(this.resultScore, this.resetHandler, this.questions);
+class ResultScreen extends StatelessWidget {
+  const ResultScreen();
 
-  String get resultPhrase {
+  String resultPhrase(int resultScore, questions) {
     var resultText;
     if (resultScore == questions.length) {
       resultText = 'You have answered all questions correctly';
@@ -21,11 +19,12 @@ class Result extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
     return Center(
       child: Column(
         children: [
           Text(
-            resultPhrase,
+            resultPhrase(args.resultScore, args.questions),
             style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
@@ -43,7 +42,7 @@ class Result extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              onPressed: resetHandler,
+              onPressed: args.resetHandler,
             ),
           )
         ],
