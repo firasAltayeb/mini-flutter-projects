@@ -1,19 +1,16 @@
+import '../models/screen_arguments.dart';
 import 'package:flutter/material.dart';
 
-import '../app_constants.dart';
-import '../models/screen_arguments.dart';
-
 class ResultScreen extends StatelessWidget {
-  const ResultScreen();
+  const ResultScreen({super.key});
 
-  String resultPhrase(int resultScore) {
-    var resultText;
-    if (resultScore == AppConstants.questions.length) {
-      resultText = 'You have answered all questions correctly';
+  String resultPhrase(int totalScore, questionList) {
+    if (totalScore == questionList.length) {
+      return "You have answered all questions correctly!";
     } else {
-      resultText = 'You have answered $resultScore questions correctly';
+      return "You have answered $totalScore/"
+          "${questionList.length} correctly";
     }
-    return resultText;
   }
 
   @override
@@ -31,7 +28,7 @@ class ResultScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            resultPhrase(args.resultScore),
+            resultPhrase(args.totalScore, args.quizQuestions),
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontFamily: "Lato",
@@ -44,17 +41,17 @@ class ResultScreen extends StatelessWidget {
             height: 100,
           ),
           ElevatedButton(
+            onPressed: args.resetHandler,
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.grey[300],
             ),
             child: Text(
-              'Restart Quiz',
+              "Restart Quiz",
               style: TextStyle(
                 color: Colors.lightBlue[300],
                 fontSize: 20,
               ),
             ),
-            onPressed: args.resetHandler,
           )
         ],
       ),

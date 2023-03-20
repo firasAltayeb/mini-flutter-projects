@@ -1,9 +1,13 @@
+import '../models/question_model.dart';
+
 class ScreenArguments {
-  ScreenArguments({
+  const ScreenArguments({
+    required this.quizQuestions,
     required this.resetHandler,
-    required this.resultScore,
+    required this.totalScore,
   });
 
+  final List<QuestionModel> quizQuestions;
   final void Function() resetHandler;
-  final int resultScore;
+  final int totalScore;
 }
