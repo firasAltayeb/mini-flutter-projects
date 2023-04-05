@@ -4,9 +4,9 @@ import '../models/meal.dart';
 import '../widgets/meal_item.dart';
 
 class FavoritesScreen extends StatelessWidget {
-  final List<Meal> favoriteMeals;
+  const FavoritesScreen({this.favoriteMeals});
 
-  FavoritesScreen(this.favoriteMeals);
+  final List<Meal> favoriteMeals;
 
   @override
   Widget build(BuildContext context) {

@@ -3,27 +3,21 @@ import 'package:flutter/material.dart';
 import '../widgets/meal_item.dart';
 import '../models/meal.dart';
 
-class CategoryMealsScreen extends StatefulWidget {
+class MealItemScreen extends StatefulWidget {
   static const routeName = '/category-meals';
 
   final List<Meal> availableMeals;
 
-  CategoryMealsScreen(this.availableMeals);
+  MealItemScreen(this.availableMeals);
 
   @override
-  _CategoryMealsScreenState createState() => _CategoryMealsScreenState();
+  _MealItemScreenState createState() => _MealItemScreenState();
 }
 
-class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
-  String categoryTitle;
-  List<Meal> displayedMeals;
+class _MealItemScreenState extends State<MealItemScreen> {
   var _loadedInitData = false;
-
-  @override
-  void initState() {
-    // ...
-    super.initState();
-  }
+  List<Meal> displayedMeals;
+  String categoryTitle;
 
   @override
   void didChangeDependencies() {
@@ -38,12 +32,6 @@ class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
       _loadedInitData = true;
     }
     super.didChangeDependencies();
-  }
-
-  void _removeMeal(String mealId) {
-    setState(() {
-      displayedMeals.removeWhere((meal) => meal.id == mealId);
-    });
   }
 
   @override

@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'dart:math';
 
 import '../models/transaction.dart';
+import '../constants.dart';
 
 class TransactionItem extends StatefulWidget {
   const TransactionItem({
@@ -23,15 +24,7 @@ class _TransactionItemState extends State<TransactionItem> {
 
   @override
   void initState() {
-    const availableColors = [
-      Colors.red,
-      Colors.blue,
-      Colors.purple,
-      Colors.green
-    ];
-
-    _bgColor = availableColors[Random().nextInt(4)];
-
+    _bgColor = Constants.availableColors[Random().nextInt(4)];
     super.initState();
   }
 
@@ -52,19 +45,26 @@ class _TransactionItemState extends State<TransactionItem> {
             child: FittedBox(
               child: Text(
                 '\$${widget.transation.amount}',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
         ),
         title: Text(
           widget.transation.title,
-          style: TextStyle(fontFamily: 'OpenSans'),
+          style: TextStyle(
+            fontFamily: 'OpenSans',
+          ),
         ),
         subtitle: Text(
           DateFormat.yMMMd().format(widget.transation.date),
         ),
         trailing: MediaQuery.of(context).size.width > 460
             ? TextButton.icon(
+                onPressed: () => widget.deleteTx(widget.transation.id),
                 icon: const Icon(Icons.delete),
                 label: const Text(
                   'Delete',
@@ -72,12 +72,11 @@ class _TransactionItemState extends State<TransactionItem> {
                     color: Colors.red,
                   ),
                 ),
-                onPressed: () => widget.deleteTx(widget.transation.id),
               )
             : IconButton(
+                onPressed: () => widget.deleteTx(widget.transation.id),
                 icon: const Icon(Icons.delete),
                 color: Colors.red,
-                onPressed: () => widget.deleteTx(widget.transation.id),
               ),
       ),
     );

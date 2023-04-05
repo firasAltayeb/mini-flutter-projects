@@ -4,10 +4,11 @@ import 'package:intl/intl.dart';
 import '../widgets/adaptive_button.dart';
 
 class NewTransactions extends StatefulWidget {
-  final Function addTx;
-  NewTransactions(this.addTx) {
+  NewTransactions({this.addTx}) {
     print('New transaction widget');
   }
+
+  final Function addTx;
 
   @override
   _NewTransactionsState createState() {

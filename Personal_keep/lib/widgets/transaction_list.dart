@@ -4,16 +4,21 @@ import '../widgets/transaction_item.dart';
 import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
+  const TransactionList({
+    this.transations,
+    this.deleteTx,
+  });
+
   final List<Transaction> transations;
   final Function deleteTx;
 
-  TransactionList(this.transations, this.deleteTx);
-
   @override
   Widget build(BuildContext context) {
-    return transations.isEmpty
-        ? LayoutBuilder(builder: (ctx, constraints) {
-            return Column(
+    if (transations.isEmpty)
+      return LayoutBuilder(
+        builder: (ctx, constraints) {
+          return Material(
+            child: Column(
               children: [
                 const Text('No transactions added yet!'),
                 const SizedBox(
@@ -27,18 +32,21 @@ class TransactionList extends StatelessWidget {
                   ),
                 ),
               ],
-            );
-          })
-        : ListView(
-            children: transations
-                .map(
-                  (tx) => TransactionItem(
-                    key: ValueKey(tx.id),
-                    transation: tx,
-                    deleteTx: deleteTx,
-                  ),
-                )
-                .toList(),
+            ),
           );
+        },
+      );
+    else
+      return ListView(
+        children: transations
+            .map(
+              (tx) => TransactionItem(
+                key: ValueKey(tx.id),
+                transation: tx,
+                deleteTx: deleteTx,
+              ),
+            )
+            .toList(),
+      );
   }
 }

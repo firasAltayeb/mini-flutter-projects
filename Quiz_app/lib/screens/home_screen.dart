@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// import '../app_constants.dart';
 import '../models/screen_arguments.dart';
 import '../utility/home_functions.dart';
 import '../models/question_model.dart';
@@ -70,7 +71,9 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Question(questionText: AppConstants.questions[_questionIdx]["text"]),
+          // Question(
+          //   questionText: AppConstants.questions[_questionIdx]["text"],
+          // ),
           Question(questionText: currentQuestion.qusTxt),
           const SizedBox(
             height: 20,

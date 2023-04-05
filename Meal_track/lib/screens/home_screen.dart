@@ -5,16 +5,17 @@ import './favorites_screen.dart';
 import './categories_screen.dart';
 import '../models/meal.dart';
 
-class TabsScreen extends StatefulWidget {
-  final List<Meal> favoriteMeals;
+class HomeScreen extends StatefulWidget {
+  const HomeScreen(this.favoriteMeals);
 
-  TabsScreen(this.favoriteMeals);
+  final List<Meal> favoriteMeals;
+  static const routeName = '/';
 
   @override
-  _TabsScreenState createState() => _TabsScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _TabsScreenState extends State<TabsScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   List<Map<String, Object>> _pages;
   int _selectedPageIndex = 0;
 
@@ -26,17 +27,13 @@ class _TabsScreenState extends State<TabsScreen> {
         'title': 'Categories',
       },
       {
-        'page': FavoritesScreen(widget.favoriteMeals),
+        'page': FavoritesScreen(
+          favoriteMeals: widget.favoriteMeals,
+        ),
         'title': 'Your Favorite',
       },
     ];
     super.initState();
-  }
-
-  void _selectPage(int index) {
-    setState(() {
-      _selectedPageIndex = index;
-    });
   }
 
   @override
@@ -48,12 +45,15 @@ class _TabsScreenState extends State<TabsScreen> {
       drawer: MainDrawer(),
       body: _pages[_selectedPageIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
-        onTap: _selectPage,
-        backgroundColor: Theme.of(context).primaryColor,
+        onTap: (int index) {
+          setState(() {
+            _selectedPageIndex = index;
+          });
+        },
+        selectedItemColor: Theme.of(context).colorScheme.secondary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         unselectedItemColor: Colors.white,
-        selectedItemColor: Theme.of(context).accentColor,
         currentIndex: _selectedPageIndex,
-        // type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
             backgroundColor: Theme.of(context).primaryColor,

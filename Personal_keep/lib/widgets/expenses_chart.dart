@@ -4,10 +4,12 @@ import 'package:intl/intl.dart';
 import '../widgets/chart_bar.dart';
 import '../models/transaction.dart';
 
-class Chart extends StatelessWidget {
-  final List<Transaction> recentTransactions;
+class ExpensesChart extends StatelessWidget {
+  const ExpensesChart({
+    this.recentTransactions,
+  });
 
-  Chart(this.recentTransactions);
+  final List<Transaction> recentTransactions;
 
   List<Map<String, Object>> get groupTransactionValues {
     return List.generate(7, (index) {
@@ -20,9 +22,6 @@ class Chart extends StatelessWidget {
           totalSum += recentTransactions[i].amount;
         }
       }
-
-      // print(DateFormat.E().format(weekDay));
-      // print(totalSum);
 
       return {
         'day': DateFormat.E().format(weekDay).substring(0, 1),
@@ -39,7 +38,6 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print(groupTransactionValues);
     return Card(
       elevation: 6,
       margin: EdgeInsets.all(20),
@@ -51,9 +49,9 @@ class Chart extends StatelessWidget {
             return Flexible(
               fit: FlexFit.tight,
               child: ChartBar(
-                data['day'],
-                data['amount'],
-                totalSpending == 0.0
+                label: data['day'],
+                spendingAmount: data['amount'],
+                spendingPctOfTotal: totalSpending == 0.0
                     ? 0.0
                     : (data['amount'] as double) / totalSpending,
               ),
