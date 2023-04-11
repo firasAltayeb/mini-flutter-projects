@@ -20,10 +20,11 @@ class _RegScreenState extends State<RegScreen> {
       body: Container(
         width: double.infinity,
         padding: EdgeInsets.only(
-            top: SizeConfig.safeHeight * 0.1,
-            left: SizeConfig.safeWidth * 0.1,
-            right: SizeConfig.safeWidth * 0.1,
-            bottom: SizeConfig.safeHeight * 0.01),
+          top: SizeConfig.safeHeight * 0.1,
+          left: SizeConfig.safeWidth * 0.1,
+          right: SizeConfig.safeWidth * 0.1,
+          bottom: SizeConfig.safeHeight * 0.01,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

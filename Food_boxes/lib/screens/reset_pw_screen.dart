@@ -21,10 +21,11 @@ class _ResetPwScreenState extends State<ResetPwScreen> {
           Container(
             width: double.infinity,
             padding: EdgeInsets.only(
-                top: SizeConfig.safeHeight * 0.05,
-                left: SizeConfig.safeWidth * 0.1,
-                right: SizeConfig.safeWidth * 0.1,
-                bottom: SizeConfig.safeHeight * 0.01),
+              top: SizeConfig.safeHeight * 0.05,
+              left: SizeConfig.safeWidth * 0.1,
+              right: SizeConfig.safeWidth * 0.1,
+              bottom: SizeConfig.safeHeight * 0.01,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

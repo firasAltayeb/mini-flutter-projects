@@ -1,15 +1,11 @@
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter/material.dart';
 
-import 'acct_screen.dart';
+import '../constants.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
   static const routeName = "/";
-  static const List<String> routeNames = [
-    AcctScreen.routeName,
-    HomeScreen.routeName
-  ];
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -50,7 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
         currentIndex: 1,
         onTap: (int index) {
-          Navigator.of(context).pushNamed(HomeScreen.routeNames[index]);
+          Navigator.of(context).pushNamed(
+            Constants.routeNames[index],
+          );
         },
       ),
     );
