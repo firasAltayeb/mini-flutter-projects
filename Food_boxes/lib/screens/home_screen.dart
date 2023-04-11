@@ -1,38 +1,58 @@
-import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+import 'acct_screen.dart';
+
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
   static const routeName = "/";
+  static const List<String> routeNames = [
+    AcctScreen.routeName,
+    HomeScreen.routeName
+  ];
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Home Screen"),
-      ),
+      appBar: AppBar(),
       body: Column(
         children: [
           TableCalendar(
+            headerStyle: HeaderStyle(),
             firstDay: DateTime.utc(2010, 10, 16),
             lastDay: DateTime.utc(2030, 3, 14),
+            enabledDayPredicate: (day) => day.isAfter(
+              DateTime.now(),
+            ),
             focusedDay: DateTime.now(),
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(items: [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.account_circle_outlined),
-          label: "Account",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.food_bank),
-          label: "Food Boxes",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.receipt),
-          label: "Tickets",
-        ),
-      ]),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle_outlined),
+            label: "Account",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_month),
+            label: "Schedule",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.receipt),
+            label: "Tickets",
+          ),
+        ],
+        currentIndex: 1,
+        onTap: (int index) {
+          Navigator.of(context).pushNamed(HomeScreen.routeNames[index]);
+        },
+      ),
     );
   }
 }

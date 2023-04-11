@@ -13,7 +13,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Food Boxes",
       theme: ThemeData(
-        primarySwatch: Colors.deepOrange,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blueGrey,
+        ),
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -47,12 +49,20 @@ class MyApp extends StatelessWidget {
             minimumSize: Size(30, 30),
           ),
         ),
+        listTileTheme: ListTileThemeData(
+          textColor: Colors.white,
+          iconColor: Colors.white,
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(),
+        ),
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
-            padding: EdgeInsets.all(5),
+            padding: EdgeInsets.symmetric(horizontal: 5),
             minimumSize: Size.zero,
           ),
         ),
+        iconTheme: IconThemeData(color: Colors.grey),
       ),
       initialRoute: AuthScreen.routeName,
       onGenerateRoute: generateRoute,
