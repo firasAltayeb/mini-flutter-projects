@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 
 class CstTextFormField extends StatefulWidget {
   const CstTextFormField({
+    this.errorLabelColor = const Color(0xFFB71C1C),
     this.labelFocusColor = Colors.blue,
     this.inputType = TextInputType.text,
     this.hideLabelOnFocus = false,
     this.obscureText = false,
-    required this.label,
-    this.prefixIconWidget,
-    this.errorLabelColor,
     this.maxLines = 1,
-    this.initialValue,
     this.controller,
+    this.prefixIconWidget,
+    this.initialValue,
     this.validator,
     this.onChanged,
     this.onSaved,
+    required this.label,
     Key? key,
   }) : super(key: key);
 
@@ -22,12 +22,12 @@ class CstTextFormField extends StatefulWidget {
   final ValueChanged<String>? onChanged;
   final ValueChanged<String>? onSaved;
   final Function(String)? validator;
-  final TextInputType inputType;
   final Widget? prefixIconWidget;
-  final Color? errorLabelColor;
+  final String? initialValue;
+  final TextInputType inputType;
+  final Color errorLabelColor;
   final Color labelFocusColor;
   final bool hideLabelOnFocus;
-  final String? initialValue;
   final bool obscureText;
   final String label;
   final int maxLines;
@@ -37,14 +37,14 @@ class CstTextFormField extends StatefulWidget {
 }
 
 class _CstTextFormFieldState extends State<CstTextFormField> {
-  FocusNode focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
   bool _textVisible = true;
   bool _focused = false;
 
   @override
   void initState() {
     _textVisible = widget.obscureText;
-    focusNode.addListener(() {
+    _focusNode.addListener(() {
       setState(() {
         _focused = !_focused;
       });
@@ -58,8 +58,8 @@ class _CstTextFormFieldState extends State<CstTextFormField> {
             onPressed: () => setState(() => _textVisible = !_textVisible),
             splashRadius: 0.1,
             icon: !_textVisible
-                ? Icon(Icons.visibility, size: 20)
-                : Icon(Icons.visibility_off, size: 20),
+                ? Icon(Icons.visibility)
+                : Icon(Icons.visibility_off),
           )
         : SizedBox();
   }
@@ -68,15 +68,16 @@ class _CstTextFormFieldState extends State<CstTextFormField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
-      focusNode: focusNode,
+      focusNode: _focusNode,
       onChanged: (val) {
         return widget.onChanged?.call(val);
       },
       onSaved: (val) {
-        widget.onSaved?.call(val!);
+        if (val != null) widget.onSaved?.call(val);
       },
       validator: (val) {
-        return widget.validator?.call(val!);
+        if (val != null) return widget.validator?.call(val);
+        return null;
       },
       keyboardType: widget.inputType,
       decoration: InputDecoration(
@@ -85,7 +86,7 @@ class _CstTextFormFieldState extends State<CstTextFormField> {
           color: _focused ? widget.labelFocusColor : Colors.grey,
         ),
         errorStyle: TextStyle(
-          color: widget.errorLabelColor ?? Colors.red[900],
+          color: widget.errorLabelColor,
         ),
         prefixIcon: widget.prefixIconWidget,
         suffixIcon: suffixIconWidget(),

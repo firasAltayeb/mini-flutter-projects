@@ -10,26 +10,32 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case AuthScreen.routeName:
       return MaterialPageRoute(
+        settings: settings,
         builder: (context) => AuthScreen(),
       );
     case RegScreen.routeName:
       return MaterialPageRoute(
+        settings: settings,
         builder: (context) => RegScreen(),
       );
     case ResetPwScreen.routeName:
       return MaterialPageRoute(
+        settings: settings,
         builder: (context) => ResetPwScreen(),
       );
     case HomeScreen.routeName:
       return MaterialPageRoute(
+        settings: settings,
         builder: (context) => HomeScreen(),
       );
     case AcctScreen.routeName:
       return MaterialPageRoute(
+        settings: settings,
         builder: (context) => AcctScreen(),
       );
     default:
       return MaterialPageRoute(
+        settings: settings,
         builder: (context) => AuthScreen(),
       );
   }

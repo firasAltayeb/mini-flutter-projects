@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../utility/size_config.dart';
+import '../screens/reg_screen.dart';
 import 'custom_text_field.dart';
 
 class EmailPasswordPage extends StatefulWidget {
@@ -20,11 +21,16 @@ class EmailPasswordPage extends StatefulWidget {
 }
 
 class _EmailPasswordPageState extends State<EmailPasswordPage> {
-  final _passwordController = TextEditingController();
-  final _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  late final String currentRoute;
 
-  _submitFormData() async {
+  @override
+  void didChangeDependencies() {
+    currentRoute = ModalRoute.of(context)!.settings.name!;
+    super.didChangeDependencies();
+  }
+
+  void _submitFormData() {
     if (_formKey.currentState!.validate()) {
       Navigator.of(context).pushNamed(widget.passedRouteName);
     }
@@ -50,12 +56,10 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
           ),
           CstTextFormField(
             validator: (value) {
-              String newEmail = _emailController.text;
-              if (newEmail.isEmpty) return "This value must be filled";
+              if (value.isEmpty) return "This value must be filled";
               return null;
             },
             prefixIconWidget: Icon(Icons.email),
-            controller: _emailController,
             label: "Email",
           ),
           SizedBox(
@@ -63,13 +67,13 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
           ),
           CstTextFormField(
             validator: (value) {
-              String newPass = _passwordController.text;
               if (value.isEmpty) return "This value must be filled";
-              if (newPass.length > 64) return "Password is too long";
+              if (currentRoute == RegScreen.routeName && value.length > 64) {
+                return "Password is too long";
+              }
               return null;
             },
             prefixIconWidget: Icon(Icons.lock),
-            controller: _passwordController,
             hideLabelOnFocus: true,
             obscureText: true,
             label: "Password",
