@@ -24,12 +24,6 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
   final _formKey = GlobalKey<FormState>();
   late final String currentRoute;
 
-  @override
-  void didChangeDependencies() {
-    currentRoute = ModalRoute.of(context)!.settings.name!;
-    super.didChangeDependencies();
-  }
-
   void _submitFormData() {
     if (_formKey.currentState!.validate()) {
       Navigator.of(context).pushNamed(widget.passedRouteName);
@@ -38,6 +32,7 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    currentRoute = ModalRoute.of(context)!.settings.name!;
     return Form(
       key: _formKey,
       child: Column(

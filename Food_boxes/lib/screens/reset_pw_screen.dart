@@ -14,7 +14,6 @@ class ResetPwScreen extends StatefulWidget {
 }
 
 class _ResetPwScreenState extends State<ResetPwScreen> {
-  final _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   _submitFormData() async {
@@ -52,12 +51,10 @@ class _ResetPwScreenState extends State<ResetPwScreen> {
               ),
               CstTextFormField(
                 validator: (value) {
-                  String newEmail = _emailController.text;
-                  if (newEmail.isEmpty) return "This value must be filled";
+                  if (value.isEmpty) return "This value must be filled";
                   return null;
                 },
                 prefixIconWidget: Icon(Icons.email),
-                controller: _emailController,
                 label: "Email",
               ),
               Container(
