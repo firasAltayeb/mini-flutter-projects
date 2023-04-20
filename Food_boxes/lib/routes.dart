@@ -7,20 +7,20 @@ import 'screens/reg_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
-    case AuthScreen.routeName:
+    case AuthenticationScreen.routeName:
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => AuthScreen(),
+        builder: (context) => AuthenticationScreen(),
       );
-    case RegScreen.routeName:
+    case RegisterationScreen.routeName:
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => RegScreen(),
+        builder: (context) => RegisterationScreen(),
       );
-    case ResetPwScreen.routeName:
+    case ResetPasswordScreen.routeName:
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => ResetPwScreen(),
+        builder: (context) => ResetPasswordScreen(),
       );
     case HomeScreen.routeName:
       return MaterialPageRoute(
@@ -30,7 +30,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     default:
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => AuthScreen(),
+        builder: (context) => AuthenticationScreen(),
       );
   }
 }

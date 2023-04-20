@@ -24,4 +24,12 @@ class SizeConfig {
     safeHeight = screenHeight - _unsafeAreaVertical;
     initlized = true;
   }
+
+  static double scaledWidth(double percentage) {
+    return safeWidth * (percentage / 100);
+  }
+
+  static double scaledHeight(double percentage) {
+    return safeHeight * (percentage / 100);
+  }
 }

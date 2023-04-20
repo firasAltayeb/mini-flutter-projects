@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
         ),
         iconTheme: IconThemeData(color: Colors.grey),
       ),
-      initialRoute: AuthScreen.routeName,
+      initialRoute: AuthenticationScreen.routeName,
       onGenerateRoute: generateRoute,
     );
   }

@@ -6,16 +6,16 @@ import '../screens/home_screen.dart';
 import '../utility/size_config.dart';
 import '../screens/reg_screen.dart';
 
-class AuthScreen extends StatefulWidget {
-  const AuthScreen({super.key});
+class AuthenticationScreen extends StatefulWidget {
+  const AuthenticationScreen({super.key});
 
   static const String routeName = "auth";
 
   @override
-  State<AuthScreen> createState() => _AuthScreenState();
+  State<AuthenticationScreen> createState() => _AuthenticationScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen> {
+class _AuthenticationScreenState extends State<AuthenticationScreen> {
   @override
   void didChangeDependencies() {
     if (!SizeConfig.initlized) SizeConfig().int(context);
@@ -44,7 +44,8 @@ class _AuthScreenState extends State<AuthScreen> {
             ),
             Spacer(),
             GestureDetector(
-              onTap: () => Navigator.of(ctx).pushNamed(ResetPwScreen.routeName),
+              onTap: () =>
+                  Navigator.of(ctx).pushNamed(ResetPasswordScreen.routeName),
               child: Container(
                 alignment: Alignment.center,
                 width: SizeConfig.safeWidth,
@@ -66,7 +67,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(ctx).pushNamed(RegScreen.routeName);
+                    Navigator.of(ctx).pushNamed(RegisterationScreen.routeName);
                   },
                   child: Text("Create an Account"),
                 ),

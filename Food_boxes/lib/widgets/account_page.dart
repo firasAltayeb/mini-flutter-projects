@@ -70,7 +70,7 @@ class AccountPage extends StatelessWidget {
             title: Text("Logout"),
             trailing: Icon(Icons.arrow_forward_ios_rounded),
             onTap: () {
-              Navigator.of(context).pushNamed(AuthScreen.routeName);
+              Navigator.of(context).pushNamed(AuthenticationScreen.routeName);
             },
           ),
           SizedBox(
@@ -85,7 +85,7 @@ class AccountPage extends StatelessWidget {
             title: Text("Reset Password"),
             trailing: Icon(Icons.arrow_forward_ios_rounded),
             onTap: () {
-              Navigator.of(context).pushNamed(ResetPwScreen.routeName);
+              Navigator.of(context).pushNamed(ResetPasswordScreen.routeName);
             },
           ),
           SizedBox(
@@ -100,7 +100,7 @@ class AccountPage extends StatelessWidget {
             title: Text("Delete Account"),
             trailing: Icon(Icons.arrow_forward_ios_rounded),
             onTap: () {
-              Navigator.of(context).pushNamed(AuthScreen.routeName);
+              Navigator.of(context).pushNamed(AuthenticationScreen.routeName);
             },
           ),
         ],

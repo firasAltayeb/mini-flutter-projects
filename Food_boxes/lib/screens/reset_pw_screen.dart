@@ -4,21 +4,20 @@ import '../widgets/custom_text_field.dart';
 import '../utility/size_config.dart';
 import 'auth_screen.dart';
 
-class ResetPwScreen extends StatefulWidget {
-  const ResetPwScreen({super.key});
-
+class ResetPasswordScreen extends StatefulWidget {
+  const ResetPasswordScreen({super.key});
   static const String routeName = "reset";
 
   @override
-  State<ResetPwScreen> createState() => _ResetPwScreenState();
+  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
 
-class _ResetPwScreenState extends State<ResetPwScreen> {
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  _submitFormData() async {
+  void _submitFormData() {
     if (_formKey.currentState!.validate()) {
-      Navigator.of(context).pushNamed(AuthScreen.routeName);
+      Navigator.of(context).pushNamed(AuthenticationScreen.routeName);
     }
   }
 
@@ -30,8 +29,8 @@ class _ResetPwScreenState extends State<ResetPwScreen> {
       body: Container(
         width: double.infinity,
         padding: EdgeInsets.symmetric(
-          vertical: SizeConfig.safeHeight * 0.1,
-          horizontal: SizeConfig.safeWidth * 0.1,
+          vertical: SizeConfig.scaledHeight(5),
+          horizontal: SizeConfig.scaledWidth(10),
         ),
         child: Form(
           key: _formKey,
@@ -47,18 +46,18 @@ class _ResetPwScreenState extends State<ResetPwScreen> {
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               SizedBox(
-                height: SizeConfig.safeHeight * 0.03,
+                height: SizeConfig.scaledHeight(5),
               ),
-              CstTextFormField(
+              CustomTxtFormField(
                 validator: (value) {
-                  if (value.isEmpty) return "This value must be filled";
+                  if (value.isEmpty) return "Please enter your email";
                   return null;
                 },
                 prefixIconWidget: Icon(Icons.email),
                 label: "Email",
               ),
               Container(
-                padding: EdgeInsets.only(top: SizeConfig.safeHeight * 0.01),
+                padding: EdgeInsets.only(top: SizeConfig.scaledHeight(1)),
                 alignment: Alignment.center,
                 child: ElevatedButton(
                   onPressed: _submitFormData,
@@ -80,11 +79,13 @@ class _ResetPwScreenState extends State<ResetPwScreen> {
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                   TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
                     child: Text("Go back"),
                   ),
                 ],
-              ),
+              )
             ],
           ),
         ),

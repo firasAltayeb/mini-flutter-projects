@@ -4,8 +4,8 @@ import '../widgets/email_pass_page.dart';
 import '../utility/size_config.dart';
 import 'auth_screen.dart';
 
-class RegScreen extends StatelessWidget {
-  const RegScreen({super.key});
+class RegisterationScreen extends StatelessWidget {
+  const RegisterationScreen({super.key});
   static const String routeName = "reg";
 
   @override
@@ -23,7 +23,7 @@ class RegScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             EmailPasswordPage(
-              passedRouteName: AuthScreen.routeName,
+              passedRouteName: AuthenticationScreen.routeName,
               subTitle: "Please sign up to proceed",
               titleText: "Sign Up",
             ),
@@ -37,7 +37,8 @@ class RegScreen extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed(AuthScreen.routeName);
+                    Navigator.of(context)
+                        .pushNamed(AuthenticationScreen.routeName);
                   },
                   child: Text("Login"),
                 ),

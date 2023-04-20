@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CstTextFormField extends StatefulWidget {
-  const CstTextFormField({
+class CustomTxtFormField extends StatefulWidget {
+  const CustomTxtFormField({
     this.errorLabelColor = const Color(0xFFB71C1C),
     this.labelFocusColor = Colors.blue,
     this.inputType = TextInputType.text,
@@ -33,10 +33,10 @@ class CstTextFormField extends StatefulWidget {
   final int maxLines;
 
   @override
-  State<CstTextFormField> createState() => _CstTextFormFieldState();
+  State<CustomTxtFormField> createState() => _CustomTxtFormFieldState();
 }
 
-class _CstTextFormFieldState extends State<CstTextFormField> {
+class _CustomTxtFormFieldState extends State<CustomTxtFormField> {
   final FocusNode _focusNode = FocusNode();
   bool _textVisible = true;
   bool _focused = false;

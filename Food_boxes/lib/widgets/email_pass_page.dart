@@ -49,7 +49,7 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
           SizedBox(
             height: SizeConfig.safeHeight * 0.04,
           ),
-          CstTextFormField(
+          CustomTxtFormField(
             validator: (value) {
               if (value.isEmpty) return "This value must be filled";
               return null;
@@ -60,10 +60,11 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
           SizedBox(
             height: SizeConfig.safeHeight * 0.01,
           ),
-          CstTextFormField(
+          CustomTxtFormField(
             validator: (value) {
               if (value.isEmpty) return "This value must be filled";
-              if (currentRoute == RegScreen.routeName && value.length > 64) {
+              if (currentRoute == RegisterationScreen.routeName &&
+                  value.length > 64) {
                 return "Password is too long";
               }
               return null;
