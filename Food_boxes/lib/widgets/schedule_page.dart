@@ -9,13 +9,19 @@ class SchedulePage extends StatelessWidget {
     return Column(
       children: [
         TableCalendar(
-          headerStyle: HeaderStyle(),
           firstDay: DateTime.utc(2010, 10, 16),
           lastDay: DateTime.utc(2030, 3, 14),
-          enabledDayPredicate: (day) => day.isAfter(
-            DateTime.now(),
-          ),
           focusedDay: DateTime.now(),
+          calendarStyle: CalendarStyle(
+            cellMargin: EdgeInsets.all(10.0),
+          ),
+          daysOfWeekStyle: DaysOfWeekStyle(
+            weekdayStyle: Theme.of(context).textTheme.bodySmall!,
+            weekendStyle: Theme.of(context).textTheme.bodySmall!,
+          ),
+          headerStyle: HeaderStyle(
+            formatButtonVisible: false,
+          ),
         ),
       ],
     );

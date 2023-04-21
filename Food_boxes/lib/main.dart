@@ -33,12 +33,12 @@ class MyApp extends StatelessWidget {
           bodyMedium: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w500,
-            color: Colors.grey,
+            color: Colors.black,
           ),
           bodySmall: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w300,
-            color: Colors.grey,
+            color: Colors.black,
           ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
