@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
+import '../app_constants.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,10 +17,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Constants.menuItemlist[pageIndex].bodyBuild,
+      body: AppConstants.menuItemList[pageIndex].bodyBuild,
       bottomNavigationBar: BottomNavigationBar(
         onTap: (int idx) => setState(() => pageIndex = idx),
-        items: Constants.menuItemlist
+        items: AppConstants.menuItemList
             .map(
               (e) => BottomNavigationBarItem(
                 icon: Icon(e.iconData),

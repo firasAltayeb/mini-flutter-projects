@@ -5,6 +5,7 @@ import '../screens/reset_pw_screen.dart';
 import '../screens/auth_screen.dart';
 import '../utility/size_config.dart';
 import 'custom_text_field.dart';
+import '../app_constants.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
@@ -14,11 +15,9 @@ class AccountPage extends StatelessWidget {
     final formKey = GlobalKey<FormState>();
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.only(
-        top: SizeConfig.safeHeight * 0.03,
-        left: SizeConfig.safeWidth * 0.1,
-        right: SizeConfig.safeWidth * 0.1,
-        bottom: SizeConfig.safeHeight * 0.03,
+      padding: EdgeInsets.symmetric(
+        horizontal: SizeConfig.scaledHeight(10),
+        vertical: SizeConfig.scaledHeight(3),
       ),
       child: Form(
         key: formKey,
@@ -79,7 +78,7 @@ class AccountPage extends StatelessWidget {
             ListTile(
               tileColor: Theme.of(context).colorScheme.primary,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: AppConstants.circleRadius,
               ),
               leading: Icon(Icons.logout),
               title: Text("Logout"),
@@ -94,7 +93,7 @@ class AccountPage extends StatelessWidget {
             ListTile(
               tileColor: Theme.of(context).colorScheme.primary,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: AppConstants.circleRadius,
               ),
               leading: Icon(Icons.key),
               title: Text("Reset Password"),
@@ -109,7 +108,7 @@ class AccountPage extends StatelessWidget {
             ListTile(
               tileColor: Colors.red[700],
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: AppConstants.circleRadius,
               ),
               leading: Icon(Icons.delete_forever),
               title: Text("Delete Account"),

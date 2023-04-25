@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/custom_text_field.dart';
+import '../utility/shared_functions.dart';
 import '../utility/size_config.dart';
 import 'auth_screen.dart';
 
@@ -17,6 +18,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   void _submitFormData() {
     if (_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        messegeSnackBar("Please follow the directions sent to your email"),
+      );
       Navigator.of(context).pushNamed(AuthenticationScreen.routeName);
     }
   }
