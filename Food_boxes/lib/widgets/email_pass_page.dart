@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../screens/auth_screen.dart';
 import '../utility/size_config.dart';
 import '../screens/reg_screen.dart';
 import 'custom_text_field.dart';
@@ -21,11 +23,25 @@ class EmailPasswordPage extends StatefulWidget {
 }
 
 class _EmailPasswordPageState extends State<EmailPasswordPage> {
+  final _passwordController = TextEditingController();
+  final _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  late final String currentRoute;
+  String? currentRoute;
 
   void _submitFormData() {
     if (_formKey.currentState!.validate()) {
+      if (currentRoute == RegisterationScreen.routeName) {
+        FirebaseAuth.instance.createUserWithEmailAndPassword(
+          password: _passwordController.text,
+          email: _emailController.text,
+        );
+      }
+      if (currentRoute == AuthenticationScreen.routeName) {
+        FirebaseAuth.instance.signInWithEmailAndPassword(
+          password: _passwordController.text,
+          email: _emailController.text,
+        );
+      }
       Navigator.of(context).pushNamed(widget.passedRouteName);
     }
   }
@@ -55,6 +71,7 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
               return null;
             },
             prefixIconWidget: Icon(Icons.email),
+            controller: _emailController,
             label: "Email",
           ),
           SizedBox(
@@ -70,6 +87,7 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
               return null;
             },
             prefixIconWidget: Icon(Icons.lock),
+            controller: _passwordController,
             hideLabelOnFocus: true,
             obscureText: true,
             label: "Password",

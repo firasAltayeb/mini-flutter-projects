@@ -1,9 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:food_boxes/routes.dart';
-import 'package:food_boxes/screens/auth_screen.dart';
+import 'firebase_options.dart';
 
-void main() {
+import '../screens/auth_screen.dart';
+import '../routes.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MyApp());
 }
 
