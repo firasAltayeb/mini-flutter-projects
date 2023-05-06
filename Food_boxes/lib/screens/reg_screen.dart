@@ -23,7 +23,6 @@ class RegisterationScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             EmailPasswordPage(
-              passedRouteName: AuthenticationScreen.routeName,
               subTitle: "Please sign up to proceed",
               titleText: "Sign Up",
             ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../widgets/email_pass_page.dart';
 import '../screens/reset_pw_screen.dart';
-import '../screens/home_screen.dart';
 import '../utility/size_config.dart';
 import '../screens/reg_screen.dart';
 
@@ -38,7 +37,6 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             EmailPasswordPage(
-              passedRouteName: HomeScreen.routeName,
               subTitle: "Please sign in to proceed",
               titleText: "Login",
             ),

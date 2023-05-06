@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../utility/shared_functions.dart';
+import '../screens/home_screen.dart';
 import '../screens/auth_screen.dart';
 import '../utility/size_config.dart';
 import '../screens/reg_screen.dart';
@@ -8,13 +10,11 @@ import 'custom_text_field.dart';
 
 class EmailPasswordPage extends StatefulWidget {
   const EmailPasswordPage({
-    required this.passedRouteName,
     required this.titleText,
     required this.subTitle,
     super.key,
   });
 
-  final String passedRouteName;
   final String titleText;
   final String subTitle;
 
@@ -28,21 +28,42 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
   final _formKey = GlobalKey<FormState>();
   String? currentRoute;
 
-  void _submitFormData() {
+  void _submitFormData() async {
     if (_formKey.currentState!.validate()) {
-      if (currentRoute == RegisterationScreen.routeName) {
-        FirebaseAuth.instance.createUserWithEmailAndPassword(
-          password: _passwordController.text,
-          email: _emailController.text,
+      try {
+        if (currentRoute == AuthenticationScreen.routeName) {
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+            password: _passwordController.text,
+            email: _emailController.text,
+          );
+        }
+        if (currentRoute == RegisterationScreen.routeName) {
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            password: _passwordController.text,
+            email: _emailController.text,
+          );
+        }
+        if (context.mounted) {
+          Navigator.of(context).pushNamed(HomeScreen.routeName);
+        }
+      } on FirebaseAuthException catch (e) {
+        print('Failed with error code: ${e.code}');
+        String snackBarMsg;
+        if (e.code == 'wrong-password') {
+          snackBarMsg = 'The password provided is wrong.';
+        } else if (e.code == 'weak-password') {
+          snackBarMsg = 'The password provided is too weak.';
+        } else if (e.code == 'email-already-in-use') {
+          snackBarMsg = 'The account already exists for that email.';
+        } else {
+          snackBarMsg = e.message!;
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          messegeSnackBar(snackBarMsg),
         );
+      } catch (e) {
+        print(e);
       }
-      if (currentRoute == AuthenticationScreen.routeName) {
-        FirebaseAuth.instance.signInWithEmailAndPassword(
-          password: _passwordController.text,
-          email: _emailController.text,
-        );
-      }
-      Navigator.of(context).pushNamed(widget.passedRouteName);
     }
   }
 

@@ -7,12 +7,26 @@ import '../utility/size_config.dart';
 import 'custom_text_field.dart';
 import '../app_constants.dart';
 
-class AccountPage extends StatelessWidget {
+class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
 
   @override
+  State<AccountPage> createState() => _AccountPageState();
+}
+
+class _AccountPageState extends State<AccountPage> {
+  final _formKey = GlobalKey<FormState>();
+
+  void _submitFormData() {
+    if (_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        messegeSnackBar("User data has been updated", timeUp: 1000),
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
@@ -20,7 +34,7 @@ class AccountPage extends StatelessWidget {
         vertical: SizeConfig.scaledHeight(3),
       ),
       child: Form(
-        key: formKey,
+        key: _formKey,
         child: Column(
           children: [
             Padding(
@@ -74,6 +88,19 @@ class AccountPage extends StatelessWidget {
             ),
             SizedBox(
               height: SizeConfig.scaledHeight(5),
+            ),
+            ListTile(
+              tileColor: Theme.of(context).colorScheme.primary,
+              shape: RoundedRectangleBorder(
+                borderRadius: AppConstants.circleRadius,
+              ),
+              leading: Icon(Icons.save),
+              title: Text("Update User Info"),
+              trailing: Icon(Icons.arrow_forward_ios_rounded),
+              onTap: _submitFormData,
+            ),
+            SizedBox(
+              height: SizeConfig.safeHeight * 0.01,
             ),
             ListTile(
               tileColor: Theme.of(context).colorScheme.primary,
