@@ -31,15 +31,15 @@ class _AccountPageState extends State<AccountPage> {
       width: double.infinity,
       padding: EdgeInsets.symmetric(
         horizontal: SizeConfig.scaledHeight(10),
-        vertical: SizeConfig.scaledHeight(3),
+        // vertical: SizeConfig.scaledHeight(3),
       ),
       child: Form(
         key: _formKey,
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: SizeConfig.scaledHeight(3),
+              padding: EdgeInsets.only(
+                bottom: SizeConfig.scaledHeight(3),
               ),
               child: Icon(
                 Icons.account_circle_outlined,

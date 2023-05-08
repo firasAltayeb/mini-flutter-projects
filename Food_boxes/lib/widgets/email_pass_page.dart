@@ -55,11 +55,13 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
           snackBarMsg = 'The password provided is too weak.';
         } else if (e.code == 'email-already-in-use') {
           snackBarMsg = 'The account already exists for that email.';
+        } else if (e.code == 'user-not-found') {
+          snackBarMsg = 'No user with this email exist';
         } else {
           snackBarMsg = e.message!;
         }
         ScaffoldMessenger.of(context).showSnackBar(
-          messegeSnackBar(snackBarMsg),
+          messegeSnackBar(snackBarMsg, timeUp: 2000),
         );
       } catch (e) {
         print(e);

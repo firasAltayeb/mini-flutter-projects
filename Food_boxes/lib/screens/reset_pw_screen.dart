@@ -1,9 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/custom_text_field.dart';
 import '../utility/shared_functions.dart';
 import '../utility/size_config.dart';
-import 'auth_screen.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
@@ -14,14 +14,34 @@ class ResetPasswordScreen extends StatefulWidget {
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
+  final _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  void _submitFormData() {
+  void _submitFormData() async {
     if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        messegeSnackBar("Please follow the directions sent to your email"),
-      );
-      Navigator.of(context).pushNamed(AuthenticationScreen.routeName);
+      try {
+        await FirebaseAuth.instance.sendPasswordResetEmail(
+          email: _emailController.text,
+        );
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            messegeSnackBar("Please follow the directions sent to your email"),
+          );
+        }
+      } on FirebaseAuthException catch (e) {
+        print('Failed with error code: ${e.code}');
+        String snackBarMsg;
+        if (e.code == 'user-not-found') {
+          snackBarMsg = 'No user with this email exist';
+        } else {
+          snackBarMsg = e.message!;
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          messegeSnackBar(snackBarMsg, timeUp: 2000),
+        );
+      } catch (e) {
+        print(e);
+      }
     }
   }
 
@@ -58,6 +78,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   return null;
                 },
                 prefixIconWidget: Icon(Icons.email),
+                controller: _emailController,
                 label: "Email",
               ),
               Container(
