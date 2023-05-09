@@ -26,6 +26,7 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
   final _passwordController = TextEditingController();
   final _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool submitClicked = false;
   String? currentRoute;
 
   void _submitFormData() async {
@@ -38,6 +39,7 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
           );
         }
         if (currentRoute == RegisterationScreen.routeName) {
+          setState(() => submitClicked = true);
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
             password: _passwordController.text,
             email: _emailController.text,
@@ -48,13 +50,14 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
         }
       } on FirebaseAuthException catch (e) {
         print('Failed with error code: ${e.code}');
+        FocusManager.instance.primaryFocus?.unfocus();
         String snackBarMsg;
         if (e.code == 'wrong-password') {
           snackBarMsg = 'The password provided is wrong.';
         } else if (e.code == 'weak-password') {
           snackBarMsg = 'The password provided is too weak.';
         } else if (e.code == 'email-already-in-use') {
-          snackBarMsg = 'The account already exists for that email.';
+          snackBarMsg = 'An account already exists for that email.';
         } else if (e.code == 'user-not-found') {
           snackBarMsg = 'No user with this email exist';
         } else {
@@ -63,7 +66,9 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           messegeSnackBar(snackBarMsg, timeUp: 2000),
         );
+        setState(() => submitClicked = false);
       } catch (e) {
+        setState(() => submitClicked = false);
         print(e);
       }
     }
@@ -121,7 +126,7 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
             ),
             alignment: Alignment.center,
             child: ElevatedButton(
-              onPressed: _submitFormData,
+              onPressed: !submitClicked ? _submitFormData : null,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [

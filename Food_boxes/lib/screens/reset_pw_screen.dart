@@ -33,6 +33,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         String snackBarMsg;
         if (e.code == 'user-not-found') {
           snackBarMsg = 'No user with this email exist';
+        } else if (e.code == "invalid-email") {
+          snackBarMsg = "Invalid email";
         } else {
           snackBarMsg = e.message!;
         }
