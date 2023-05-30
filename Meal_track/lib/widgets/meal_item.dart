@@ -59,6 +59,23 @@ class MealItem extends StatelessWidget {
     );
   }
 
+  Widget innerRow(IconData iconData, String text) {
+    return Row(
+      children: [
+        Icon(
+          iconData,
+          color: Colors.black,
+        ),
+        SizedBox(
+          width: 6,
+        ),
+        Text(
+          text,
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -72,7 +89,7 @@ class MealItem extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Stack(
-              children: <Widget>[
+              children: [
                 ClipRRect(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(15),
@@ -90,19 +107,17 @@ class MealItem extends StatelessWidget {
                   right: 10,
                   child: Container(
                     width: 300,
-                    color: Colors.black54,
                     padding: EdgeInsets.symmetric(
                       vertical: 5,
                       horizontal: 20,
                     ),
+                    color: Colors.black54,
                     child: Text(
                       title,
                       style: TextStyle(
                         fontSize: 26,
                         color: Colors.white,
                       ),
-                      softWrap: true,
-                      overflow: TextOverflow.fade,
                     ),
                   ),
                 )
@@ -113,38 +128,17 @@ class MealItem extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.schedule,
-                      ),
-                      SizedBox(
-                        width: 6,
-                      ),
-                      Text('$duration min'),
-                    ],
+                  innerRow(
+                    Icons.schedule,
+                    '$duration min',
                   ),
-                  Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.work,
-                      ),
-                      SizedBox(
-                        width: 6,
-                      ),
-                      Text(complexityText),
-                    ],
+                  innerRow(
+                    Icons.work,
+                    complexityText,
                   ),
-                  Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.attach_money,
-                      ),
-                      SizedBox(
-                        width: 6,
-                      ),
-                      Text(affordabilityText),
-                    ],
+                  innerRow(
+                    Icons.attach_money,
+                    affordabilityText,
                   ),
                 ],
               ),
