@@ -21,7 +21,6 @@ class ResultScreen extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text("Result Screen"),
-        backgroundColor: Colors.indigo,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

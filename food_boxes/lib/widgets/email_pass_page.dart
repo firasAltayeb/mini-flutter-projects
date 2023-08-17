@@ -95,7 +95,9 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
           ),
           CustomTxtFormField(
             validator: (value) {
-              if (value.isEmpty) return "This value must be filled";
+              if (value.trim().isEmpty || !value.contains('@')) {
+                return "Please enter a valid email address";
+              }
               return null;
             },
             prefixIconWidget: Icon(Icons.email),
@@ -107,7 +109,9 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
           ),
           CustomTxtFormField(
             validator: (value) {
-              if (value.isEmpty) return "This value must be filled";
+              if (value.trim().length < 6) {
+                return "Password must be at least 6 characters long";
+              }
               if (currentRoute == RegisterationScreen.routeName &&
                   value.length > 64) {
                 return "Password is too long";

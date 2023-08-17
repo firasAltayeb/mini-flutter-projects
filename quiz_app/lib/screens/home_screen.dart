@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-// import '../app_constants.dart';
 import '../models/screen_arguments.dart';
 import '../utility/home_functions.dart';
 import '../models/question_model.dart';
+import '../utility/size_config.dart';
+import '../widgets/choice_option.dart';
+import '../widgets/gradiant_container.dart';
 import '../widgets/question.dart';
-import '../widgets/answer.dart';
+// import '../app_constants.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,6 +29,14 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     questionList = getQuizQuestions();
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (!SizeConfig.initialized) {
+      SizeConfig(context);
+    }
+    super.didChangeDependencies();
   }
 
   void _resetQuiz() {
@@ -65,29 +75,47 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Home Screen"),
-        backgroundColor: Colors.indigo,
+        title: Text("Question #${_questionIdx + 1}"),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Question(
-          //   questionText: AppConstants.questions[_questionIdx]["text"],
-          // ),
-          Question(questionText: currentQuestion.qusTxt),
-          const SizedBox(
-            height: 20,
-          ),
-          // ... is called the spread operator and splits
-          // a list of widgets into individual widgets
-          ...currentQuestion.ansList
-              .map((e) => Answer(
-                    selectHandler: _answerClicked,
-                    answerText: e.ansTxt,
-                    accuracy: e.accuracy,
-                  ))
-              .toList(),
-        ],
+      body: GradientContainer(
+        childWidget: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Spacer(
+              flex: 3,
+            ),
+            // Question(
+            //   questionText: AppConstants.questions[_questionIdx]["text"],
+            // ),
+            Question(questionText: currentQuestion.qusTxt),
+            Spacer(),
+            // ... is called the spread operator and splits
+            // a list of widgets into individual widgets
+            ...currentQuestion.ansList
+                .map((e) => ChoiceOption(
+                      answerText: e.ansTxt,
+                      accuracy: e.accuracy,
+                    ))
+                .toList(),
+            Spacer(),
+            Container(
+              height: SizeConfig.scaledHeight(6),
+              width: SizeConfig.scaledWidth(30),
+              child: ElevatedButton(
+                onPressed: () => _answerClicked,
+                child: Text(
+                  "Submit",
+                  style: TextStyle(
+                    fontSize: SizeConfig.scaledHeight(3),
+                  ),
+                ),
+              ),
+            ),
+            Spacer(
+              flex: 3,
+            ),
+          ],
+        ),
       ),
     );
   }

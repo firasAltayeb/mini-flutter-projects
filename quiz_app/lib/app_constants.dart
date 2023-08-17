@@ -1,5 +1,10 @@
+import 'package:flutter/material.dart';
+
 class AppConstants {
   AppConstants._();
+
+  static const circleRadius = BorderRadius.all(Radius.circular(20));
+
   static const List<Map<String, dynamic>> questions = [
     {
       "text": "What's the capital of Japan?",
