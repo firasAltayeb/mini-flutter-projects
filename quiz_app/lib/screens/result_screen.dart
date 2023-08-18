@@ -1,6 +1,10 @@
 import '../models/screen_arguments.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/gesture_container.dart';
+import '../widgets/gradiant_container.dart';
+import '../widgets/text_container.dart';
+
 class ResultScreen extends StatelessWidget {
   const ResultScreen({super.key});
 
@@ -22,37 +26,24 @@ class ResultScreen extends StatelessWidget {
         centerTitle: true,
         title: Text("Result Screen"),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            resultPhrase(args.totalScore, args.quizQuestions),
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontFamily: "Lato",
-              fontSize: 36,
+      body: GradientContainer(
+        childWidget: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            TextContainer(
+              textToShow: resultPhrase(args.totalScore, args.quizQuestions),
             ),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(
-            width: double.infinity,
-            height: 100,
-          ),
-          ElevatedButton(
-            onPressed: args.resetHandler,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.grey[300],
+            SizedBox(
+              width: double.infinity,
+              height: 100,
             ),
-            child: Text(
-              "Restart Quiz",
-              style: TextStyle(
-                color: Colors.lightBlue[300],
-                fontSize: 20,
-              ),
+            GestureContainer(
+              passedFunction: args.resetHandler,
+              textToShow: "Restart Quiz",
             ),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }

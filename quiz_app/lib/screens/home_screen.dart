@@ -1,22 +1,25 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 
+import '../utility/shared_providers.dart';
 import '../models/screen_arguments.dart';
 import '../utility/home_functions.dart';
 import '../models/question_model.dart';
 import '../utility/size_config.dart';
 import '../widgets/choice_option.dart';
+import '../widgets/gesture_container.dart';
 import '../widgets/gradiant_container.dart';
-import '../widgets/question.dart';
+import '../widgets/text_container.dart';
 // import '../app_constants.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   // late final means that the data will be intialized eventually,
   // and once it is initalized, it can never change.
   late final List<QuestionModel> questionList;
@@ -47,8 +50,9 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void _answerClicked(int score) {
-    _totalScore += score;
+  void _answerClicked() {
+    final accuracy = ref.read(selectedAnsAccuracyProvider);
+    _totalScore += accuracy;
     setState(() {
       if (_questionIdx < questionList.length - 1) {
         _questionIdx++;
@@ -87,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // Question(
             //   questionText: AppConstants.questions[_questionIdx]["text"],
             // ),
-            Question(questionText: currentQuestion.qusTxt),
+            TextContainer(textToShow: currentQuestion.qusTxt),
             Spacer(),
             // ... is called the spread operator and splits
             // a list of widgets into individual widgets
@@ -98,18 +102,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ))
                 .toList(),
             Spacer(),
-            Container(
-              height: SizeConfig.scaledHeight(6),
-              width: SizeConfig.scaledWidth(30),
-              child: ElevatedButton(
-                onPressed: () => _answerClicked,
-                child: Text(
-                  "Submit",
-                  style: TextStyle(
-                    fontSize: SizeConfig.scaledHeight(3),
-                  ),
-                ),
-              ),
+            GestureContainer(
+              passedFunction: _answerClicked,
+              textToShow: "Submit",
             ),
             Spacer(
               flex: 3,

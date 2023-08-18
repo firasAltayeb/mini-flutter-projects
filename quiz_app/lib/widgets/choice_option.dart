@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../utility/shared_providers.dart';
 import '../utility/size_config.dart';
 import '../app_constants.dart';
 
-class ChoiceOption extends StatefulWidget {
+class ChoiceOption extends ConsumerWidget {
   const ChoiceOption({
     required this.answerText,
     required this.accuracy,
@@ -21,19 +23,13 @@ class ChoiceOption extends StatefulWidget {
   final int accuracy;
 
   @override
-  State<ChoiceOption> createState() => _ChoiceOptionState();
-}
-
-class _ChoiceOptionState extends State<ChoiceOption> {
-  bool _isSelected = false;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _selectedAnswer = ref.watch(selectedAnswerProvider);
+    final _isSelected = _selectedAnswer == answerText;
     return InkWell(
       onTap: () {
-        setState(() {
-          _isSelected = !_isSelected;
-        });
+        ref.read(selectedAnsAccuracyProvider.notifier).state = accuracy;
+        ref.read(selectedAnswerProvider.notifier).state = answerText;
       },
       child: Container(
         margin: EdgeInsets.symmetric(
@@ -56,7 +52,7 @@ class _ChoiceOptionState extends State<ChoiceOption> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              widget.answerText,
+              answerText,
               style: TextStyle(
                 color: _isSelected ? Colors.white : Colors.black,
                 fontSize: SizeConfig.scaledHeight(2.25),
