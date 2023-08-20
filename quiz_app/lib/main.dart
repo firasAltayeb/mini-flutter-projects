@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'screens/result_screen.dart';
 import 'screens/home_screen.dart';
+import 'utility/home_functions.dart';
+import 'utility/shared_providers.dart';
 
 void main() {
   runApp(
@@ -12,9 +14,14 @@ void main() {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (ref.read(questionListProvider).isEmpty) {
+      Future.delayed(Duration(milliseconds: 10), () {
+        ref.read(questionListProvider.notifier).state = getQuizQuestions();
+      });
+    }
     return MaterialApp(
       // home: MyHomePage(),
       title: "myfirstapp",

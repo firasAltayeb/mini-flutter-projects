@@ -1,10 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 
+import '../models/question_model.dart';
 import '../utility/shared_providers.dart';
 import '../models/screen_arguments.dart';
-import '../utility/home_functions.dart';
-import '../models/question_model.dart';
 import '../utility/size_config.dart';
 import '../widgets/choice_option.dart';
 import '../widgets/gesture_container.dart';
@@ -22,7 +21,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   // late final means that the data will be intialized eventually,
   // and once it is initalized, it can never change.
-  late final List<QuestionModel> questionList;
+  // late final List<QuestionModel> questionList;
   int _questionIdx = 0;
   int _totalScore = 0;
 
@@ -30,7 +29,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 // initState() is never called again afterwards.
   @override
   void initState() {
-    questionList = getQuizQuestions();
+    // questionList = getQuizQuestions();
     super.initState();
   }
 
@@ -52,6 +51,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void _answerClicked() {
     final accuracy = ref.read(selectedAnsAccuracyProvider);
+    final questionList = ref.read(questionListProvider);
     _totalScore += accuracy;
     setState(() {
       if (_questionIdx < questionList.length - 1) {
@@ -74,14 +74,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     // final List<Map<String, dynamic>> answers =
     //     AppConstants.questions[_questionIdx]["answers"];
-    final currentQuestion = questionList[_questionIdx];
+    final questionList = ref.watch(questionListProvider);
+    final QuestionModel? currentQuestion =
+        questionList.length <= 0 ? null : questionList[_questionIdx];
     return Scaffold(
-      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         centerTitle: true,
         title: Text("Question #${_questionIdx + 1}"),
       ),
       body: GradientContainer(
+        containerWidth: double.infinity,
         childWidget: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -91,21 +93,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             // Question(
             //   questionText: AppConstants.questions[_questionIdx]["text"],
             // ),
-            TextContainer(textToShow: currentQuestion.qusTxt),
-            Spacer(),
-            // ... is called the spread operator and splits
-            // a list of widgets into individual widgets
-            ...currentQuestion.ansList
-                .map((e) => ChoiceOption(
-                      answerText: e.ansTxt,
-                      accuracy: e.accuracy,
-                    ))
-                .toList(),
-            Spacer(),
-            GestureContainer(
-              passedFunction: _answerClicked,
-              textToShow: "Submit",
-            ),
+            if (questionList.length <= 0)
+              CircularProgressIndicator(
+                color: Colors.black,
+                strokeWidth: 4,
+              ),
+            if (questionList.length != 0) ...[
+              TextContainer(textToShow: currentQuestion!.qusTxt),
+              Spacer(),
+              // ... is called the spread operator and splits
+              // a list of widgets into individual widgets
+              ...currentQuestion.ansList
+                  .map((e) => ChoiceOption(
+                        answerText: e.ansTxt,
+                        accuracy: e.accuracy,
+                      ))
+                  .toList(),
+              Spacer(),
+              GestureContainer(
+                passedFunction: _answerClicked,
+                textToShow: "Submit",
+              ),
+            ],
             Spacer(
               flex: 3,
             ),
