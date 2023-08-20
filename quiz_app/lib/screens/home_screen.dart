@@ -8,6 +8,7 @@ import '../utility/size_config.dart';
 import '../widgets/choice_option.dart';
 import '../widgets/gesture_container.dart';
 import '../widgets/gradiant_container.dart';
+import '../widgets/session_top_section.dart';
 import '../widgets/text_container.dart';
 // import '../app_constants.dart';
 
@@ -85,10 +86,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       body: GradientContainer(
         containerWidth: double.infinity,
         childWidget: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Spacer(
-              flex: 3,
+            SessionTopSection(
+              finalItemIdx: questionList.length,
+              queueIndex: _questionIdx,
             ),
             // Question(
             //   questionText: AppConstants.questions[_questionIdx]["text"],

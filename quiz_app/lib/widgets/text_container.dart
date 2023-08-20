@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../utility/size_config.dart';
+
 class TextContainer extends StatelessWidget {
   const TextContainer({required this.textToShow, super.key});
 
@@ -8,13 +10,15 @@ class TextContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.symmetric(
+        horizontal: SizeConfig.scaledWidth(2.75),
+      ),
       width: double.infinity,
-      margin: const EdgeInsets.all(10),
       child: Text(
         textToShow,
-        style: const TextStyle(
+        style: TextStyle(
+          fontSize: SizeConfig.scaledHeight(3.5),
           fontWeight: FontWeight.w500,
-          fontSize: 28,
         ),
         textAlign: TextAlign.center,
       ),

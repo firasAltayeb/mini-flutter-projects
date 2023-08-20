@@ -1,5 +1,12 @@
 import '../models/question_model.dart';
 
+String counterDisplay(queueIdx, itemNumber) {
+  var counter = itemNumber > 9 && queueIdx + 1 < 10
+      ? "0${queueIdx + 1}/$itemNumber"
+      : "${queueIdx + 1}/$itemNumber";
+  return counter;
+}
+
 List<QuestionModel> getQuizQuestions() {
   return [
     QuestionModel(
