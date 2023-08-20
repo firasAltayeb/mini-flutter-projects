@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 
+import '../screens/result_screen.dart';
 import '../models/question_model.dart';
 import '../utility/shared_providers.dart';
 import '../models/screen_arguments.dart';
@@ -43,6 +44,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void _resetQuiz() {
+    ref.read(mistakeAttemptsProvider.notifier).state = 4;
+    ref.read(selectedAnswerProvider.notifier).state = '';
     Navigator.of(context).pop();
     setState(() {
       _questionIdx = 0;
@@ -51,16 +54,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void _answerClicked() {
+    final mistakeAttempts = ref.read(mistakeAttemptsProvider);
     final accuracy = ref.read(selectedAnsAccuracyProvider);
     final questionList = ref.read(questionListProvider);
-    _totalScore += accuracy;
-    setState(() {
-      if (_questionIdx < questionList.length - 1) {
-        _questionIdx++;
-      } else {
+    if (accuracy == 0) {
+      ref.read(mistakeAttemptsProvider.notifier).state = mistakeAttempts - 1;
+      if (mistakeAttempts <= 1) {
+        ref.read(resultScreenMsgProvider.notifier).state =
+            'You have ran out of lifes. Try again next time';
         Navigator.of(context).pushNamed(
-          "/result-screen",
-          // arguments: [_resetQuiz, _totalScore, questionList],
+          ResultScreen.routeName,
           arguments: ScreenArguments(
             quizQuestions: questionList,
             resetHandler: _resetQuiz,
@@ -68,7 +71,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         );
       }
-    });
+    } else {
+      setState(() {
+        if (_questionIdx < questionList.length - 1) {
+          ref.read(selectedAnswerProvider.notifier).state = '';
+          _questionIdx++;
+        } else {
+          ref.read(resultScreenMsgProvider.notifier).state =
+              'Congratulations!! You are trivia master!!';
+          Navigator.of(context).pushNamed(
+            ResultScreen.routeName,
+            // arguments: [_resetQuiz, _totalScore, questionList],
+            arguments: ScreenArguments(
+              quizQuestions: questionList,
+              resetHandler: _resetQuiz,
+              totalScore: _totalScore,
+            ),
+          );
+        }
+        {}
+      });
+    }
   }
 
   @override

@@ -11,7 +11,7 @@ class TextContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(
-        horizontal: SizeConfig.scaledWidth(2.75),
+        horizontal: SizeConfig.scaledWidth(3.5),
       ),
       width: double.infinity,
       child: Text(

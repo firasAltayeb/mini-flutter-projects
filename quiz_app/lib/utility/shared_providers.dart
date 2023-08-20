@@ -6,6 +6,8 @@ final questionListProvider = StateProvider<List<QuestionModel>>((ref) => []);
 
 final selectedAnsAccuracyProvider = StateProvider<int>((ref) => 0);
 
+final resultScreenMsgProvider = StateProvider<String>((ref) => '');
+
 final selectedAnswerProvider = StateProvider<String>((ref) => '');
 
-final mistakeAttemptsProvider = StateProvider<int>((ref) => 3);
+final mistakeAttemptsProvider = StateProvider<int>((ref) => 4);

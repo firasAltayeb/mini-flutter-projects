@@ -1,8 +1,11 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 
+import '../utility/home_functions.dart';
+import '../utility/shared_providers.dart';
 import '../utility/size_config.dart';
 
-class GestureContainer extends StatelessWidget {
+class GestureContainer extends ConsumerWidget {
   const GestureContainer({
     required this.passedFunction,
     required this.textToShow,
@@ -13,9 +16,19 @@ class GestureContainer extends StatelessWidget {
   final String textToShow;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedAnswer = ref.watch(selectedAnswerProvider);
     return GestureDetector(
-      onTap: () => passedFunction(),
+      onTap: () {
+        if (selectedAnswer.isEmpty)
+          ScaffoldMessenger.of(context).showSnackBar(
+            messageSnackBar(
+              "Please select a choice",
+            ),
+          );
+        else
+          passedFunction();
+      },
       child: Container(
         height: SizeConfig.scaledHeight(6),
         width: SizeConfig.scaledWidth(50),

@@ -1,4 +1,30 @@
+import 'package:flutter/material.dart';
+
+import '../utility/size_config.dart';
+import '../app_constants.dart';
 import '../models/question_model.dart';
+
+SnackBar messageSnackBar(String message, {timeUp = 750}) {
+  return SnackBar(
+    shape: RoundedRectangleBorder(
+      borderRadius: AppConstants.circleRadius,
+    ),
+    duration: Duration(milliseconds: timeUp),
+    content: Text(
+      message,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: SizeConfig.scaledHeight(2.5),
+      ),
+    ),
+    behavior: SnackBarBehavior.floating,
+    margin: EdgeInsets.only(
+      left: SizeConfig.scaledWidth(20),
+      right: SizeConfig.scaledWidth(20),
+      bottom: SizeConfig.scaledHeight(5),
+    ),
+  );
+}
 
 String counterDisplay(queueIdx, itemNumber) {
   var counter = itemNumber > 9 && queueIdx + 1 < 10
