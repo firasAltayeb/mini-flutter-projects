@@ -24,8 +24,8 @@ class ChoiceOption extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _selectedAnswer = ref.watch(selectedAnswerProvider);
-    final _isSelected = _selectedAnswer == answerText;
+    final selectedAnswer = ref.watch(selectedAnswerProvider);
+    final isSelected = selectedAnswer == answerText;
     return InkWell(
       onTap: () {
         ref.read(selectedAnsAccuracyProvider.notifier).state = accuracy;
@@ -41,7 +41,7 @@ class ChoiceOption extends ConsumerWidget {
           horizontal: SizeConfig.scaledWidth(2),
         ),
         decoration: BoxDecoration(
-          color: _isSelected ? Colors.blue : Colors.white,
+          color: isSelected ? Colors.blue : Colors.white,
           border: Border.all(
             color: Colors.blue,
             width: 2,
@@ -54,20 +54,20 @@ class ChoiceOption extends ConsumerWidget {
             Text(
               answerText,
               style: TextStyle(
-                color: _isSelected ? Colors.white : Colors.black,
+                color: isSelected ? Colors.white : Colors.black,
                 fontSize: SizeConfig.scaledHeight(2.25),
               ),
             ),
-            _isSelected
+            isSelected
                 ? Row(
                     children: [
                       SizedBox(
-                        width: SizeConfig.scaledHeight(1.25),
+                        width: SizeConfig.scaledWidth(2.5),
                       ),
                       Icon(
                         Icons.check,
                         color: Colors.white,
-                        size: 20,
+                        size: SizeConfig.scaledHeight(2.5),
                       ),
                     ],
                   )

@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/material.dart';
 
 import '../utility/shared_providers.dart';
 import '../models/screen_arguments.dart';
-import 'package:flutter/material.dart';
-
+import '../utility/size_config.dart';
 import '../widgets/gesture_container.dart';
 import '../widgets/gradiant_container.dart';
 import '../widgets/text_container.dart';
@@ -43,7 +43,7 @@ class ResultScreen extends ConsumerWidget {
             ),
             SizedBox(
               width: double.infinity,
-              height: 100,
+              height: SizeConfig.scaledHeight(5),
             ),
             GestureContainer(
               passedFunction: args.resetHandler,

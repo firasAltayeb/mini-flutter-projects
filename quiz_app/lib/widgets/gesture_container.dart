@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 
+import '../app_constants.dart';
 import '../utility/home_functions.dart';
 import '../utility/shared_providers.dart';
 import '../utility/size_config.dart';
@@ -33,7 +34,7 @@ class GestureContainer extends ConsumerWidget {
         height: SizeConfig.scaledHeight(6),
         width: SizeConfig.scaledWidth(50),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(12)),
+          borderRadius: AppConstants.circleRadius,
           gradient: LinearGradient(
             colors: [
               Color(0xFF883B96),
