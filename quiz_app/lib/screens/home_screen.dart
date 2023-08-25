@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../screens/result_screen.dart';
 import '../models/question_model.dart';
+import '../utility/home_functions.dart';
 import '../utility/shared_providers.dart';
 import '../models/screen_arguments.dart';
 import '../utility/size_config.dart';
@@ -23,7 +24,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   // late final means that the data will be intialized eventually,
   // and once it is initalized, it can never change.
-  // late final List<QuestionModel> questionList;
+  late final List<QuestionModel> _questionList;
   int _questionIdx = 0;
   int _totalScore = 0;
 
@@ -31,7 +32,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 // initState() is never called again afterwards.
   @override
   void initState() {
-    // questionList = getQuizQuestions();
+    _questionList = getQuizQuestions();
     super.initState();
   }
 
@@ -56,7 +57,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void _answerClicked() {
     final mistakeAttempts = ref.read(mistakeAttemptsProvider);
     final accuracy = ref.read(selectedAnsAccuracyProvider);
-    final questionList = ref.read(questionListProvider);
     if (accuracy == 0) {
       ref.read(mistakeAttemptsProvider.notifier).state = mistakeAttempts - 1;
       if (mistakeAttempts <= 1) {
@@ -65,32 +65,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         Navigator.of(context).pushNamed(
           ResultScreen.routeName,
           arguments: ScreenArguments(
-            quizQuestions: questionList,
+            quizQuestions: _questionList,
             resetHandler: _resetQuiz,
             totalScore: _totalScore,
           ),
         );
       }
     } else {
-      setState(() {
-        if (_questionIdx < questionList.length - 1) {
-          ref.read(selectedAnswerProvider.notifier).state = '';
-          _questionIdx++;
-        } else {
-          ref.read(resultScreenMsgProvider.notifier).state =
-              'Congratulations!! You are trivia master!!';
-          Navigator.of(context).pushNamed(
-            ResultScreen.routeName,
-            // arguments: [_resetQuiz, _totalScore, questionList],
-            arguments: ScreenArguments(
-              quizQuestions: questionList,
-              resetHandler: _resetQuiz,
-              totalScore: _totalScore,
-            ),
-          );
-        }
-        {}
-      });
+      if (_questionIdx < _questionList.length - 1) {
+        ref.read(selectedAnswerProvider.notifier).state = '';
+        setState(() => _questionIdx++);
+      } else {
+        ref.read(resultScreenMsgProvider.notifier).state =
+            'Congratulations!! You are trivia master!!';
+        Navigator.of(context).pushNamed(
+          ResultScreen.routeName,
+          // arguments: [_resetQuiz, _totalScore, questionList],
+          arguments: ScreenArguments(
+            quizQuestions: _questionList,
+            resetHandler: _resetQuiz,
+            totalScore: _totalScore,
+          ),
+        );
+      }
+      {}
     }
   }
 
@@ -98,9 +96,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     // final List<Map<String, dynamic>> answers =
     //     AppConstants.questions[_questionIdx]["answers"];
-    final questionList = ref.watch(questionListProvider);
     final QuestionModel? currentQuestion =
-        questionList.length <= 0 ? null : questionList[_questionIdx];
+        _questionList.length <= 0 ? null : _questionList[_questionIdx];
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -111,18 +108,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         childWidget: Column(
           children: [
             SessionTopSection(
-              finalItemIdx: questionList.length,
+              finalItemIdx: _questionList.length,
               queueIndex: _questionIdx,
             ),
             // Question(
             //   questionText: AppConstants.questions[_questionIdx]["text"],
             // ),
-            if (questionList.length <= 0)
+            if (_questionList.length <= 0)
               CircularProgressIndicator(
                 color: Colors.black,
                 strokeWidth: 4,
               ),
-            if (questionList.length != 0) ...[
+            if (_questionList.length != 0) ...[
               TextContainer(textToShow: currentQuestion!.qusTxt),
               Spacer(),
               // ... is called the spread operator and splits

@@ -17,7 +17,7 @@ class SessionTopSection extends ConsumerWidget {
 
   Widget build(BuildContext context, WidgetRef ref) {
     final mistakeAttempts = ref.watch(mistakeAttemptsProvider);
-    return Container(
+    return Padding(
       padding: EdgeInsets.only(
         bottom: SizeConfig.scaledHeight(10),
         top: SizeConfig.scaledHeight(2.5),
@@ -25,38 +25,33 @@ class SessionTopSection extends ConsumerWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: EdgeInsets.only(
-              left: SizeConfig.scaledWidth(5),
-            ),
-            child: Row(
-              children: [
-                Text(
-                  "Lifes: ",
-                  style: TextStyle(
-                    fontSize: SizeConfig.scaledHeight(3),
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-                for (var i = 1; i <= mistakeAttempts; i++)
-                  Icon(
-                    AppIcons.heart_filled,
-                    size: SizeConfig.scaledHeight(3.5),
-                  )
-              ],
-            ),
-          ),
-          Spacer(),
-          Expanded(
-            flex: 1,
-            child: Container(
-              child: Text(
-                counterDisplay(queueIndex, finalItemIdx),
-                textAlign: TextAlign.center,
+          Row(
+            children: [
+              SizedBox(
+                width: SizeConfig.scaledWidth(5),
+              ),
+              Text(
+                "Lives: ",
                 style: TextStyle(
                   fontSize: SizeConfig.scaledHeight(3),
                   fontWeight: FontWeight.w300,
                 ),
+              ),
+              for (var i = 1; i <= mistakeAttempts; i++)
+                Icon(
+                  AppIcons.heart_filled,
+                  size: SizeConfig.scaledHeight(3.5),
+                )
+            ],
+          ),
+          Spacer(),
+          Expanded(
+            child: Text(
+              counterDisplay(queueIndex, finalItemIdx),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: SizeConfig.scaledHeight(3),
+                fontWeight: FontWeight.w300,
               ),
             ),
           ),
