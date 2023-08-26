@@ -5,8 +5,8 @@ import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   const TransactionList({
-    this.transations,
-    this.deleteTx,
+    required this.transations,
+    required this.deleteTx,
   });
 
   final List<Transaction> transations;

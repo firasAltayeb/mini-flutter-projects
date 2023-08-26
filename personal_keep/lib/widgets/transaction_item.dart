@@ -7,9 +7,9 @@ import '../constants.dart';
 
 class TransactionItem extends StatefulWidget {
   const TransactionItem({
-    Key key,
-    @required this.transation,
-    @required this.deleteTx,
+    required this.transation,
+    required this.deleteTx,
+    Key? key,
   }) : super(key: key);
 
   final Transaction transation;
@@ -20,7 +20,7 @@ class TransactionItem extends StatefulWidget {
 }
 
 class _TransactionItemState extends State<TransactionItem> {
-  Color _bgColor;
+  Color? _bgColor;
 
   @override
   void initState() {
@@ -60,7 +60,7 @@ class _TransactionItemState extends State<TransactionItem> {
           ),
         ),
         subtitle: Text(
-          DateFormat.yMMMd().format(widget.transation.date),
+          DateFormat.yMMMd().format(widget.transation.date!),
         ),
         trailing: MediaQuery.of(context).size.width > 460
             ? TextButton.icon(

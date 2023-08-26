@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import '../widgets/adaptive_button.dart';
 
 class NewTransactions extends StatefulWidget {
-  NewTransactions({this.addTx}) {
+  NewTransactions({required this.addTx}) {
     print('New transaction widget');
   }
 
@@ -20,7 +20,7 @@ class NewTransactions extends StatefulWidget {
 class _NewTransactionsState extends State<NewTransactions> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
-  DateTime _selectedDate;
+  DateTime? _selectedDate;
 
   _NewTransactionsState() {
     print('NewTransaction constructor state');
@@ -83,47 +83,44 @@ class _NewTransactionsState extends State<NewTransactions> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Card(
-        elevation: 5,
-        child: Container(
-          padding: EdgeInsets.only(
-            top: 10,
-            left: 10,
-            right: 10,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 10,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              TextField(
-                decoration: InputDecoration(labelText: 'title'),
-                controller: _titleController,
-                onSubmitted: (_) => _submitData(),
-              ),
-              TextField(
-                decoration: InputDecoration(labelText: 'amount'),
-                controller: _amountController,
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                onSubmitted: (_) => _submitData(),
-              ),
-              Container(
-                height: 70,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        _selectedDate == null
-                            ? 'No Date chosen!'
-                            : 'Picked Date: ${DateFormat.yMd().format(_selectedDate)}',
-                      ),
+      child: Container(
+        padding: EdgeInsets.only(
+          top: 10,
+          left: 10,
+          right: 10,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 40,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            TextField(
+              decoration: InputDecoration(labelText: 'title'),
+              controller: _titleController,
+              onSubmitted: (_) => _submitData(),
+            ),
+            TextField(
+              decoration: InputDecoration(labelText: 'amount'),
+              controller: _amountController,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              onSubmitted: (_) => _submitData(),
+            ),
+            Container(
+              height: 70,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      _selectedDate == null
+                          ? 'No Date chosen!'
+                          : 'Picked Date: ${DateFormat.yMd().format(_selectedDate!)}',
                     ),
-                    AdaptiveFlatButton('Choose Date', _presentDatePicker),
-                  ],
-                ),
+                  ),
+                  AdaptiveFlatButton('Choose Date', _presentDatePicker),
+                ],
               ),
-              AdaptiveFlatButton("add transactions", _submitData),
-            ],
-          ),
+            ),
+            AdaptiveFlatButton("add transactions", _submitData),
+          ],
         ),
       ),
     );

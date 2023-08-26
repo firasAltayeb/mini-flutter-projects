@@ -3,10 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'dart:io';
 
 class AdaptiveFlatButton extends StatelessWidget {
-  final String text;
-  final Function handler;
-
   AdaptiveFlatButton(this.text, this.handler);
+
+  final void Function() handler;
+  final String text;
 
   @override
   Widget build(BuildContext context) {

@@ -9,8 +9,8 @@ import '../models/transaction.dart';
 import '../constants.dart';
 
 void addNewTransactionBttmSht({
-  Function changeState,
-  BuildContext ctx,
+  required Function changeState,
+  required BuildContext ctx,
 }) {
   showModalBottomSheet(
     context: ctx,
@@ -34,9 +34,9 @@ void addNewTransactionBttmSht({
   );
 }
 
-PreferredSizeWidget systemAppropriateAppBar({
-  Function changeHandler,
-  BuildContext context,
+dynamic systemAppropriateAppBar({
+  required Function changeHandler,
+  required BuildContext context,
 }) {
   final addNewIconBtn = IconButton(
     icon: Icon(CupertinoIcons.add),
@@ -67,7 +67,7 @@ List<Transaction> get _recentTransations {
   return Constants.userTransations.where(
     (tx) {
       if (tx.date == null) tx.date = DateTime.now();
-      return tx.date.isAfter(
+      return tx.date!.isAfter(
         DateTime.now().subtract(Duration(days: 7)),
       );
     },
@@ -75,11 +75,11 @@ List<Transaction> get _recentTransations {
 }
 
 List<Widget> orientationAppropriateBody({
-  MediaQueryData mediaQuery,
-  Function changeState,
-  Function deleteTx,
-  double scrnHeight,
-  bool showChart,
+  required Function(bool) changeState,
+  required MediaQueryData mediaQuery,
+  required Function deleteTx,
+  required double scrnHeight,
+  required bool showChart,
 }) {
   if (mediaQuery.orientation == Orientation.landscape)
     return [
