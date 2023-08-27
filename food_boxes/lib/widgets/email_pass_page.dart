@@ -30,47 +30,48 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
   String? currentRoute;
 
   void _submitFormData() async {
-    if (_formKey.currentState!.validate()) {
-      try {
-        if (currentRoute == AuthenticationScreen.routeName) {
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-            password: _passwordController.text,
-            email: _emailController.text,
-          );
-        }
-        if (currentRoute == RegisterationScreen.routeName) {
-          setState(() => submitClicked = true);
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            password: _passwordController.text,
-            email: _emailController.text,
-          );
-        }
-        if (context.mounted) {
-          Navigator.of(context).pushNamed(HomeScreen.routeName);
-        }
-      } on FirebaseAuthException catch (e) {
-        print('Failed with error code: ${e.code}');
-        FocusManager.instance.primaryFocus?.unfocus();
-        String snackBarMsg;
-        if (e.code == 'wrong-password') {
-          snackBarMsg = 'The password provided is wrong.';
-        } else if (e.code == 'weak-password') {
-          snackBarMsg = 'The password provided is too weak.';
-        } else if (e.code == 'email-already-in-use') {
-          snackBarMsg = 'An account already exists for that email.';
-        } else if (e.code == 'user-not-found') {
-          snackBarMsg = 'No user with this email exist';
-        } else {
-          snackBarMsg = e.message!;
-        }
+    if (_formKey.currentState!.validate() == false) return;
+    try {
+      if (currentRoute == AuthenticationScreen.routeName) {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+          password: _passwordController.text,
+          email: _emailController.text,
+        );
+      }
+      if (currentRoute == RegisterationScreen.routeName) {
+        setState(() => submitClicked = true);
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          password: _passwordController.text,
+          email: _emailController.text,
+        );
+      }
+      if (context.mounted) {
+        Navigator.of(context).pushNamed(HomeScreen.routeName);
+      }
+    } on FirebaseAuthException catch (e) {
+      print('Failed with error code: ${e.code}');
+      FocusManager.instance.primaryFocus?.unfocus();
+      String snackBarMsg;
+      if (e.code == 'wrong-password') {
+        snackBarMsg = 'The password provided is wrong.';
+      } else if (e.code == 'weak-password') {
+        snackBarMsg = 'The password provided is too weak.';
+      } else if (e.code == 'email-already-in-use') {
+        snackBarMsg = 'An account already exists for that email.';
+      } else if (e.code == 'user-not-found') {
+        snackBarMsg = 'No user with this email exist';
+      } else {
+        snackBarMsg = e.message!;
+      }
+      if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           messegeSnackBar(snackBarMsg, timeUp: 2000),
         );
-        setState(() => submitClicked = false);
-      } catch (e) {
-        setState(() => submitClicked = false);
-        print(e);
       }
+      setState(() => submitClicked = false);
+    } catch (e) {
+      setState(() => submitClicked = false);
+      print(e);
     }
   }
 
@@ -102,7 +103,7 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
             },
             prefixIconWidget: Icon(Icons.email),
             controller: _emailController,
-            label: "Email",
+            decorationLabel: "Email",
           ),
           SizedBox(
             height: SizeConfig.safeHeight * 0.01,
@@ -120,9 +121,9 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
             },
             prefixIconWidget: Icon(Icons.lock),
             controller: _passwordController,
+            decorationLabel: "Password",
             hideLabelOnFocus: true,
             obscureText: true,
-            label: "Password",
           ),
           Container(
             padding: EdgeInsets.only(

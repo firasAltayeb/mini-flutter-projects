@@ -38,9 +38,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         } else {
           snackBarMsg = e.message!;
         }
-        ScaffoldMessenger.of(context).showSnackBar(
-          messegeSnackBar(snackBarMsg, timeUp: 2000),
-        );
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            messegeSnackBar(snackBarMsg, timeUp: 2000),
+          );
+        }
       } catch (e) {
         print(e);
       }
@@ -81,7 +83,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 },
                 prefixIconWidget: Icon(Icons.email),
                 controller: _emailController,
-                label: "Email",
+                decorationLabel: "Email",
               ),
               Container(
                 padding: EdgeInsets.only(top: SizeConfig.scaledHeight(1)),
