@@ -8,6 +8,30 @@ import '../widgets/expenses_chart.dart';
 import '../models/transaction.dart';
 import '../constants.dart';
 
+SnackBar messageSnackBar(String message, {timeUp = 500}) {
+  return SnackBar(
+    backgroundColor: Colors.white,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12),
+    ),
+    duration: Duration(milliseconds: timeUp),
+    content: Text(
+      message,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        color: Colors.black,
+        fontSize: 20,
+      ),
+    ),
+    behavior: SnackBarBehavior.floating,
+    margin: EdgeInsets.only(
+      left: 50,
+      right: 50,
+      bottom: 10,
+    ),
+  );
+}
+
 void addNewTransactionBttmSht({
   required Function changeState,
   required BuildContext ctx,
@@ -16,16 +40,12 @@ void addNewTransactionBttmSht({
     context: ctx,
     builder: (_) {
       return NewTransactions(
-        addTx: (
-          String txTitle,
-          double txAmount,
-          DateTime chosenDate,
-        ) {
+        addTx: (String txTitle, double txAmount, DateTime chosenDate) {
           final newTx = Transaction(
-            title: txTitle,
+            id: DateTime.now().toString(),
             amount: txAmount,
             date: chosenDate,
-            id: DateTime.now().toString(),
+            title: txTitle,
           );
           changeState(newTx);
         },
