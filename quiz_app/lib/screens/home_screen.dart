@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:quiz_app/utility/enum_land.dart';
 
 import '../screens/result_screen.dart';
 import '../models/question_model.dart';
@@ -33,6 +34,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     _questionList = getQuizQuestions();
+    initializeProviders(ref);
     super.initState();
   }
 
@@ -47,48 +49,43 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void _resetQuiz() {
     ref.read(mistakeAttemptsProvider.notifier).state = 4;
     ref.read(selectedAnswerProvider.notifier).state = '';
-    Navigator.of(context).pop();
     setState(() {
       _questionIdx = 0;
       _totalScore = 0;
     });
+    Navigator.of(context).pop();
   }
 
-  void _answerClicked() {
+  void _navToResultScrn(String msg) {
+    ref.read(resultScreenMsgProvider.notifier).state = msg;
+    Navigator.of(context).pushNamed(
+      ResultScreen.routeName,
+      arguments: ScreenArguments(
+        quizQuestions: _questionList,
+        resetHandler: _resetQuiz,
+        totalScore: _totalScore,
+      ),
+    );
+  }
+
+  void _answerClicked() async {
     final mistakeAttempts = ref.read(mistakeAttemptsProvider);
     final accuracy = ref.read(selectedAnsAccuracyProvider);
+    await stopPlayingSound(ref);
     if (accuracy == 0) {
-      ref.read(mistakeAttemptsProvider.notifier).state = mistakeAttempts - 1;
+      await playSoundEffect(ref, SoundEffect.Incorrect);
+      ref.read(mistakeAttemptsProvider.notifier).state -= 1;
       if (mistakeAttempts <= 1) {
-        ref.read(resultScreenMsgProvider.notifier).state =
-            'You have ran out of lifes. Try again next time';
-        Navigator.of(context).pushNamed(
-          ResultScreen.routeName,
-          arguments: ScreenArguments(
-            quizQuestions: _questionList,
-            resetHandler: _resetQuiz,
-            totalScore: _totalScore,
-          ),
-        );
+        _navToResultScrn('You have ran out of lifes. Try again next time');
       }
     } else {
+      await playSoundEffect(ref, SoundEffect.Correct);
       if (_questionIdx < _questionList.length - 1) {
         ref.read(selectedAnswerProvider.notifier).state = '';
         setState(() => _questionIdx++);
       } else {
-        ref.read(resultScreenMsgProvider.notifier).state =
-            'Congratulations!! You are trivia master!!';
-        Navigator.of(context).pushNamed(
-          ResultScreen.routeName,
-          // arguments: [_resetQuiz, _totalScore, questionList],
-          arguments: ScreenArguments(
-            quizQuestions: _questionList,
-            resetHandler: _resetQuiz,
-            totalScore: _totalScore,
-          ),
-        );
+        _navToResultScrn('Congratulations!! You are trivia master!!');
       }
-      {}
     }
   }
 
