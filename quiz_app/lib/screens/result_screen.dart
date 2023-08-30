@@ -25,7 +25,7 @@ class ResultScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
-    final resultScreenMsg = ref.read(resultScreenMsgProvider);
+    final resultScreenMsg = ref.watch(resultScreenMsgProvider);
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(

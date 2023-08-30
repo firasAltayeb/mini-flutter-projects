@@ -25,26 +25,27 @@ class SessionTopSection extends ConsumerWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              SizedBox(
-                width: SizeConfig.scaledWidth(5),
-              ),
-              Text(
-                "Lives: ",
-                style: TextStyle(
-                  fontSize: SizeConfig.scaledHeight(3),
-                  fontWeight: FontWeight.w300,
+          Expanded(
+            child: Row(
+              children: [
+                SizedBox(
+                  width: SizeConfig.scaledWidth(5),
                 ),
-              ),
-              for (var i = 1; i <= mistakeAttempts; i++)
-                Icon(
-                  AppIcons.heart_filled,
-                  size: SizeConfig.scaledHeight(3.5),
-                )
-            ],
+                Text(
+                  "Lives: ",
+                  style: TextStyle(
+                    fontSize: SizeConfig.scaledHeight(3),
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+                for (var i = 1; i <= mistakeAttempts; i++)
+                  Icon(
+                    AppIcons.heart_filled,
+                    size: SizeConfig.scaledHeight(3.5),
+                  )
+              ],
+            ),
           ),
-          Spacer(),
           Expanded(
             child: Text(
               counterDisplay(queueIndex, finalItemIdx),
