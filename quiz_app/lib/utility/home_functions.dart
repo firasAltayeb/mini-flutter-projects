@@ -9,18 +9,18 @@ import 'shared_providers.dart';
 import 'enum_land.dart';
 
 void initializeProviders(WidgetRef ref) {
-  if (ref.read(correctPlayerProvider.notifier).state == null) {
+  if (ref.read(correctPlayerProvider) == null) {
     final correctAudioPlayer = AudioPlayer();
     correctAudioPlayer.setReleaseMode(ReleaseMode.stop);
-    correctAudioPlayer.setSourceAsset("sounds/correct.mp3");
+    correctAudioPlayer.setSourceAsset(SoundEffect.correct.address);
     Future.delayed(Duration(milliseconds: 10), () {
       ref.read(correctPlayerProvider.notifier).state = correctAudioPlayer;
     });
   }
-  if (ref.read(incorrectPlayerProvider.notifier).state == null) {
+  if (ref.read(incorrectPlayerProvider) == null) {
     final incorrectAudioPlayer = AudioPlayer();
     incorrectAudioPlayer.setReleaseMode(ReleaseMode.stop);
-    incorrectAudioPlayer.setSourceAsset("sounds/incorrect.mp3");
+    incorrectAudioPlayer.setSourceAsset(SoundEffect.incorrect.address);
     Future.delayed(Duration(milliseconds: 10), () {
       ref.read(incorrectPlayerProvider.notifier).state = incorrectAudioPlayer;
     });
@@ -39,7 +39,7 @@ Future<void> stopPlayingSound(WidgetRef ref) async {
 }
 
 Future<void> playSoundEffect(WidgetRef ref, SoundEffect effect) async {
-  if (effect == SoundEffect.Correct) {
+  if (effect == SoundEffect.correct) {
     final correctPlayer = ref.read(correctPlayerProvider);
     correctPlayer?.resume();
   } else {

@@ -73,13 +73,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final accuracy = ref.read(selectedAnsAccuracyProvider);
     await stopPlayingSound(ref);
     if (accuracy == 0) {
-      await playSoundEffect(ref, SoundEffect.Incorrect);
+      await playSoundEffect(ref, SoundEffect.incorrect);
       ref.read(mistakeAttemptsProvider.notifier).state -= 1;
       if (mistakeAttempts <= 1) {
         _navToResultScrn('You have ran out of lifes. Try again next time');
       }
     } else {
-      await playSoundEffect(ref, SoundEffect.Correct);
+      await playSoundEffect(ref, SoundEffect.correct);
       if (_questionIdx < _questionList.length - 1) {
         ref.read(selectedAnswerProvider.notifier).state = '';
         setState(() => _questionIdx++);

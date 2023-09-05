@@ -1,15 +1,17 @@
 enum SoundEffect {
-  Incorrect,
-  Correct,
+  incorrect,
+  correct,
 }
 
-extension SoundExtension on SoundEffect {
+extension SeExtension on SoundEffect {
   String get address {
     switch (this) {
-      case SoundEffect.Correct:
+      case SoundEffect.correct:
         return 'sounds/correct.mp3';
-      default:
+      case SoundEffect.incorrect:
         return 'sounds/incorrect.mp3';
+      default:
+        return '';
     }
   }
 }
