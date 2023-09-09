@@ -71,7 +71,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               ),
               Text(
                 "Please enter your email to proceed",
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: TextStyle(
+                  fontSize: SizeConfig.scaledHeight(2.5),
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey,
+                ),
               ),
               SizedBox(
                 height: SizeConfig.scaledHeight(5),

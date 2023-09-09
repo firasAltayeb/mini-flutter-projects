@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 class CustomTxtFormField extends StatefulWidget {
   const CustomTxtFormField({
+    required this.decorationLabel,
     this.errorLabelColor = const Color(0xFFB71C1C),
     this.labelFocusColor = Colors.blue,
     this.keyboardType = TextInputType.text,
@@ -11,12 +12,11 @@ class CustomTxtFormField extends StatefulWidget {
     this.prefixIconWidget,
     this.inputFormatters,
     this.maxLines = 1,
-    this.controller,
     this.initialValue,
+    this.controller,
     this.validator,
     this.onChanged,
     this.onSaved,
-    required this.decorationLabel,
     Key? key,
   }) : super(key: key);
 

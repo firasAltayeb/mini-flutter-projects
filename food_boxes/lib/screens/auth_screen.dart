@@ -17,7 +17,7 @@ class AuthenticationScreen extends StatefulWidget {
 class _AuthenticationScreenState extends State<AuthenticationScreen> {
   @override
   void didChangeDependencies() {
-    if (!SizeConfig.initlized) SizeConfig().int(context);
+    if (!SizeConfig.initialized) SizeConfig().int(context);
     super.didChangeDependencies();
   }
 
