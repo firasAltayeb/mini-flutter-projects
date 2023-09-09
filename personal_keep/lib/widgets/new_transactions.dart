@@ -87,20 +87,22 @@ class _NewTransactionsState extends State<NewTransactions> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.45,
-      child: Scaffold(
-        body: Padding(
-          padding: EdgeInsets.only(
-            top: 10,
-            left: 10,
-            right: 10,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 40,
-          ),
-          child: Form(
+    return Padding(
+      padding: EdgeInsets.only(
+        top: 10,
+        left: 10,
+        right: 10,
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.45,
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 CustomTxtFormField(
                   validator: (value) {

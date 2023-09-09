@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import '../screens/filters_screen.dart';
 
 class MainDrawer extends StatelessWidget {
-  Widget buildListTile(String title, IconData icon, Function tapHandler) {
+  Widget buildListTile(
+    String title,
+    IconData icon,
+    void Function()? tapHandler,
+  ) {
     return ListTile(
       leading: Icon(
         icon,

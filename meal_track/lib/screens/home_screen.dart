@@ -16,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Map<String, Object>> _pages;
+  late List<Map<dynamic, dynamic>> _pages;
   int _selectedPageIndex = 0;
 
   @override

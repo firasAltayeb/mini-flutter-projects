@@ -4,9 +4,9 @@ import '../screens/meal_item_screen.dart';
 
 class CategoryItem extends StatelessWidget {
   const CategoryItem({
-    this.color,
-    this.title,
-    this.id,
+    required this.color,
+    required this.title,
+    required this.id,
   });
 
   final String title;

@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 enum Complexity {
   Simple,
   Challenging,
@@ -14,19 +12,19 @@ enum Affordability {
 
 class Meal {
   const Meal({
-    @required this.affordability,
-    @required this.isLactoseFree,
-    @required this.isVegetarian,
-    @required this.isGlutenFree,
-    @required this.ingredients,
-    @required this.complexity,
-    @required this.categories,
-    @required this.duration,
-    @required this.imageUrl,
-    @required this.isVegan,
-    @required this.steps,
-    @required this.title,
-    @required this.id,
+    required this.affordability,
+    required this.isLactoseFree,
+    required this.isVegetarian,
+    required this.isGlutenFree,
+    required this.ingredients,
+    required this.complexity,
+    required this.categories,
+    required this.duration,
+    required this.imageUrl,
+    required this.isVegan,
+    required this.steps,
+    required this.title,
+    required this.id,
   });
 
   final Affordability affordability;

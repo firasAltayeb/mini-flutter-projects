@@ -27,7 +27,7 @@ SnackBar messageSnackBar(String message, {timeUp = 500}) {
     margin: EdgeInsets.only(
       left: 50,
       right: 50,
-      bottom: 10,
+      bottom: 20,
     ),
   );
 }
@@ -38,6 +38,7 @@ void addNewTransactionBttmSht({
 }) {
   showModalBottomSheet(
     context: ctx,
+    isScrollControlled: true,
     builder: (_) {
       return NewTransactions(
         addTx: (String txTitle, double txAmount, DateTime chosenDate) {

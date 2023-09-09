@@ -28,18 +28,17 @@ class _MyAppState extends State<MyApp> {
   void _setFilters(Map<String, bool> filterData) {
     setState(() {
       _filters = filterData;
-
       _availableMeals = Constants.mealDetailsLst.where((meal) {
-        if (_filters['gluten'] && !meal.isGlutenFree) {
+        if (_filters['gluten']! && !meal.isGlutenFree) {
           return false;
         }
-        if (_filters['lactose'] && !meal.isLactoseFree) {
+        if (_filters['lactose']! && !meal.isLactoseFree) {
           return false;
         }
-        if (_filters['vegan'] && !meal.isVegan) {
+        if (_filters['vegan']! && !meal.isVegan) {
           return false;
         }
-        if (_filters['vegetarian'] && !meal.isVegetarian) {
+        if (_filters['vegetarian']! && !meal.isVegetarian) {
           return false;
         }
         return true;

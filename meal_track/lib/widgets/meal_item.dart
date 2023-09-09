@@ -5,12 +5,12 @@ import '../models/meal.dart';
 
 class MealItem extends StatelessWidget {
   const MealItem({
-    @required this.affordability,
-    @required this.complexity,
-    @required this.duration,
-    @required this.imageUrl,
-    @required this.title,
-    @required this.id,
+    required this.affordability,
+    required this.complexity,
+    required this.duration,
+    required this.imageUrl,
+    required this.title,
+    required this.id,
   });
 
   final Affordability affordability;
