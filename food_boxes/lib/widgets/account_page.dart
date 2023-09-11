@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../app_constants.dart';
@@ -172,7 +173,6 @@ class _AccountPageState extends State<AccountPage> {
                 title: Text("Delete Account"),
                 trailing: Icon(Icons.arrow_forward_ios_rounded),
                 onTap: () async {
-                  //TODO: delete user account based on dialog
                   bool? value = await yesNoDialog(
                         context,
                         "Deleting your account is "
@@ -180,9 +180,28 @@ class _AccountPageState extends State<AccountPage> {
                       ) ??
                       false;
                   if (value) {
-                    if (context.mounted) {
-                      Navigator.of(context)
-                          .pushNamed(AuthenticationScreen.routeName);
+                    try {
+                      await FirebaseAuth.instance.currentUser?.delete();
+                      if (context.mounted) {
+                        Navigator.of(context)
+                            .pushNamed(AuthenticationScreen.routeName);
+                      }
+                    } on FirebaseAuthException catch (e) {
+                      print('Failed with error code: ${e.code}');
+                      String snackBarMsg;
+                      if (e.code == 'requires-recent-login') {
+                        snackBarMsg = 'Recent login is required. '
+                            'Please logout and log back in.';
+                      } else {
+                        snackBarMsg = e.message!;
+                      }
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          messegeSnackBar(snackBarMsg, timeUp: 2000),
+                        );
+                      }
+                    } catch (e) {
+                      print("Caught exception: $e");
                     }
                   }
                 },

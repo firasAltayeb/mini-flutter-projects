@@ -50,6 +50,7 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
       }
     } on FirebaseAuthException catch (e) {
       print('Failed with error code: ${e.code}');
+      //unfocus textfield
       FocusManager.instance.primaryFocus?.unfocus();
       String snackBarMsg;
       if (e.code == 'wrong-password') {
