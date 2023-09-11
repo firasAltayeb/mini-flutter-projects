@@ -39,7 +39,13 @@ class RegisterationScreen extends StatelessWidget {
                     Navigator.of(context)
                         .pushNamed(AuthenticationScreen.routeName);
                   },
-                  child: Text("Login"),
+                  child: Text(
+                    "Login",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize: SizeConfig.scaledHeight(2.0),
+                    ),
+                  ),
                 ),
               ],
             ),

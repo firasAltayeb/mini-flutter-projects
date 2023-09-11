@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../app_constants.dart';
-import '../utility/size_config.dart';
 import '../utility/user_info_box.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -30,12 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
     // print("box.get value is ${box.get("userID")}");
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    if (!SizeConfig.initialized) SizeConfig().int(context);
-    super.didChangeDependencies();
   }
 
   @override

@@ -5,24 +5,13 @@ import '../screens/reset_pw_screen.dart';
 import '../utility/size_config.dart';
 import '../screens/reg_screen.dart';
 
-class AuthenticationScreen extends StatefulWidget {
+class AuthenticationScreen extends StatelessWidget {
   const AuthenticationScreen({super.key});
 
   static const String routeName = "auth";
 
   @override
-  State<AuthenticationScreen> createState() => _AuthenticationScreenState();
-}
-
-class _AuthenticationScreenState extends State<AuthenticationScreen> {
-  @override
-  void didChangeDependencies() {
-    if (!SizeConfig.initialized) SizeConfig().int(context);
-    super.didChangeDependencies();
-  }
-
-  @override
-  Widget build(BuildContext ctx) {
+  Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(),
@@ -42,16 +31,16 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
             ),
             Spacer(),
             GestureDetector(
-              onTap: () =>
-                  Navigator.of(ctx).pushNamed(ResetPasswordScreen.routeName),
+              onTap: () => Navigator.of(context)
+                  .pushNamed(ResetPasswordScreen.routeName),
               child: Container(
                 alignment: Alignment.center,
                 width: SizeConfig.safeWidth,
                 child: Text(
                   "Forgot Password",
                   style: TextStyle(
-                    color: Theme.of(ctx).colorScheme.primary,
-                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: SizeConfig.scaledHeight(2.0),
                   ),
                 ),
               ),
@@ -61,13 +50,20 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
               children: [
                 Text(
                   "New here?",
-                  style: Theme.of(ctx).textTheme.bodySmall,
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(ctx).pushNamed(RegisterationScreen.routeName);
+                    Navigator.of(context)
+                        .pushNamed(RegisterationScreen.routeName);
                   },
-                  child: Text("Create an Account"),
+                  child: Text(
+                    "Create an Account",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize: SizeConfig.scaledHeight(2.0),
+                    ),
+                  ),
                 ),
               ],
             ),

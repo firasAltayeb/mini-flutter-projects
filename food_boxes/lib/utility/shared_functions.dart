@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../app_constants.dart';
-import '../screens/auth_screen.dart';
 import 'size_config.dart';
 
 void orderDetailsDialogue(
@@ -63,9 +62,8 @@ void orderDetailsDialogue(
   );
 }
 
-//TODO: have this be a general function
-void yesNoDialog(BuildContext context) {
-  showDialog(
+Future<bool?> yesNoDialog(BuildContext context, String msgToDisplay) async {
+  return showDialog<bool>(
     context: context,
     builder: (_) => CupertinoAlertDialog(
       content: Column(
@@ -78,32 +76,42 @@ void yesNoDialog(BuildContext context) {
             child: Text(
               "Are you sure?",
               style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w900,
-                color: Colors.red,
+                fontSize: SizeConfig.scaledHeight(2.75),
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(
-              vertical: SizeConfig.scaledHeight(0.5),
+              vertical: SizeConfig.scaledHeight(1.5),
             ),
             child: Text(
-              "Deleting your account is "
-              "permanent and irreversible",
+              msgToDisplay,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
           ),
         ],
       ),
       actions: [
         CupertinoDialogAction(
-          onPressed: () =>
-              Navigator.of(context).pushNamed(AuthenticationScreen.routeName),
-          child: Text("Yes"),
+          onPressed: () => Navigator.of(context).pop(true),
+          child: Text(
+            "Yes",
+            style: TextStyle(
+              fontSize: SizeConfig.scaledHeight(2.25),
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ),
         CupertinoDialogAction(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text("No"),
+          onPressed: () => Navigator.of(context).pop(false),
+          child: Text(
+            "No",
+            style: TextStyle(
+              fontSize: SizeConfig.scaledHeight(2.25),
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ),
       ],
     ),

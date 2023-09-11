@@ -171,9 +171,20 @@ class _AccountPageState extends State<AccountPage> {
                 leading: Icon(Icons.delete_forever),
                 title: Text("Delete Account"),
                 trailing: Icon(Icons.arrow_forward_ios_rounded),
-                onTap: () {
+                onTap: () async {
                   //TODO: delete user account based on dialog
-                  yesNoDialog(context);
+                  bool? value = await yesNoDialog(
+                        context,
+                        "Deleting your account is "
+                        "permanent and irreversible",
+                      ) ??
+                      false;
+                  if (value) {
+                    if (context.mounted) {
+                      Navigator.of(context)
+                          .pushNamed(AuthenticationScreen.routeName);
+                    }
+                  }
                 },
               ),
             ],

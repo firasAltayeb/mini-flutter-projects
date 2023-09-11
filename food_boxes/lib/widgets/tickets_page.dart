@@ -27,6 +27,9 @@ class TicketsPage extends StatelessWidget {
         ),
         Text(
           text,
+          style: TextStyle(
+            fontSize: SizeConfig.scaledHeight(2.5),
+          ),
         ),
       ],
     );
@@ -51,57 +54,62 @@ class TicketsPage extends StatelessWidget {
               vertical: SizeConfig.scaledHeight(1.5),
               horizontal: SizeConfig.scaledWidth(3),
             ),
-            child: Column(children: [
-              Stack(
-                children: [
-                  Container(
-                    height: SizeConfig.scaledHeight(30),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(15),
-                        topRight: Radius.circular(15),
-                      ),
-                      image: DecorationImage(
-                        image: AssetImage(
-                          AppConstants.ticketImages[randomValue(0, 7)],
-                        ),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: SizeConfig.scaledHeight(2),
-                    right: SizeConfig.scaledWidth(1),
-                    child: Container(
-                      width: SizeConfig.scaledWidth(70),
-                      padding: EdgeInsets.symmetric(
-                        vertical: SizeConfig.scaledHeight(1),
-                        horizontal: SizeConfig.scaledWidth(1.5),
-                      ),
-                      color: Colors.black54,
-                      child: Text(
-                        "Hawaii Toast",
-                        style: TextStyle(fontSize: 26, color: Colors.white),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: 20,
-                  horizontal: 5,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+            child: Column(
+              children: [
+                Stack(
                   children: [
-                    innerRow(AppIcons.calendar, "5/23/23"),
-                    innerRow(Icons.attach_money, "5.00"),
+                    Container(
+                      height: SizeConfig.scaledHeight(30),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          topRight: Radius.circular(15),
+                        ),
+                        image: DecorationImage(
+                          image: AssetImage(
+                            AppConstants.ticketImages[randomValue(0, 7)],
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: SizeConfig.scaledHeight(2),
+                      right: SizeConfig.scaledWidth(1),
+                      child: Container(
+                        width: SizeConfig.scaledWidth(70),
+                        padding: EdgeInsets.symmetric(
+                          vertical: SizeConfig.scaledHeight(1),
+                          horizontal: SizeConfig.scaledWidth(1.5),
+                        ),
+                        color: Colors.black54,
+                        child: Text(
+                          "Hawaii Toast",
+                          style: TextStyle(
+                            fontSize: SizeConfig.scaledHeight(3.5),
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
-              )
-            ]),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: SizeConfig.scaledHeight(3),
+                    horizontal: SizeConfig.scaledWidth(5),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      innerRow(AppIcons.calendar, "5/23/23"),
+                      innerRow(Icons.attach_money, "5.00"),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         );
       },

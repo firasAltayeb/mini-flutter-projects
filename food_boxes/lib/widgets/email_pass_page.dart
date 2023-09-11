@@ -89,7 +89,9 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
           ),
           Text(
             widget.subTitle,
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Colors.grey,
+                ),
           ),
           SizedBox(
             height: SizeConfig.safeHeight * 0.04,
@@ -135,13 +137,18 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text("Submit"),
+                  Text(
+                    "Submit",
+                    style: TextStyle(
+                      fontSize: SizeConfig.scaledHeight(2.0),
+                    ),
+                  ),
                   SizedBox(
                     width: SizeConfig.safeWidth * 0.01,
                   ),
                   Icon(
                     Icons.arrow_forward_ios_rounded,
-                    size: 18,
+                    size: SizeConfig.scaledHeight(2),
                   )
                 ],
               ),

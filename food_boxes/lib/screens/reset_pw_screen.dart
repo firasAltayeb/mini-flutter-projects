@@ -71,11 +71,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               ),
               Text(
                 "Please enter your email to proceed",
-                style: TextStyle(
-                  fontSize: SizeConfig.scaledHeight(2.5),
-                  fontWeight: FontWeight.w500,
-                  color: Colors.grey,
-                ),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Colors.grey,
+                    ),
               ),
               SizedBox(
                 height: SizeConfig.scaledHeight(5),
@@ -90,20 +88,32 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 decorationLabel: "Email",
               ),
               Container(
-                padding: EdgeInsets.only(top: SizeConfig.scaledHeight(1)),
+                padding: EdgeInsets.symmetric(
+                  vertical: SizeConfig.scaledHeight(1),
+                ),
                 alignment: Alignment.center,
                 child: ElevatedButton(
                   onPressed: _submitFormData,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text("Submit"),
-                      Icon(Icons.arrow_forward_ios_rounded)
+                      Text(
+                        "Submit",
+                        style: TextStyle(
+                          fontSize: SizeConfig.scaledHeight(2.0),
+                        ),
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: SizeConfig.scaledHeight(2),
+                      )
                     ],
                   ),
                 ),
               ),
-              Spacer(),
+              Spacer(
+                flex: 3,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -118,7 +128,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     child: Text("Go back"),
                   ),
                 ],
-              )
+              ),
+              Spacer(),
             ],
           ),
         ),
