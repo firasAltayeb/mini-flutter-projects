@@ -51,8 +51,15 @@ void orderDetailsDialogue(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red[700],
                 ),
-                onPressed: () {},
-                child: Text("Cancel Order"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  "Cancel Order",
+                  style: TextStyle(
+                    fontSize: SizeConfig.scaledHeight(2.0),
+                  ),
+                ),
               ),
             ),
           ],

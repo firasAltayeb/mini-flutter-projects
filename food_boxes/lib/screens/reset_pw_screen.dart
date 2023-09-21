@@ -125,7 +125,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: Text("Go back"),
+                    child: Text(
+                      "Go back",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: SizeConfig.scaledHeight(2.0),
+                      ),
+                    ),
                   ),
                 ],
               ),

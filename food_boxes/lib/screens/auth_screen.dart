@@ -19,8 +19,8 @@ class AuthenticationScreen extends StatelessWidget {
         width: SizeConfig.safeWidth,
         height: SizeConfig.safeHeight,
         padding: EdgeInsets.symmetric(
-          vertical: SizeConfig.safeHeight * 0.1,
-          horizontal: SizeConfig.safeWidth * 0.1,
+          vertical: SizeConfig.scaledHeight(10),
+          horizontal: SizeConfig.scaledWidth(10),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -62,9 +62,6 @@ class _AccountPageState extends State<AccountPage> {
                   size: SizeConfig.scaledHeight(10),
                 ),
               ),
-              SizedBox(
-                height: SizeConfig.scaledHeight(1),
-              ),
               CustomTxtFormField(
                 controller: _firstNameController,
                 validator: (value) {
@@ -77,23 +74,22 @@ class _AccountPageState extends State<AccountPage> {
                 prefixIconWidget: Icon(Icons.face),
                 decorationLabel: "First Name",
               ),
-              SizedBox(
-                height: SizeConfig.scaledHeight(1),
-              ),
-              CustomTxtFormField(
-                controller: _lastNameController,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return "Please enter your last name.";
-                  }
-                  return null;
-                },
-                keyboardType: TextInputType.text,
-                prefixIconWidget: Icon(Icons.face),
-                decorationLabel: "Last Name",
-              ),
-              SizedBox(
-                height: SizeConfig.scaledHeight(1),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: SizeConfig.scaledHeight(1),
+                ),
+                child: CustomTxtFormField(
+                  controller: _lastNameController,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return "Please enter your last name.";
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.text,
+                  prefixIconWidget: Icon(Icons.face),
+                  decorationLabel: "Last Name",
+                ),
               ),
               CustomTxtFormField(
                 controller: _ageController,
@@ -145,24 +141,23 @@ class _AccountPageState extends State<AccountPage> {
                       .pushReplacementNamed(AuthenticationScreen.routeName);
                 },
               ),
-              SizedBox(
-                height: SizeConfig.scaledHeight(1),
-              ),
-              ListTile(
-                tileColor: Theme.of(context).colorScheme.primary,
-                shape: RoundedRectangleBorder(
-                  borderRadius: AppConstants.circleRadius,
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: SizeConfig.scaledHeight(1),
                 ),
-                leading: Icon(Icons.key),
-                title: Text("Reset Password"),
-                trailing: Icon(Icons.arrow_forward_ios_rounded),
-                onTap: () {
-                  Navigator.of(context)
-                      .pushNamed(ResetPasswordScreen.routeName);
-                },
-              ),
-              SizedBox(
-                height: SizeConfig.scaledHeight(1),
+                child: ListTile(
+                  tileColor: Theme.of(context).colorScheme.primary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: AppConstants.circleRadius,
+                  ),
+                  leading: Icon(Icons.key),
+                  title: Text("Reset Password"),
+                  trailing: Icon(Icons.arrow_forward_ios_rounded),
+                  onTap: () {
+                    Navigator.of(context)
+                        .pushNamed(ResetPasswordScreen.routeName);
+                  },
+                ),
               ),
               ListTile(
                 tileColor: Colors.red[700],
@@ -175,8 +170,7 @@ class _AccountPageState extends State<AccountPage> {
                 onTap: () async {
                   bool? value = await yesNoDialog(
                         context,
-                        "Deleting your account is "
-                        "permanent and irreversible",
+                        "Deleting your account is permanent and irreversible",
                       ) ??
                       false;
                   if (value) {

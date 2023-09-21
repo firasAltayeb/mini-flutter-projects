@@ -39,6 +39,7 @@ class TicketsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: 3,
+      reverse: true,
       itemBuilder: (_, index) {
         return GestureDetector(
           onTap: () => orderDetailsDialogue(
