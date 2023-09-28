@@ -4,11 +4,13 @@ import 'package:flutter/services.dart';
 class CustomTxtFormField extends StatefulWidget {
   const CustomTxtFormField({
     required this.decorationLabel,
+    this.textCapitalization = TextCapitalization.none,
     this.errorLabelColor = const Color(0xFFB71C1C),
     this.labelFocusColor = Colors.blue,
     this.keyboardType = TextInputType.text,
     this.hideLabelOnFocus = false,
     this.obscureText = false,
+    this.autocorrect = false,
     this.prefixIconWidget,
     this.inputFormatters,
     this.maxLines = 1,
@@ -21,6 +23,7 @@ class CustomTxtFormField extends StatefulWidget {
   }) : super(key: key);
 
   final List<TextInputFormatter>? inputFormatters;
+  final TextCapitalization textCapitalization;
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
   final ValueChanged<String>? onSaved;
@@ -31,8 +34,9 @@ class CustomTxtFormField extends StatefulWidget {
   final Color errorLabelColor;
   final Color labelFocusColor;
   final bool hideLabelOnFocus;
-  final bool obscureText;
   final String decorationLabel;
+  final bool obscureText;
+  final bool autocorrect;
   final int maxLines;
 
   @override
@@ -70,6 +74,8 @@ class _CustomTxtFormFieldState extends State<CustomTxtFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autocorrect: false,
+      textCapitalization: TextCapitalization.none,
       controller: widget.controller,
       focusNode: _focusNode,
       onChanged: (val) {

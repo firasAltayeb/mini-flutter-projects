@@ -46,6 +46,8 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
         );
       }
       if (context.mounted) {
+        _emailController.clear();
+        _passwordController.clear();
         Navigator.of(context).pushNamed(HomeScreen.routeName);
       }
     } on FirebaseAuthException catch (e) {
@@ -66,13 +68,16 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
       }
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          messegeSnackBar(snackBarMsg, timeUp: 2000),
+          messegeSnackBar(
+            snackBarMsg,
+            timeUp: 2000,
+          ),
         );
       }
-      setState(() => submitClicked = false);
     } catch (e) {
-      setState(() => submitClicked = false);
       print(e);
+    } finally {
+      setState(() => submitClicked = false);
     }
   }
 
@@ -94,22 +99,22 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
                   color: Colors.grey,
                 ),
           ),
-          SizedBox(
-            height: SizeConfig.safeHeight * 0.04,
-          ),
-          CustomTxtFormField(
-            validator: (value) {
-              if (value.trim().isEmpty || !value.contains('@')) {
-                return "Please enter a valid email address";
-              }
-              return null;
-            },
-            prefixIconWidget: Icon(Icons.email),
-            controller: _emailController,
-            decorationLabel: "Email",
-          ),
-          SizedBox(
-            height: SizeConfig.safeHeight * 0.01,
+          Padding(
+            padding: EdgeInsets.only(
+              top: SizeConfig.scaledHeight(5),
+              bottom: SizeConfig.scaledHeight(1),
+            ),
+            child: CustomTxtFormField(
+              validator: (value) {
+                if (value.trim().isEmpty || !value.contains('@')) {
+                  return "Please enter a valid email address";
+                }
+                return null;
+              },
+              prefixIconWidget: Icon(Icons.email),
+              controller: _emailController,
+              decorationLabel: "Email",
+            ),
           ),
           CustomTxtFormField(
             validator: (value) {
@@ -130,7 +135,7 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
           ),
           Container(
             padding: EdgeInsets.only(
-              top: SizeConfig.safeHeight * 0.01,
+              top: SizeConfig.scaledHeight(1),
             ),
             alignment: Alignment.center,
             child: ElevatedButton(
@@ -145,7 +150,7 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
                     ),
                   ),
                   SizedBox(
-                    width: SizeConfig.safeWidth * 0.01,
+                    width: SizeConfig.scaledWidth(1),
                   ),
                   Icon(
                     Icons.arrow_forward_ios_rounded,

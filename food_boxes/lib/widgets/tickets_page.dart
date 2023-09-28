@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:food_boxes/app_constants.dart';
-import 'package:food_boxes/utility/shared_functions.dart';
-import 'dart:math';
 
-import '../app_icons.dart';
+import '../utility/shared_functions.dart';
 import '../utility/size_config.dart';
-
-final _rng = Random();
-
-int randomValue(int min, int max) {
-  return min + _rng.nextInt(max - min);
-}
+import '../app_icons.dart';
 
 class TicketsPage extends StatelessWidget {
   const TicketsPage({super.key});
