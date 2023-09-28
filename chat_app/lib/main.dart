@@ -1,5 +1,6 @@
-import 'package:chat_app/auto_hide_snackbar.dart';
 import 'package:flutter/material.dart';
+
+import 'auth.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: AutoHideSnackBar(),
+      home: AuthScreen(),
     );
   }
 }
