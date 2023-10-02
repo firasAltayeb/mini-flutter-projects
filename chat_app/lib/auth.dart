@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +18,11 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   final _form = GlobalKey<FormState>();
   File? _selectedImage;
+  var _enteredUsername = '';
   var _enteredPassword = '';
   var _enteredEmail = '';
   var _isLogin = true;
+  var _isAuthenticating = false;
 
   void _submit() async {
     final isValid = _form.currentState!.validate();
@@ -31,6 +34,9 @@ class _AuthScreenState extends State<AuthScreen> {
     _form.currentState!.save();
 
     try {
+      setState(() {
+        _isAuthenticating = true;
+      });
       if (_isLogin) {
         final userCredentials = await _firebase.signInWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
@@ -45,7 +51,14 @@ class _AuthScreenState extends State<AuthScreen> {
             .child('${userCredentials.user!.uid}.jpg');
         await storageRef.putFile(_selectedImage!);
         final imageUrl = await storageRef.getDownloadURL();
-        print(imageUrl);
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userCredentials.user!.uid)
+            .set({
+          'username': _enteredUsername,
+          'email': _enteredEmail,
+          'image_url': imageUrl,
+        });
       }
     } on FirebaseAuthException catch (error) {
       if (error.code == 'email-already-in-use') {
@@ -64,6 +77,10 @@ class _AuthScreenState extends State<AuthScreen> {
       print("error $error");
     } catch (e) {
       print("caught exception $e");
+    } finally {
+      setState(() {
+        _isAuthenticating = false;
+      });
     }
   }
 
@@ -78,10 +95,10 @@ class _AuthScreenState extends State<AuthScreen> {
             children: [
               Container(
                 margin: EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 30,
+                  horizontal: 15,
+                  vertical: 20,
                 ),
-                width: 200,
+                width: 100,
                 child: Image.asset(
                   'assets/images/chat.png',
                 ),
@@ -96,12 +113,32 @@ class _AuthScreenState extends State<AuthScreen> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          if (!_isLogin)
+                          if (!_isLogin) ...[
                             UserImagePicker(
                               onPickImage: (pickedImage) {
                                 _selectedImage = pickedImage;
                               },
                             ),
+                            TextFormField(
+                              decoration: InputDecoration(
+                                labelText: 'Username',
+                              ),
+                              enableSuggestions: false,
+                              autocorrect: false,
+                              validator: (value) {
+                                if (value == null ||
+                                    value.isEmpty ||
+                                    value.trim().length < 4) {
+                                  return 'username must contain at '
+                                      'least 4 character.';
+                                }
+                                return null;
+                              },
+                              onSaved: (newValue) {
+                                _enteredUsername = newValue!;
+                              },
+                            ),
+                          ],
                           TextFormField(
                             decoration: InputDecoration(
                               labelText: 'Email Address',
@@ -139,28 +176,32 @@ class _AuthScreenState extends State<AuthScreen> {
                           SizedBox(
                             height: 10,
                           ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Theme.of(context)
-                                    .colorScheme
-                                    .primaryContainer),
-                            onPressed: _submit,
-                            child: Text(
-                              _isLogin ? 'Login' : 'Signup',
+                          if (_isAuthenticating)
+                            const CircularProgressIndicator(),
+                          if (!_isAuthenticating) ...[
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Theme.of(context)
+                                      .colorScheme
+                                      .primaryContainer),
+                              onPressed: _submit,
+                              child: Text(
+                                _isLogin ? 'Login' : 'Signup',
+                              ),
                             ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              setState(() {
-                                _isLogin = !_isLogin;
-                              });
-                            },
-                            child: Text(
-                              _isLogin
-                                  ? 'Create an account'
-                                  : 'I already have an account',
-                            ),
-                          )
+                            TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  _isLogin = !_isLogin;
+                                });
+                              },
+                              child: Text(
+                                _isLogin
+                                    ? 'Create an account'
+                                    : 'I already have an account',
+                              ),
+                            )
+                          ],
                         ],
                       ),
                     ),
