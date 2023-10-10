@@ -136,9 +136,7 @@ class _AccountPageState extends State<AccountPage> {
                 title: Text("Logout"),
                 trailing: Icon(Icons.arrow_forward_ios_rounded),
                 onTap: () {
-                  UserInfoBox.setUserId("");
-                  Navigator.of(context)
-                      .pushReplacementNamed(AuthenticationScreen.routeName);
+                  FirebaseAuth.instance.signOut();
                 },
               ),
               Padding(

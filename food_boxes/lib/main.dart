@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +9,7 @@ import 'firebase_options.dart';
 import '../screens/auth_screen.dart';
 import '../routes.dart';
 import 'screens/home_screen.dart';
+import 'screens/splash_screen.dart';
 import 'utility/size_config.dart';
 import 'utility/user_info_box.dart';
 
@@ -90,9 +92,18 @@ class _MyAppState extends State<MyApp> {
         ),
         iconTheme: IconThemeData(color: Colors.grey),
       ),
-      initialRoute: UserInfoBox.getUserId() == ""
-          ? AuthenticationScreen.routeName
-          : HomeScreen.routeName,
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const SplashScreen();
+          }
+          if (snapshot.hasData) {
+            return const HomeScreen();
+          }
+          return const AuthenticationScreen();
+        },
+      ),
       onGenerateRoute: generateRoute,
     );
   }
