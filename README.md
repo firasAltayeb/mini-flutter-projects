@@ -4,7 +4,7 @@ A number of miscellaneous projects that are not polished/ready enough for the Ap
 
 ## Quiz App 
 
-This project is a simple quiz game where users have to answer 48 questions to win. Users get four attempts (represented by hearts). Answering a question correctly or incorrectly plays a corresponding audio clip. This project incorporates state management with Riverpod and the audioplayers packages. 
+Is a simple quiz game where users have to answer 48 questions to win. Users get four attempts (represented by hearts). Answering a question correctly or incorrectly plays a corresponding audio clip. This project incorporates state management with Riverpod and the audioplayers packages. 
 
 <table>
   <tr>
@@ -16,7 +16,7 @@ This project is a simple quiz game where users have to answer 48 questions to wi
 
 ## Personal Keep 
 
-This project is a simple expense tracker. Users can add items to the track, which will be reflected in the top section chart. This project supports both orientation (landscape & portrait) and platform-appropriate widgets (FloatingActionButton for Android). 
+Is a simple expense tracker. Users can add items to the track, which will be reflected in the top section chart. This project supports both orientation (landscape & portrait) and platform-appropriate widgets (FloatingActionButton for Android). 
 
 <table>
   <tr>
@@ -28,7 +28,7 @@ This project is a simple expense tracker. Users can add items to the track, whic
 
 ## Meal Track 
 
-This project is a simple recipe book app. The home screen displays a grid with different recipe categories. Users can navigate through them and choose their favourite recipes for easy access. This project incorporates models, enums and a custom theme.   
+Is a simple recipe book app. The home screen displays a grid with different recipe categories. Users can navigate through them and choose their favourite recipes for easy access. This project incorporates models, enums and a custom theme.   
 
 <table>
   <tr>
@@ -38,9 +38,21 @@ This project is a simple recipe book app. The home screen displays a grid with d
   </tr>
 </table>
 
+## Chat App 
+
+Provides a simple interface where users can create an account, log in and send messages to all the users with an account. This project uses a whole suite of Firebase tools: authentication to store users' login details, storage to store users' profile pictures, Firestore database to store chat messages and meta-data and messaging to notify users of new chat messages.  
+
+<table>
+  <tr>
+    <td><img src="./screenshots/chat-app-01.png" alt="chat-app-01"></td>
+    <td><img src="./screenshots/chat-app-02.png" alt="chat-app-02"></td>
+    <td><img src="./screenshots/chat-app-03.png" alt="chat-app-03"></td>
+  </tr>
+</table>
+
 ## Food Boxes (still in development)
 
-This project aims to be a food delivery app with a twist. The project incorporates Firebase authentication, secure API key storage with envied, users' data preservation using Hive and adaptable design.
+This project aims to be a food delivery app with a twist. This project incorporates Firebase authentication, secure API key storage with [envied](https://pub.dev/packages/envied), data preservation using Hive and adaptable design.
 
 <table>
   <tr>
