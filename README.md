@@ -1,6 +1,6 @@
 # Mini_flutter_projects
 
-A number of miscellaneous projects that are not polished/ready enough for the Apple/Google app stores. 
+A number of miscellaneous projects that can be improved before releaseing to Apple/Google app stores. 
 
 ## Quiz App 
 
