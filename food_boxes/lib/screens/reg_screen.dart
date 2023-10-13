@@ -37,7 +37,7 @@ class RegisterationScreen extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     Navigator.of(context)
-                        .pushNamed(AuthenticationScreen.routeName);
+                        .pushReplacementNamed(AuthenticationScreen.routeName);
                   },
                   child: Text(
                     "Login",

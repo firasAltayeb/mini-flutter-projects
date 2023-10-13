@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -6,8 +7,8 @@ import '../screens/auth_screen.dart';
 import '../screens/reset_pw_screen.dart';
 import '../utility/shared_functions.dart';
 import '../utility/size_config.dart';
-import '../utility/user_info_box.dart';
 import 'custom_text_field.dart';
+import 'small_list_tile.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
@@ -22,19 +23,33 @@ class _AccountPageState extends State<AccountPage> {
   final _lastNameController = TextEditingController();
   final _ageController = TextEditingController();
 
+  void getUserData() async {
+    final user = FirebaseAuth.instance.currentUser!;
+    final userData = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get();
+    _firstNameController.text = userData.data()?['firstName'] ?? '';
+    _lastNameController.text = userData.data()?['lastName'] ?? '';
+    _ageController.text = userData.data()?['age'] ?? '';
+  }
+
   @override
   void initState() {
-    _firstNameController.text = UserInfoBox.getFirstName();
-    _lastNameController.text = UserInfoBox.getLastName();
-    _ageController.text = "${UserInfoBox.getAge()}";
+    getUserData();
     super.initState();
   }
 
-  void _submitFormData() {
-    if (_formKey.currentState!.validate()) {
-      UserInfoBox.setFirstName(_firstNameController.text);
-      UserInfoBox.setLastName(_lastNameController.text);
-      UserInfoBox.setAge(_ageController.text);
+  void _submitFormData() async {
+    if (_formKey.currentState!.validate() == false) return;
+    //TODO: use riverpod to store user details
+    final user = FirebaseAuth.instance.currentUser!;
+    await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+      'firstName': _firstNameController.text,
+      'lastName': _lastNameController.text,
+      'age': _ageController.text,
+    });
+    if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         messegeSnackBar("User data has been updated", timeUp: 1000),
       );
@@ -111,18 +126,18 @@ class _AccountPageState extends State<AccountPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     smallListTile(
-                      Icons.clear_rounded,
-                      "Clear",
-                      () {
+                      icon: Icons.clear_rounded,
+                      text: "Clear",
+                      function: () {
                         _firstNameController.clear();
                         _lastNameController.clear();
                         _ageController.clear();
                       },
                     ),
                     smallListTile(
-                      Icons.save,
-                      "Save",
-                      _submitFormData,
+                      icon: Icons.save,
+                      text: "Save",
+                      function: _submitFormData,
                     ),
                   ],
                 ),
@@ -153,7 +168,7 @@ class _AccountPageState extends State<AccountPage> {
                   trailing: Icon(Icons.arrow_forward_ios_rounded),
                   onTap: () {
                     Navigator.of(context)
-                        .pushNamed(ResetPasswordScreen.routeName);
+                        .pushReplacementNamed(ResetPasswordScreen.routeName);
                   },
                 ),
               ),
@@ -175,8 +190,8 @@ class _AccountPageState extends State<AccountPage> {
                     try {
                       await FirebaseAuth.instance.currentUser?.delete();
                       if (context.mounted) {
-                        Navigator.of(context)
-                            .pushNamed(AuthenticationScreen.routeName);
+                        Navigator.of(context).pushReplacementNamed(
+                            AuthenticationScreen.routeName);
                       }
                     } on FirebaseAuthException catch (e) {
                       print('Failed with error code: ${e.code}');
@@ -200,42 +215,6 @@ class _AccountPageState extends State<AccountPage> {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  GestureDetector smallListTile(
-      IconData icon, String text, void Function() function) {
-    return GestureDetector(
-      onTap: function,
-      child: Container(
-        height: SizeConfig.scaledHeight(7),
-        width: SizeConfig.scaledWidth(39),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: Colors.green[500],
-          borderRadius: AppConstants.circleRadius,
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              color: Colors.white,
-            ),
-            SizedBox(
-              width: SizeConfig.scaledWidth(4),
-            ),
-            Text(
-              text,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: SizeConfig.scaledHeight(2.25),
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ],
         ),
       ),
     );

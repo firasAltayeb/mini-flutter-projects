@@ -2,8 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../utility/shared_functions.dart';
-import '../screens/home_screen.dart';
-import '../screens/auth_screen.dart';
 import '../utility/size_config.dart';
 import '../screens/reg_screen.dart';
 import 'custom_text_field.dart';
@@ -32,23 +30,18 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
   void _submitFormData() async {
     if (_formKey.currentState!.validate() == false) return;
     try {
-      if (currentRoute == AuthenticationScreen.routeName) {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-          password: _passwordController.text,
-          email: _emailController.text,
-        );
-      }
       if (currentRoute == RegisterationScreen.routeName) {
         setState(() => submitClicked = true);
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           password: _passwordController.text,
           email: _emailController.text,
         );
-      }
-      if (context.mounted) {
-        _emailController.clear();
-        _passwordController.clear();
-        Navigator.of(context).pushNamed(HomeScreen.routeName);
+        if (context.mounted) Navigator.of(context).pop();
+      } else {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+          password: _passwordController.text,
+          email: _emailController.text,
+        );
       }
     } on FirebaseAuthException catch (e) {
       print('Failed with error code: ${e.code}');

@@ -7,6 +7,42 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:597671681875:android:8fec6286bd8eb9051fcba6",
+        "android_client_info": {
+          "package_name": "com.example.chat_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "597671681875-6n1pa1vr9ogot7vsf3ehuigm48rvoumv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBva7gPENC7bptCn8wuYTT7yzr2SGUQ5Zk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "597671681875-6n1pa1vr9ogot7vsf3ehuigm48rvoumv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "597671681875-4gi7red2stmbbk7jbj3jjuvgiclvj03e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.foodBoxes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:597671681875:android:fd435dd5a21c9de61fcba6",
         "android_client_info": {
           "package_name": "com.foodsec.foodboxes"

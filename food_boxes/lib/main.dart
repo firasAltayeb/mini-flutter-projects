@@ -9,14 +9,15 @@ import 'firebase_options.dart';
 import '../screens/auth_screen.dart';
 import '../routes.dart';
 import 'screens/home_screen.dart';
-import 'screens/splash_screen.dart';
 import 'utility/size_config.dart';
 import 'utility/user_info_box.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  await Hive.openBox(AppConstants.boxName);
+  await Hive.openBox(
+    AppConstants.boxName,
+  );
   UserInfoBox();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -32,7 +33,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void didChangeDependencies() {
-    if (!SizeConfig.initialized) SizeConfig().int(context);
+    if (!SizeConfig.initialized) {
+      SizeConfig().int(context);
+    }
     super.didChangeDependencies();
   }
 
@@ -95,10 +98,12 @@ class _MyAppState extends State<MyApp> {
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const SplashScreen();
-          }
+          // print("snapshot is ${snapshot.connectionState}");
+          // if (snapshot.connectionState == ConnectionState.waiting) {
+          //   return const SplashScreen();
+          // }
           if (snapshot.hasData) {
+            // print("snapshot is ${snapshot.hasData}");
             return const HomeScreen();
           }
           return const AuthenticationScreen();
