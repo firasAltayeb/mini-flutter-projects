@@ -125,7 +125,7 @@ class _AccountPageState extends State<AccountPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    smallListTile(
+                    SmallListTile(
                       icon: Icons.clear_rounded,
                       text: "Clear",
                       function: () {
@@ -134,7 +134,7 @@ class _AccountPageState extends State<AccountPage> {
                         _ageController.clear();
                       },
                     ),
-                    smallListTile(
+                    SmallListTile(
                       icon: Icons.save,
                       text: "Save",
                       function: _submitFormData,
@@ -180,38 +180,7 @@ class _AccountPageState extends State<AccountPage> {
                 leading: Icon(Icons.delete_forever),
                 title: Text("Delete Account"),
                 trailing: Icon(Icons.arrow_forward_ios_rounded),
-                onTap: () async {
-                  bool? value = await yesNoDialog(
-                        context,
-                        "Deleting your account is permanent and irreversible",
-                      ) ??
-                      false;
-                  if (value) {
-                    try {
-                      await FirebaseAuth.instance.currentUser?.delete();
-                      if (context.mounted) {
-                        Navigator.of(context).pushReplacementNamed(
-                            AuthenticationScreen.routeName);
-                      }
-                    } on FirebaseAuthException catch (e) {
-                      print('Failed with error code: ${e.code}');
-                      String snackBarMsg;
-                      if (e.code == 'requires-recent-login') {
-                        snackBarMsg = 'Recent login is required. '
-                            'Please logout and log back in.';
-                      } else {
-                        snackBarMsg = e.message!;
-                      }
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          messegeSnackBar(snackBarMsg, timeUp: 2000),
-                        );
-                      }
-                    } catch (e) {
-                      print("Caught exception: $e");
-                    }
-                  }
-                },
+                onTap: () => deleteAccount(context),
               ),
             ],
           ),

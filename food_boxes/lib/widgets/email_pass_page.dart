@@ -24,14 +24,14 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
   final _passwordController = TextEditingController();
   final _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  bool submitClicked = false;
+  bool isLoading = false;
   String? currentRoute;
 
   void _submitFormData() async {
     if (_formKey.currentState!.validate() == false) return;
     try {
+      setState(() => isLoading = true);
       if (currentRoute == RegisterationScreen.routeName) {
-        setState(() => submitClicked = true);
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           password: _passwordController.text,
           email: _emailController.text,
@@ -70,7 +70,7 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
     } catch (e) {
       print(e);
     } finally {
-      setState(() => submitClicked = false);
+      setState(() => isLoading = false);
     }
   }
 
@@ -131,27 +131,32 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
               top: SizeConfig.scaledHeight(1),
             ),
             alignment: Alignment.center,
-            child: ElevatedButton(
-              onPressed: !submitClicked ? _submitFormData : null,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Submit",
-                    style: TextStyle(
-                      fontSize: SizeConfig.scaledHeight(2.0),
+            child: isLoading
+                ? CircularProgressIndicator(
+                    color: Colors.black,
+                    strokeWidth: 2,
+                  )
+                : ElevatedButton(
+                    onPressed: _submitFormData,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Submit",
+                          style: TextStyle(
+                            fontSize: SizeConfig.scaledHeight(2.0),
+                          ),
+                        ),
+                        SizedBox(
+                          width: SizeConfig.scaledWidth(1),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: SizeConfig.scaledHeight(2),
+                        )
+                      ],
                     ),
                   ),
-                  SizedBox(
-                    width: SizeConfig.scaledWidth(1),
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    size: SizeConfig.scaledHeight(2),
-                  )
-                ],
-              ),
-            ),
           ),
         ],
       ),

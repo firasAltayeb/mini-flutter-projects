@@ -26,8 +26,8 @@ class AuthenticationScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             EmailPasswordPage(
-              subTitle: "Please sign in to proceed",
               titleText: "Login",
+              subTitle: "Please sign in to proceed",
             ),
             Spacer(),
             GestureDetector(

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -150,4 +151,33 @@ SnackBar messegeSnackBar(String messege, {int? timeUp = 1000}) {
       bottom: SizeConfig.scaledHeight(5),
     ),
   );
+}
+
+void deleteAccount(BuildContext context) async {
+  bool? value = await yesNoDialog(
+        context,
+        "Deleting your account is permanent and irreversible",
+      ) ??
+      false;
+  if (value) {
+    try {
+      await FirebaseAuth.instance.currentUser?.delete();
+    } on FirebaseAuthException catch (e) {
+      print('Failed with error code: ${e.code}');
+      String snackBarMsg;
+      if (e.code == 'requires-recent-login') {
+        snackBarMsg = 'Recent login is required. '
+            'Please logout and log back in.';
+      } else {
+        snackBarMsg = e.message!;
+      }
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          messegeSnackBar(snackBarMsg, timeUp: 2000),
+        );
+      }
+    } catch (e) {
+      print("Caught exception: $e");
+    }
+  }
 }

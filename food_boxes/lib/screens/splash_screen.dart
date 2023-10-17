@@ -10,7 +10,21 @@ class SplashScreen extends StatelessWidget {
         title: Text('FoodBoxes'),
       ),
       body: Center(
-        child: Text('Loading...'),
+        child: Column(
+          children: [
+            Spacer(),
+            Text(
+              'Loading...',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            Spacer(),
+            CircularProgressIndicator(
+              color: Colors.black,
+              strokeWidth: 4,
+            ),
+            Spacer(),
+          ],
+        ),
       ),
     );
   }
