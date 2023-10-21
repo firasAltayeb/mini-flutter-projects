@@ -19,6 +19,7 @@ class _ChatScreenState extends State<ChatScreen> {
     // could be sent (via HTTP or Firestore SDK) to a backend
     final token = await fcm.getToken();
     print("token: $token");
+    fcm.subscribeToTopic('chat');
   }
 
   @override
