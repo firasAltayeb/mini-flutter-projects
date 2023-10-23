@@ -1,54 +1,49 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app_constants.dart';
-import '../screens/auth_screen.dart';
 import '../screens/reset_pw_screen.dart';
 import '../utility/shared_functions.dart';
+import '../utility/shared_providers.dart';
 import '../utility/size_config.dart';
 import 'custom_text_field.dart';
 import 'small_list_tile.dart';
 
-class AccountPage extends StatefulWidget {
+class AccountPage extends ConsumerStatefulWidget {
   const AccountPage({super.key});
 
   @override
-  State<AccountPage> createState() => _AccountPageState();
+  ConsumerState<AccountPage> createState() => _AccountPageState();
 }
 
-class _AccountPageState extends State<AccountPage> {
+class _AccountPageState extends ConsumerState<AccountPage> {
   final _formKey = GlobalKey<FormState>();
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _ageController = TextEditingController();
 
-  void getUserData() async {
-    final user = FirebaseAuth.instance.currentUser!;
-    final userData = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .get();
-    _firstNameController.text = userData.data()?['firstName'] ?? '';
-    _lastNameController.text = userData.data()?['lastName'] ?? '';
-    _ageController.text = userData.data()?['age'] ?? '';
-  }
-
   @override
   void initState() {
-    getUserData();
+    _firstNameController.text = ref.read(firstNameProviders);
+    _lastNameController.text = ref.read(lastNameProviders);
+    _ageController.text = ref.read(ageProviders);
     super.initState();
   }
 
   void _submitFormData() async {
     if (_formKey.currentState!.validate() == false) return;
     //TODO: use riverpod to store user details
-    final user = FirebaseAuth.instance.currentUser!;
-    await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+    final user = ref.read(currentUserProviders);
+    await FirebaseFirestore.instance.collection('users').doc(user?.uid).set({
       'firstName': _firstNameController.text,
       'lastName': _lastNameController.text,
       'age': _ageController.text,
     });
+    ref.read(firstNameProviders.notifier).state = _firstNameController.text;
+    ref.read(lastNameProviders.notifier).state = _lastNameController.text;
+    ref.read(ageProviders.notifier).state = _ageController.text;
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         messegeSnackBar("User data has been updated", timeUp: 1000),

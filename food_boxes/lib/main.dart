@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'app_constants.dart';
@@ -22,7 +23,11 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(
+    ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -103,7 +108,6 @@ class _MyAppState extends State<MyApp> {
           //   return const SplashScreen();
           // }
           if (snapshot.hasData) {
-            // print("snapshot is ${snapshot.hasData}");
             return const HomeScreen();
           }
           return const AuthenticationScreen();

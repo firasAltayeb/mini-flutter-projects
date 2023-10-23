@@ -1,20 +1,28 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 
 import '../app_constants.dart';
+import '../utility/shared_providers.dart';
+import 'splash_screen.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
   static const routeName = "/";
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   int pageIndex = 1;
 
   @override
   Widget build(BuildContext context) {
+    if (ref.watch(appProvidersInitialized) == false) {
+      ref.read(initializeMainProviders);
+      return SplashScreen();
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(),
