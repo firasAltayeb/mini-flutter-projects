@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app_constants.dart';
@@ -26,24 +27,25 @@ class _AccountPageState extends ConsumerState<AccountPage> {
 
   @override
   void initState() {
-    _firstNameController.text = ref.read(firstNameProviders);
-    _lastNameController.text = ref.read(lastNameProviders);
-    _ageController.text = ref.read(ageProviders);
+    _firstNameController.text = ref.read(firstNameProvider);
+    _lastNameController.text = ref.read(lastNameProvider);
+    _ageController.text = ref.read(ageProvider);
     super.initState();
   }
 
   void _submitFormData() async {
     if (_formKey.currentState!.validate() == false) return;
     //TODO: use riverpod to store user details
-    final user = ref.read(currentUserProviders);
+    final user = ref.read(currentUserProvider);
     await FirebaseFirestore.instance.collection('users').doc(user?.uid).set({
       'firstName': _firstNameController.text,
       'lastName': _lastNameController.text,
       'age': _ageController.text,
     });
-    ref.read(firstNameProviders.notifier).state = _firstNameController.text;
-    ref.read(lastNameProviders.notifier).state = _lastNameController.text;
-    ref.read(ageProviders.notifier).state = _ageController.text;
+    FocusManager.instance.primaryFocus?.unfocus();
+    ref.read(firstNameProvider.notifier).state = _firstNameController.text;
+    ref.read(lastNameProvider.notifier).state = _lastNameController.text;
+    ref.read(ageProvider.notifier).state = _ageController.text;
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         messegeSnackBar("User data has been updated", timeUp: 1000),
@@ -109,6 +111,9 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                   }
                   return null;
                 },
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                ],
                 keyboardType: TextInputType.number,
                 prefixIconWidget: Icon(Icons.numbers),
                 decorationLabel: "Age",

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_boxes/app_constants.dart';
 
 import '../utility/shared_functions.dart';
+import '../utility/shared_providers.dart';
 import '../utility/size_config.dart';
 import '../app_icons.dart';
 
-class TicketsPage extends StatelessWidget {
+class TicketsPage extends ConsumerWidget {
   const TicketsPage({super.key});
 
   Widget innerRow(IconData iconData, String text) {
@@ -29,9 +31,10 @@ class TicketsPage extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ticketList = ref.watch(ticketListProvider);
     return ListView.builder(
-      itemCount: 3,
+      itemCount: ticketList.length,
       reverse: true,
       itemBuilder: (_, index) {
         return GestureDetector(
@@ -62,7 +65,7 @@ class TicketsPage extends StatelessWidget {
                         ),
                         image: DecorationImage(
                           image: AssetImage(
-                            AppConstants.ticketImages[randomValue(0, 7)],
+                            ticketList[index].imageURL,
                           ),
                           fit: BoxFit.cover,
                         ),
@@ -79,7 +82,7 @@ class TicketsPage extends StatelessWidget {
                         ),
                         color: Colors.black54,
                         child: Text(
-                          "Hawaii Toast",
+                          ticketList[index].name,
                           style: TextStyle(
                             fontSize: SizeConfig.scaledHeight(3.5),
                             color: Colors.white,
@@ -97,8 +100,14 @@ class TicketsPage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      innerRow(AppIcons.calendar, "5/23/23"),
-                      innerRow(Icons.attach_money, "5.00"),
+                      innerRow(
+                        AppIcons.calendar,
+                        ticketList[index].date,
+                      ),
+                      innerRow(
+                        Icons.attach_money,
+                        "${ticketList[index].price}",
+                      ),
                     ],
                   ),
                 )
