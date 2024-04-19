@@ -7,6 +7,7 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthInitial()) {
     on<AuthLoginRequested>((event, emit) async {
+      emit(AuthLoading());
       try {
         // below should be validated with regex
         final email = event.email;
