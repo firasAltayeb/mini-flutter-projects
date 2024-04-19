@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_responsive_login_ui/pallete.dart';
 
 class GradientButton extends StatelessWidget {
-  const GradientButton({Key? key}) : super(key: key);
+  const GradientButton({required this.onPressed, Key? key}) : super(key: key);
+
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
