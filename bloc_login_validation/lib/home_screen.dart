@@ -33,7 +33,7 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                (state as AuthSuccess).uid,
+                state is AuthSuccess ? state.uid : "",
               ),
               const SizedBox(
                 height: 100,
@@ -41,7 +41,7 @@ class HomeScreen extends StatelessWidget {
               ),
               GradientButton(
                 onPressed: () {
-                  context.read<AuthBloc>().add(AuthLogoutRequest());
+                  context.read<AuthBloc>().add(AuthLogoutRequested());
                 },
                 btnText: 'Sign out',
               ),

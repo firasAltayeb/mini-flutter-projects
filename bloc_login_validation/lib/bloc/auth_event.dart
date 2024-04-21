@@ -13,4 +13,4 @@ final class AuthLoginRequested extends AuthEvent {
   });
 }
 
-final class AuthLogoutRequest extends AuthEvent {}
+final class AuthLogoutRequested extends AuthEvent {}
