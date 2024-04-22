@@ -65,16 +65,16 @@ class _AuthScreenState extends State<AuthScreen> {
       if (error.code == 'email-already-in-use') {
         //...
       }
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              error.message ?? "Authentication failed.",
-            ),
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            error.message ?? "Authentication failed.",
           ),
-        );
-      }
+        ),
+      );
+
       print("error $error");
     } catch (e) {
       print("caught exception $e");
