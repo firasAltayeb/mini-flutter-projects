@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:weather_app/model/weather_model.dart';
+import 'package:weather_app/model/general_weather_model.dart';
 
 import '../data_provider/weather_data_provider.dart';
 
@@ -9,7 +9,7 @@ class WeatherRepository {
 
   WeatherRepository(this.weatherDataProvider);
 
-  Future<WeatherModel> getCurrentWeather() async {
+  Future<GeneralWeatherModel> getCurrentWeather() async {
     try {
       String cityName = 'London';
       final weatherData = await weatherDataProvider.getCurrentWeather(cityName);
@@ -20,7 +20,7 @@ class WeatherRepository {
         throw 'An unexpected error occurred';
       }
 
-      return WeatherModel.fromJson(data);
+      return GeneralWeatherModel.fromJson(data);
     } catch (e) {
       rethrow;
     }

@@ -6,7 +6,7 @@ sealed class WeatherState {}
 final class WeatherInitial extends WeatherState {}
 
 final class WeatherSuccess extends WeatherState {
-  final WeatherModel weatherModel;
+  final GeneralWeatherModel weatherModel;
 
   WeatherSuccess({required this.weatherModel});
 }

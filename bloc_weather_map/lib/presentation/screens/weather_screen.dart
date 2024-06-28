@@ -54,11 +54,11 @@ class _WeatherScreenState extends State<WeatherScreen> {
           }
 
           final data = state.weatherModel;
-          final currentTemp = data.currentTemp;
-          final currentSky = data.currentSky;
-          final currentPressure = data.currentPressure;
-          final currentWindSpeed = data.currentWindSpeed;
-          final currentHumidity = data.currentHumidity;
+          final currentTemp = data.hourlyForecast.first.currentTemp;
+          final currentSky = data.hourlyForecast.first.currentSky;
+          final currentPressure = data.hourlyForecast.first.currentPressure;
+          final currentWindSpeed = data.hourlyForecast.first.currentWindSpeed;
+          final currentHumidity = data.hourlyForecast.first.currentHumidity;
 
           return Padding(
             padding: const EdgeInsets.all(16.0),

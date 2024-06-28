@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_app/model/weather_model.dart';
+import 'package:weather_app/model/general_weather_model.dart';
 
 import '../data/repository/weather_repository.dart';
 
