@@ -24,6 +24,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       emit(WeatherSuccess(weatherModel: weather));
     } catch (e) {
       emit(WeatherFailure(error: e.toString()));
+      rethrow;
     }
   }
 }

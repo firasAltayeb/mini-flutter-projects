@@ -1,12 +1,11 @@
 import 'dart:convert';
 
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 class WeatherModel {
   final double currentTemp;
   final String currentSky;
-  final double currentPressure;
+  final int currentPressure;
   final double currentWindSpeed;
-  final double currentHumidity;
+  final int currentHumidity;
   WeatherModel({
     required this.currentTemp,
     required this.currentSky,
@@ -18,9 +17,9 @@ class WeatherModel {
   WeatherModel copyWith({
     double? currentTemp,
     String? currentSky,
-    double? currentPressure,
+    int? currentPressure,
     double? currentWindSpeed,
-    double? currentHumidity,
+    int? currentHumidity,
   }) {
     return WeatherModel(
       currentTemp: currentTemp ?? this.currentTemp,
@@ -55,6 +54,6 @@ class WeatherModel {
 
   String toJson() => json.encode(toMap());
 
-  factory WeatherModel.fromJson(String source) =>
-      WeatherModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory WeatherModel.fromJson(source) =>
+      WeatherModel.fromMap(source as Map<String, dynamic>);
 }

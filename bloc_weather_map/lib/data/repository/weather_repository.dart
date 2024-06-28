@@ -22,7 +22,7 @@ class WeatherRepository {
 
       return WeatherModel.fromJson(data);
     } catch (e) {
-      throw e.toString();
+      rethrow;
     }
   }
 }
