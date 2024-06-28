@@ -97,7 +97,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         _questionList.length <= 0 ? null : _questionList[_questionIdx];
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: Text("Question #${_questionIdx + 1}"),
       ),
       body: GradientContainer(
