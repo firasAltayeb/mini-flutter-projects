@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class BottomBarItems {
   const BottomBarItems({
-    required this.labelText,
     required this.iconData,
+    required this.labelText,
     this.bodyBuild,
   });
 
   final IconData iconData;
-  final Widget? bodyBuild;
   final String labelText;
+  final Widget? bodyBuild;
 }

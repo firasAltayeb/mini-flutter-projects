@@ -5,15 +5,15 @@ import '../utility/size_config.dart';
 
 class SmallListTile extends StatelessWidget {
   const SmallListTile({
-    required this.function,
+    super.key,
     required this.icon,
     required this.text,
-    super.key,
+    required this.function,
   });
 
-  final void Function() function;
   final IconData icon;
   final String text;
+  final void Function() function;
 
   @override
   Widget build(BuildContext context) {
