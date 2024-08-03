@@ -1,11 +1,18 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_boxes/utility/box_list_notifier.dart';
+import 'package:food_boxes/utility/ticket_list_notifier.dart';
+import 'package:food_boxes/widgets/stylized_txt_container.dart';
+import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../app_constants.dart';
+import '../model/food_box.dart';
 import 'size_config.dart';
-import 'dart:math';
 
 final _rng = Random();
 
@@ -14,13 +21,13 @@ int randomValue(int min, int max) {
 }
 
 void orderDetailsDialogue(
-  BuildContext context, {
+  WidgetRef ref, {
   required String orderNumber,
   String? orderDetails,
 }) {
   showDialog(
-    context: context,
-    builder: (_) {
+    context: ref.context,
+    builder: (BuildContext ctx) {
       return Dialog(
         shape: RoundedRectangleBorder(
           borderRadius: AppConstants.circleRadius,
@@ -31,43 +38,54 @@ void orderDetailsDialogue(
           children: [
             Padding(
               padding: EdgeInsets.only(
-                top: SizeConfig.scaledHeight(4),
+                top: SizeConfig.scaledHeight(2.5),
               ),
               child: Text(
                 "Order Number: #$orderNumber",
                 style: TextStyle(
-                  fontSize: SizeConfig.scaledHeight(4),
+                  fontSize: SizeConfig.scaledHeight(2.8),
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
             QrImageView(
-              padding: EdgeInsets.symmetric(
-                vertical: SizeConfig.scaledHeight(4),
-                horizontal: SizeConfig.scaledWidth(6),
+              padding: EdgeInsets.only(
+                top: SizeConfig.scaledHeight(3.5),
+                bottom: SizeConfig.scaledHeight(3.5),
+                left: SizeConfig.scaledWidth(6),
               ),
               data: orderDetails ?? "Not available",
               version: QrVersions.auto,
-              size: SizeConfig.scaledHeight(30),
+              size: SizeConfig.scaledHeight(22),
             ),
-            //TODO: cancel order when clicked
-            Container(
+            Padding(
               padding: EdgeInsets.only(
-                bottom: SizeConfig.scaledHeight(3),
+                bottom: SizeConfig.scaledHeight(2),
               ),
-              alignment: Alignment.center,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red[700],
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  "Cancel Order",
-                  style: TextStyle(
-                    fontSize: SizeConfig.scaledHeight(2.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  StylizedTxtContainer(
+                    text: "Back",
+                    onTapFunction: () => Navigator.of(ref.context).pop(),
                   ),
-                ),
+                  StylizedTxtContainer(
+                    text: "Cancel",
+                    onTapFunction: () async {
+                      final cancelOrder = await yesNoDialogue(ref.context,
+                              "Canceling an order is permanent and irreversible") ??
+                          false;
+                      if (cancelOrder) {
+                        ref
+                            .read(ticketListProvider.notifier)
+                            .removeElement(orderNumber);
+                      }
+                      if (ctx.mounted) {
+                        Navigator.of(ref.context).pop();
+                      }
+                    },
+                  )
+                ],
               ),
             ),
           ],
@@ -77,7 +95,101 @@ void orderDetailsDialogue(
   );
 }
 
-Future<bool?> yesNoDialog(BuildContext context, String msgToDisplay) async {
+Widget orderSummary(WidgetRef ref, List<FoodBox> boxes) {
+  final uniqueItems = Set.from(boxes);
+  return Container(
+    height: SizeConfig.scaledHeight(30),
+    width: double.infinity,
+    decoration: BoxDecoration(
+        border: Border(
+      top: BorderSide(
+        color: AppConstants.grey600,
+        width: 2,
+      ),
+    )),
+    child: ListView.builder(
+      padding: EdgeInsets.only(
+        top: SizeConfig.scaledHeight(1.3),
+      ),
+      itemCount: uniqueItems.length,
+      itemBuilder: (_, index) {
+        final boxQuantity = ref
+            .read(selectedBoxesProvider.notifier)
+            .getNumberOfBoxes(uniqueItems.elementAt(index).id);
+        return Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(
+                    right: SizeConfig.scaledWidth(1),
+                  ),
+                  height: SizeConfig.scaledHeight(2.75),
+                  width: SizeConfig.scaledWidth(5),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: AppConstants.grey400,
+                  ),
+                  child: Text(
+                    boxQuantity.toString(),
+                    style: TextStyle(
+                      fontSize: SizeConfig.scaledHeight(1.75),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: SizeConfig.scaledWidth(40),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        uniqueItems.elementAt(index).name,
+                        style: TextStyle(
+                          fontSize: SizeConfig.scaledHeight(2),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        uniqueItems.elementAt(index).description,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: AppConstants.grey600,
+                          fontSize: SizeConfig.scaledHeight(1.75),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    (uniqueItems.elementAt(index).price * boxQuantity)
+                        .toStringAsFixed(2),
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: AppConstants.grey800,
+                      fontSize: SizeConfig.scaledHeight(1.75),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Divider(
+              color: AppConstants.grey500,
+              thickness: 1,
+            )
+          ],
+        );
+      },
+    ),
+  );
+}
+
+Future<bool?> yesNoDialogue(BuildContext context, String messageToDisplay,
+    [Widget? childWidget]) {
   return showDialog<bool>(
     context: context,
     builder: (_) => CupertinoAlertDialog(
@@ -92,7 +204,7 @@ Future<bool?> yesNoDialog(BuildContext context, String msgToDisplay) async {
               "Are you sure?",
               style: TextStyle(
                 fontSize: SizeConfig.scaledHeight(2.75),
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),
@@ -101,10 +213,11 @@ Future<bool?> yesNoDialog(BuildContext context, String msgToDisplay) async {
               vertical: SizeConfig.scaledHeight(1.5),
             ),
             child: Text(
-              msgToDisplay,
+              messageToDisplay,
               style: Theme.of(context).textTheme.bodySmall,
             ),
           ),
+          if (childWidget != null) childWidget
         ],
       ),
       actions: [
@@ -153,27 +266,41 @@ SnackBar messegeSnackBar(String messege, {int? timeUp = 1000}) {
   );
 }
 
-void deleteAccount(BuildContext context) async {
-  bool? value = await yesNoDialog(
+String formatDate(DateTime time) {
+  final dateFormater = DateFormat('MM/dd/yyyy');
+  return dateFormater.format(time);
+}
+
+List<FoodBox> getDateBoxes(DateTime date) {
+  return AppConstants.exampleBoxes
+      .where((element) => element.date.day == date.day)
+      .toList();
+}
+
+Future<void> deleteAccount(BuildContext context) async {
+  final value = await yesNoDialogue(
         context,
         "Deleting your account is permanent and irreversible",
       ) ??
       false;
   if (value) {
     try {
-      await FirebaseAuth.instance.currentUser?.delete();
+      await FirebaseAuth.instance.currentUser!.delete();
     } on FirebaseAuthException catch (e) {
-      print('Failed with error code: ${e.code}');
-      String snackBarMsg;
-      if (e.code == 'requires-recent-login') {
-        snackBarMsg = 'Recent login is required. '
-            'Please logout and log back in.';
+      print("Failed with error code: ${e.code}");
+      String snackBarMessege;
+      if (e.code == "requires-recent-login") {
+        snackBarMessege = "Recent login is required. "
+            "Please logout and log back in.";
       } else {
-        snackBarMsg = e.message!;
+        snackBarMessege = e.message!;
       }
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          messegeSnackBar(snackBarMsg, timeUp: 2000),
+          messegeSnackBar(
+            snackBarMessege,
+            timeUp: 1750,
+          ),
         );
       }
     } catch (e) {

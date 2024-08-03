@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_boxes/screens/loading_screen.dart';
+import 'package:food_boxes/utility/box_list_notifier.dart';
 import 'package:food_boxes/utility/shared_providers.dart';
 
 import '../app_constants.dart';
@@ -26,7 +27,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       resizeToAvoidBottomInset: false,
       body: AppConstants.menuItemList[pageIndex].bodyBuild,
       bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) => setState(() => pageIndex = index),
+        onTap: (index) => setState(() {
+          ref.read(selectedBoxesProvider.notifier).clearList();
+          pageIndex = index;
+        }),
         items: AppConstants.menuItemList
             .map(
               (e) => BottomNavigationBarItem(
