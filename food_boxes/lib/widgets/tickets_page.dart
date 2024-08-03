@@ -18,22 +18,19 @@ class TicketsPage extends ConsumerWidget {
     if (ticketList.isEmpty) {
       return NoTicketContainer();
     }
-    return SizedBox(
-      height: double.infinity,
-      child: ListView.builder(
-        padding: EdgeInsets.only(
-          top: SizeConfig.scaledHeight(7.5),
-        ),
-        itemCount: groupedBoxesByDate.keys.length,
-        itemBuilder: (_, index) {
-          Set<FoodBox> uniqueTickets =
-              Set.from(groupedBoxesByDate.values.elementAt(index));
-          List<FoodBox> uniqueTicketsForDate = uniqueTickets.toList();
-          return StackedCards(
-            uniqueBoxes: uniqueTicketsForDate,
-          );
-        },
+    return ListView.builder(
+      padding: EdgeInsets.only(
+        top: SizeConfig.scaledHeight(10),
       ),
+      itemCount: groupedBoxesByDate.keys.length,
+      itemBuilder: (_, index) {
+        Set<FoodBox> uniqueTickets =
+            Set.from(groupedBoxesByDate.values.elementAt(index));
+        List<FoodBox> uniqueTicketsForDate = uniqueTickets.toList();
+        return StackedCards(
+          uniqueBoxes: uniqueTicketsForDate,
+        );
+      },
     );
   }
 }

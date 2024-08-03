@@ -18,25 +18,19 @@ class ExpandedOrderScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.symmetric(
-          vertical: SizeConfig.scaledHeight(3),
-          horizontal: SizeConfig.scaledWidth(3),
+      body: ListView.builder(
+        padding: EdgeInsets.only(
+          top: SizeConfig.scaledHeight(10),
         ),
-        height: double.infinity,
-        child: ListView.builder(
-          padding: EdgeInsets.only(
-            top: SizeConfig.scaledHeight(7.5),
-          ),
-          itemCount: foodBoxList.length,
-          itemBuilder: (_, index) {
-            return TicketCard(
+        itemCount: foodBoxList.length,
+        itemBuilder: (_, index) {
+          return Center(
+            child: TicketCard(
               uniqueTicket: foodBoxList[index],
               index: index,
-              ticketHeightScale: 45,
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

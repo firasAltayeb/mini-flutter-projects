@@ -27,20 +27,22 @@ class StackedCards extends ConsumerWidget {
                 arguments: uniqueBoxes,
               );
             },
-      child: SizedBox(
-        height: SizeConfig.scaledHeight(45),
-        width: SizeConfig.scaledWidth(90),
-        child: Stack(
-          children: [
-            for (int index = 0; index < uniqueBoxes.length; index++)
-              Positioned(
-                bottom: SizeConfig.scaledHeight(0.5 + 1.5 * index),
-                child: TicketCard(
-                  uniqueTicket: uniqueBoxes.elementAt(index),
-                  index: index,
-                ),
-              )
-          ],
+      child: Center(
+        child: SizedBox(
+          height: SizeConfig.scaledHeight(38),
+          width: SizeConfig.scaledWidth(90),
+          child: Stack(
+            children: [
+              for (int index = 0; index < uniqueBoxes.length; index++)
+                Positioned(
+                  bottom: SizeConfig.scaledHeight(0.5 + 1.5 * index),
+                  child: TicketCard(
+                    uniqueTicket: uniqueBoxes.elementAt(index),
+                    index: index,
+                  ),
+                )
+            ],
+          ),
         ),
       ),
     );
