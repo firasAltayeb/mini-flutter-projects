@@ -10,7 +10,7 @@ class SizeConfig {
   static late final double safeHeight;
   static bool initialized = false;
 
-  void int(BuildContext context) {
+  static void int(BuildContext context) {
     _mediaQueryData = MediaQuery.of(context);
     screenWidth = _mediaQueryData.size.width;
     screenHeight = _mediaQueryData.size.height;

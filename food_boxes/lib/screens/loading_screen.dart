@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
+class LoadingScreen extends StatelessWidget {
+  const LoadingScreen({super.key});
+
+  static String routeName = "loading";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('FoodBoxes'),
-      ),
+      appBar: AppBar(),
       body: Center(
         child: Column(
           children: [
             Spacer(),
             Text(
-              'Loading...',
+              "Loading",
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             Spacer(),

@@ -3,23 +3,19 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_flutter/adapters.dart';
 
 import 'app_constants.dart';
 import 'firebase_options.dart';
-import '../screens/auth_screen.dart';
-import '../routes.dart';
+import 'app_router.dart';
+import 'screens/auth_screen.dart';
 import 'screens/home_screen.dart';
 import 'utility/size_config.dart';
-import 'utility/user_info_box.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  await Hive.openBox(
-    AppConstants.boxName,
-  );
-  UserInfoBox();
+  await Hive.openBox(AppConstants.boxName);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -38,9 +34,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void didChangeDependencies() {
-    if (!SizeConfig.initialized) {
-      SizeConfig().int(context);
-    }
+    if (!SizeConfig.initialized) SizeConfig.int(context);
     super.didChangeDependencies();
   }
 
@@ -57,13 +51,13 @@ class _MyAppState extends State<MyApp> {
           elevation: 0,
           systemOverlayStyle: SystemUiOverlayStyle(
             statusBarColor: Colors.transparent,
-            statusBarBrightness: Brightness.light,
+            statusBarIconBrightness: Brightness.dark,
           ),
         ),
         textTheme: TextTheme(
           bodyLarge: TextStyle(
-            fontSize: SizeConfig.scaledHeight(5.0),
-            fontWeight: FontWeight.w900,
+            fontSize: SizeConfig.scaledHeight(4),
+            fontWeight: FontWeight.w700,
             color: Colors.black,
           ),
           bodyMedium: TextStyle(
@@ -72,7 +66,7 @@ class _MyAppState extends State<MyApp> {
             color: Colors.black,
           ),
           bodySmall: TextStyle(
-            fontSize: SizeConfig.scaledHeight(2.0),
+            fontSize: SizeConfig.scaledHeight(2),
             fontWeight: FontWeight.w300,
             color: Colors.black,
           ),
@@ -98,22 +92,22 @@ class _MyAppState extends State<MyApp> {
             minimumSize: Size.zero,
           ),
         ),
-        iconTheme: IconThemeData(color: Colors.grey),
+        iconTheme: IconThemeData(color: AppConstants.grey500),
       ),
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-          // print("snapshot is ${snapshot.connectionState}");
           // if (snapshot.connectionState == ConnectionState.waiting) {
-          //   return const SplashScreen();
+          //   return LoadingScreen();
           // }
+          // hasData refers to whether or not the user is logged in
           if (snapshot.hasData) {
-            return const HomeScreen();
+            return HomeScreen();
           }
-          return const AuthenticationScreen();
+          return AuthenticationScreen();
         },
       ),
-      onGenerateRoute: generateRoute,
+      onGenerateRoute: AppRouter.onGenerateRoute,
     );
   }
 }

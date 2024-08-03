@@ -1,9 +1,9 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_boxes/screens/loading_screen.dart';
+import 'package:food_boxes/utility/shared_providers.dart';
 
 import '../app_constants.dart';
-import '../utility/shared_providers.dart';
-import 'splash_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -19,21 +19,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     if (ref.watch(appProvidersInitialized) == false) {
-      ref.read(initializeMainProviders);
-      return SplashScreen();
+      ref.read(intializeMainProviders);
+      return LoadingScreen();
     }
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(),
       body: AppConstants.menuItemList[pageIndex].bodyBuild,
       bottomNavigationBar: BottomNavigationBar(
-        onTap: (int idx) => setState(() => pageIndex = idx),
+        onTap: (index) => setState(() => pageIndex = index),
         items: AppConstants.menuItemList
             .map(
               (e) => BottomNavigationBarItem(
-                icon: Icon(e.iconData),
                 label: e.labelText,
+                icon: Icon(e.iconData),
               ),
             )
             .toList(),
