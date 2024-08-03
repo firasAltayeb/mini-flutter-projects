@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/email_pass_page.dart';
-import '../screens/reset_pw_screen.dart';
 import '../utility/size_config.dart';
-import '../screens/reg_screen.dart';
+import '../widgets/email_pw_page.dart';
+import 'reg_screen.dart';
+import 'reset_pw_screen.dart';
 
 class AuthenticationScreen extends StatelessWidget {
   const AuthenticationScreen({super.key});
-
   static const String routeName = "auth";
 
   @override
@@ -25,22 +24,24 @@ class AuthenticationScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // TODO: Add unfocus feature
             EmailPasswordPage(
               titleText: "Login",
-              subTitle: "Please sign in to proceed",
+              subtitle: "Please sign in to proceed",
             ),
             Spacer(),
             GestureDetector(
-              onTap: () => Navigator.of(context)
-                  .pushNamed(ResetPasswordScreen.routeName),
+              onTap: () {
+                Navigator.of(context).pushNamed(ResetPasswordScreen.routeName);
+              },
               child: Container(
                 alignment: Alignment.center,
                 width: SizeConfig.safeWidth,
                 child: Text(
                   "Forgot Password",
                   style: TextStyle(
+                    fontSize: SizeConfig.scaledHeight(2),
                     color: Theme.of(context).colorScheme.primary,
-                    fontSize: SizeConfig.scaledHeight(2.0),
                   ),
                 ),
               ),
@@ -60,8 +61,8 @@ class AuthenticationScreen extends StatelessWidget {
                   child: Text(
                     "Create an Account",
                     style: TextStyle(
+                      fontSize: SizeConfig.scaledHeight(2),
                       color: Theme.of(context).colorScheme.primary,
-                      fontSize: SizeConfig.scaledHeight(2.0),
                     ),
                   ),
                 ),

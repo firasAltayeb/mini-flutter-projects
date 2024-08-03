@@ -3,13 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_boxes/utility/shared_providers.dart';
+import 'package:food_boxes/widgets/text_check_box.dart';
 
 import '../app_constants.dart';
 import '../screens/reset_pw_screen.dart';
 import '../utility/shared_functions.dart';
-import '../utility/shared_providers.dart';
 import '../utility/size_config.dart';
-import 'custom_text_field.dart';
+import 'custom_txt_field.dart';
 import 'small_list_tile.dart';
 
 class AccountPage extends ConsumerStatefulWidget {
@@ -27,34 +28,45 @@ class _AccountPageState extends ConsumerState<AccountPage> {
 
   @override
   void initState() {
+    super.initState();
     _firstNameController.text = ref.read(firstNameProvider);
     _lastNameController.text = ref.read(lastNameProvider);
     _ageController.text = ref.read(ageProvider);
-    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _ageController.dispose();
+    super.dispose();
   }
 
   void _submitFormData() async {
-    if (_formKey.currentState!.validate() == false) return;
-    //TODO: use riverpod to store user details
-    final user = ref.read(currentUserProvider);
-    await FirebaseFirestore.instance.collection('users').doc(user?.uid).set({
-      'firstName': _firstNameController.text,
-      'lastName': _lastNameController.text,
-      'age': _ageController.text,
-    });
-    FocusManager.instance.primaryFocus?.unfocus();
-    ref.read(firstNameProvider.notifier).state = _firstNameController.text;
-    ref.read(lastNameProvider.notifier).state = _lastNameController.text;
-    ref.read(ageProvider.notifier).state = _ageController.text;
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        messegeSnackBar("User data has been updated", timeUp: 1000),
-      );
+    if (_formKey.currentState!.validate()) {
+      final userID = ref.read(userIDProvider);
+      final data = {
+        "firstName": _firstNameController.text,
+        "lastName": _lastNameController.text,
+        "age": _ageController.text,
+      };
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(userID)
+          .set(data);
+      updateProviders(ref, data: data);
+      FocusManager.instance.primaryFocus?.unfocus();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          messegeSnackBar("User data has been updated", timeUp: 1000),
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final hideLogoutDialogue = ref.watch(logoutToggleProvider);
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
@@ -65,6 +77,9 @@ class _AccountPageState extends ConsumerState<AccountPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(
+                height: SizeConfig.scaledHeight(10),
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(
                   vertical: SizeConfig.scaledHeight(2),
@@ -74,49 +89,56 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                   size: SizeConfig.scaledHeight(10),
                 ),
               ),
-              CustomTxtFormField(
-                controller: _firstNameController,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return "Please enter your first name.";
-                  }
-                  return null;
-                },
-                keyboardType: TextInputType.text,
-                prefixIconWidget: Icon(Icons.face),
-                decorationLabel: "First Name",
-              ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  vertical: SizeConfig.scaledHeight(1),
+                  vertical: SizeConfig.scaledHeight(2),
                 ),
                 child: CustomTxtFormField(
-                  controller: _lastNameController,
+                  controller: _firstNameController,
                   validator: (value) {
                     if (value.isEmpty) {
-                      return "Please enter your last name.";
+                      return "Please enter your first name.";
                     }
                     return null;
                   },
                   keyboardType: TextInputType.text,
                   prefixIconWidget: Icon(Icons.face),
-                  decorationLabel: "Last Name",
+                  decorationLabel: "First Name",
                 ),
               ),
               CustomTxtFormField(
-                controller: _ageController,
+                controller: _lastNameController,
                 validator: (value) {
                   if (value.isEmpty) {
-                    return "Please enter your age.";
+                    return "Please enter your last name.";
                   }
                   return null;
                 },
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                ],
-                keyboardType: TextInputType.number,
-                prefixIconWidget: Icon(Icons.numbers),
-                decorationLabel: "Age",
+                keyboardType: TextInputType.text,
+                prefixIconWidget: Icon(Icons.face),
+                decorationLabel: "Last Name",
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: SizeConfig.scaledHeight(2),
+                ),
+                child: CustomTxtFormField(
+                  controller: _ageController,
+                  validator: (value) {
+                    if (value.trim().length > 3 || value.isEmpty) {
+                      return "Please enter an accurate age.";
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.number,
+                  prefixIconWidget: Icon(Icons.numbers),
+                  decorationLabel: "Age",
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                      RegExp(r'[0-9]'),
+                    ),
+                  ],
+                ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
@@ -126,14 +148,13 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SmallListTile(
-                      icon: Icons.clear_rounded,
-                      text: "Clear",
-                      function: () {
-                        _firstNameController.clear();
-                        _lastNameController.clear();
-                        _ageController.clear();
-                      },
-                    ),
+                        icon: Icons.clear_rounded,
+                        text: "Clear",
+                        function: () {
+                          _firstNameController.clear();
+                          _lastNameController.clear();
+                          _ageController.clear();
+                        }),
                     SmallListTile(
                       icon: Icons.save,
                       text: "Save",
@@ -148,15 +169,34 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                   borderRadius: AppConstants.circleRadius,
                 ),
                 leading: Icon(Icons.logout),
-                title: Text("Logout"),
-                trailing: Icon(Icons.arrow_forward_ios_rounded),
-                onTap: () {
-                  FirebaseAuth.instance.signOut();
+                title: Text(
+                  "Logout",
+                  style: TextStyle(
+                    fontSize: SizeConfig.scaledHeight(2),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: SizeConfig.scaledHeight(2),
+                ),
+                onTap: () async {
+                  bool confirmLogout = true;
+                  if (!hideLogoutDialogue) {
+                    confirmLogout = await yesNoDialogue(
+                            context,
+                            "You will have to log back in with your username and password.",
+                            TextCheckBox(provider: logoutToggleProvider)) ??
+                        false;
+                  }
+                  if (confirmLogout) {
+                    FirebaseAuth.instance.signOut();
+                  }
                 },
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  vertical: SizeConfig.scaledHeight(1),
+                  vertical: SizeConfig.scaledHeight(2),
                 ),
                 child: ListTile(
                   tileColor: Theme.of(context).colorScheme.primary,
@@ -164,11 +204,20 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                     borderRadius: AppConstants.circleRadius,
                   ),
                   leading: Icon(Icons.key),
-                  title: Text("Reset Password"),
-                  trailing: Icon(Icons.arrow_forward_ios_rounded),
+                  title: Text(
+                    "Reset Password",
+                    style: TextStyle(
+                      fontSize: SizeConfig.scaledHeight(2),
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: SizeConfig.scaledHeight(2),
+                  ),
                   onTap: () {
                     Navigator.of(context)
-                        .pushReplacementNamed(ResetPasswordScreen.routeName);
+                        .pushNamed(ResetPasswordScreen.routeName);
                   },
                 ),
               ),
@@ -178,8 +227,17 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                   borderRadius: AppConstants.circleRadius,
                 ),
                 leading: Icon(Icons.delete_forever),
-                title: Text("Delete Account"),
-                trailing: Icon(Icons.arrow_forward_ios_rounded),
+                title: Text(
+                  "Delete Account",
+                  style: TextStyle(
+                    fontSize: SizeConfig.scaledHeight(2),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: SizeConfig.scaledHeight(2),
+                ),
                 onTap: () => deleteAccount(context),
               ),
             ],

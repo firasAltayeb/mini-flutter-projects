@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/custom_text_field.dart';
+import '../app_constants.dart';
 import '../utility/shared_functions.dart';
 import '../utility/size_config.dart';
+import '../widgets/custom_txt_field.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
@@ -17,30 +18,33 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  void _submitFormData() async {
+  Future<void> _submitFormData() async {
     if (_formKey.currentState!.validate()) {
       try {
-        await FirebaseAuth.instance.sendPasswordResetEmail(
-          email: _emailController.text,
-        );
-        if (context.mounted) {
+        await FirebaseAuth.instance
+            .sendPasswordResetEmail(email: _emailController.text);
+        if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             messegeSnackBar("Please follow the directions sent to your email"),
           );
         }
       } on FirebaseAuthException catch (e) {
-        print('Failed with error code: ${e.code}');
-        String snackBarMsg;
-        if (e.code == 'user-not-found') {
-          snackBarMsg = 'No user with this email exist';
+        print("Failed with error code: ${e.code}");
+        FocusManager.instance.primaryFocus?.unfocus();
+        String snackBarMessege;
+        if (e.code == "user-not-found") {
+          snackBarMessege = "User does not exist";
         } else if (e.code == "invalid-email") {
-          snackBarMsg = "Invalid email";
+          snackBarMessege = "Invalid email";
         } else {
-          snackBarMsg = e.message!;
+          snackBarMessege = e.message!;
         }
-        if (context.mounted) {
+        if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            messegeSnackBar(snackBarMsg, timeUp: 2000),
+            messegeSnackBar(
+              snackBarMessege,
+              timeUp: 2000,
+            ),
           );
         }
       } catch (e) {
@@ -65,14 +69,15 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Spacer(),
               Text(
                 "Reset Password",
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
               Text(
                 "Please enter your email to proceed",
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.grey,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: AppConstants.grey500,
                     ),
               ),
               SizedBox(
@@ -100,7 +105,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       Text(
                         "Submit",
                         style: TextStyle(
-                          fontSize: SizeConfig.scaledHeight(2.0),
+                          fontSize: SizeConfig.scaledHeight(2),
                         ),
                       ),
                       SizedBox(
@@ -131,8 +136,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     child: Text(
                       "Go back",
                       style: TextStyle(
+                        fontSize: SizeConfig.scaledHeight(2),
                         color: Theme.of(context).colorScheme.primary,
-                        fontSize: SizeConfig.scaledHeight(2.0),
                       ),
                     ),
                   ),

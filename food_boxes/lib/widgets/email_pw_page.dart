@@ -1,20 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:food_boxes/utility/shared_functions.dart';
 
-import '../utility/shared_functions.dart';
-import '../utility/size_config.dart';
+import '../app_constants.dart';
 import '../screens/reg_screen.dart';
-import 'custom_text_field.dart';
+import '../utility/size_config.dart';
+import 'custom_txt_field.dart';
 
 class EmailPasswordPage extends StatefulWidget {
   const EmailPasswordPage({
     required this.titleText,
-    required this.subTitle,
+    required this.subtitle,
     super.key,
   });
 
   final String titleText;
-  final String subTitle;
+  final String subtitle;
 
   @override
   State<EmailPasswordPage> createState() => _EmailPasswordPageState();
@@ -28,49 +29,51 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
   String? currentRoute;
 
   void _submitFormData() async {
-    if (_formKey.currentState!.validate() == false) return;
-    try {
-      setState(() => isLoading = true);
-      if (currentRoute == RegisterationScreen.routeName) {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          password: _passwordController.text,
-          email: _emailController.text,
-        );
-        if (context.mounted) Navigator.of(context).pop();
-      } else {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-          password: _passwordController.text,
-          email: _emailController.text,
-        );
+    if (_formKey.currentState!.validate()) {
+      try {
+        setState(() => isLoading = true);
+        if (currentRoute == RegisterationScreen.routeName) {
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: _emailController.text,
+            password: _passwordController.text,
+          );
+          if (mounted) {
+            Navigator.of(context).pop();
+          }
+        } else {
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: _emailController.text,
+            password: _passwordController.text,
+          );
+        }
+      } on FirebaseAuthException catch (e) {
+        print("Failed with error code: ${e.code}");
+        FocusManager.instance.primaryFocus?.unfocus();
+        String snackBarMessege;
+        if (e.code == "invalid-email") {
+          snackBarMessege = "Invalid email";
+        } else if (e.code == "user-not-found") {
+          snackBarMessege = "User does not exist";
+        } else if (e.code == "wrong-password") {
+          snackBarMessege = "Incorrect password";
+        } else if (e.code == "email-already-in-use") {
+          snackBarMessege = "An account already exists with this email";
+        } else {
+          snackBarMessege = e.message!;
+        }
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            messegeSnackBar(
+              snackBarMessege,
+              timeUp: 1750,
+            ),
+          );
+        }
+      } catch (e) {
+        print("Caught exception: $e");
+      } finally {
+        setState(() => isLoading = false);
       }
-    } on FirebaseAuthException catch (e) {
-      print('Failed with error code: ${e.code}');
-      //unfocus textfield
-      FocusManager.instance.primaryFocus?.unfocus();
-      String snackBarMsg;
-      if (e.code == 'wrong-password') {
-        snackBarMsg = 'The password provided is wrong.';
-      } else if (e.code == 'weak-password') {
-        snackBarMsg = 'The password provided is too weak.';
-      } else if (e.code == 'email-already-in-use') {
-        snackBarMsg = 'An account already exists for that email.';
-      } else if (e.code == 'user-not-found') {
-        snackBarMsg = 'No user with this email exist';
-      } else {
-        snackBarMsg = e.message!;
-      }
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          messegeSnackBar(
-            snackBarMsg,
-            timeUp: 2000,
-          ),
-        );
-      }
-    } catch (e) {
-      print(e);
-    } finally {
-      setState(() => isLoading = false);
     }
   }
 
@@ -87,44 +90,42 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           Text(
-            widget.subTitle,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.grey,
+            widget.subtitle,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: AppConstants.grey500,
                 ),
           ),
           Padding(
             padding: EdgeInsets.only(
               top: SizeConfig.scaledHeight(5),
-              bottom: SizeConfig.scaledHeight(1),
+              bottom: SizeConfig.scaledHeight(2),
             ),
             child: CustomTxtFormField(
+              controller: _emailController,
               validator: (value) {
                 if (value.trim().isEmpty || !value.contains('@')) {
-                  return "Please enter a valid email address";
+                  return "Please enter your email";
                 }
                 return null;
               },
               prefixIconWidget: Icon(Icons.email),
-              controller: _emailController,
               decorationLabel: "Email",
             ),
           ),
           CustomTxtFormField(
+            controller: _passwordController,
             validator: (value) {
-              if (value.trim().length < 6) {
-                return "Password must be at least 6 characters long";
-              }
+              if (value.trim().isEmpty) return "Please enter your password";
               if (currentRoute == RegisterationScreen.routeName &&
-                  value.length > 64) {
-                return "Password is too long";
+                  value.length > 64 &&
+                  value.length < 6) {
+                return "Password must be between 6 and 64 characters)";
               }
               return null;
             },
             prefixIconWidget: Icon(Icons.lock),
-            controller: _passwordController,
-            decorationLabel: "Password",
-            hideLabelOnFocus: true,
             obscureText: true,
+            decorationLabel: "Password",
           ),
           Container(
             padding: EdgeInsets.only(
@@ -144,7 +145,7 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
                         Text(
                           "Submit",
                           style: TextStyle(
-                            fontSize: SizeConfig.scaledHeight(2.0),
+                            fontSize: SizeConfig.scaledHeight(2),
                           ),
                         ),
                         SizedBox(
