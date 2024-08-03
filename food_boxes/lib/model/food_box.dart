@@ -6,7 +6,7 @@ class FoodBox {
     required this.price,
     required this.date,
     this.description = "",
-    this.imageURL = "assets/images/veggie_scale.jpg",
+    this.imageURL = "",
   }) {
     var uuid = Uuid();
     id = uuid.v4();

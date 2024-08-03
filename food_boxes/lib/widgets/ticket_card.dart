@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_boxes/utility/shared_providers.dart';
 
 import '../app_constants.dart';
 import '../app_icons.dart';
@@ -46,6 +47,7 @@ class TicketCard extends ConsumerWidget {
     final ticketQuantity = ref
         .read(ticketListProvider.notifier)
         .getNumberOfTickets(uniqueTicket.id);
+    final imageURL = ref.read(imageUrlProvider(uniqueTicket));
     return SizedBox(
       height: SizeConfig.scaledHeight(ticketHeightScale),
       width: SizeConfig.scaledWidth(90),
@@ -69,7 +71,7 @@ class TicketCard extends ConsumerWidget {
                       topRight: Radius.circular(15),
                     ),
                     image: DecorationImage(
-                      image: AssetImage(uniqueTicket.imageURL!),
+                      image: AssetImage(imageURL),
                       fit: BoxFit.cover,
                     ),
                   ),

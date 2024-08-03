@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_boxes/app_constants.dart';
+import 'package:food_boxes/model/food_box.dart';
 import 'package:food_boxes/utility/preference_box.dart';
+import 'package:food_boxes/utility/shared_functions.dart';
 
 final intializeMainProviders = Provider.autoDispose(
   (ref) async {
@@ -23,6 +26,14 @@ void updateProviders(dynamic ref, {Map<String, dynamic>? data}) {
     ref.read(ageProvider.notifier).state = data["age"];
   }
 }
+
+final imageUrlProvider = Provider.family<String, FoodBox>((ref, box) {
+  if (box.imageURL != null && box.imageURL!.isNotEmpty) {
+    return box.imageURL!;
+  }
+  return AppConstants
+      .ticketImages[randomValue(0, AppConstants.ticketImages.length)];
+});
 
 final appProvidersInitialized = StateProvider<bool>((ref) => false);
 
