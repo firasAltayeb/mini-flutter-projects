@@ -22,9 +22,10 @@ int randomValue(int min, int max) {
 
 void orderDetailsDialogue(
   WidgetRef ref, {
-  required String orderNumber,
+  required FoodBox ticket,
   String? orderDetails,
 }) {
+  final ticketIdx = ref.read(ticketListProvider.notifier).getTixIndex(ticket);
   showDialog(
     context: ref.context,
     builder: (BuildContext ctx) {
@@ -41,7 +42,7 @@ void orderDetailsDialogue(
                 top: SizeConfig.scaledHeight(2.5),
               ),
               child: Text(
-                "Order Number: #$orderNumber",
+                "Order Number: #${ticketIdx + 1}",
                 style: TextStyle(
                   fontSize: SizeConfig.scaledHeight(2.8),
                   fontWeight: FontWeight.w500,
@@ -78,7 +79,7 @@ void orderDetailsDialogue(
                       if (cancelOrder) {
                         ref
                             .read(ticketListProvider.notifier)
-                            .removeElement(orderNumber);
+                            .removeElement(ticketIdx);
                       }
                       if (ctx.mounted) {
                         Navigator.of(ref.context).pop();

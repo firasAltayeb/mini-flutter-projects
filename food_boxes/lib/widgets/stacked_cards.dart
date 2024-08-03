@@ -19,7 +19,7 @@ class StackedCards extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: uniqueBoxes.length == 1
-          ? () => orderDetailsDialogue(ref, orderNumber: "${1234}")
+          ? () => orderDetailsDialogue(ref, ticket: uniqueBoxes[0])
           : () {
               Navigator.pushNamed(
                 context,

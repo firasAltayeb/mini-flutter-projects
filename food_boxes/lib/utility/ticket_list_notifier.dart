@@ -25,12 +25,15 @@ class TicketListNotifier extends Notifier<List<FoodBox>> {
     ];
   }
 
-  void removeElement(String orderNumber) {
-    state = [...state..removeAt(int.parse(orderNumber) - 1)];
+  void removeElement(int orderNumber) {
+    state = [...state..removeAt(orderNumber)];
   }
 
   Map<String, List<FoodBox>> getBoxesForDate() {
-    // return state.where((FoodBox element) => element.date == date).toList();
     return groupBy(state, (FoodBox e) => formatDate(e.date));
+  }
+
+  int getTixIndex(FoodBox box) {
+    return state.indexOf(box);
   }
 }

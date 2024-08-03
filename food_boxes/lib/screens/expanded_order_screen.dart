@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_boxes/utility/shared_functions.dart';
 
 import '../model/food_box.dart';
 import '../utility/size_config.dart';
@@ -24,10 +25,13 @@ class ExpandedOrderScreen extends ConsumerWidget {
         ),
         itemCount: foodBoxList.length,
         itemBuilder: (_, index) {
-          return Center(
-            child: TicketCard(
-              uniqueTicket: foodBoxList[index],
-              index: index,
+          return GestureDetector(
+            onTap: () => orderDetailsDialogue(ref, ticket: foodBoxList[index]),
+            child: Center(
+              child: TicketCard(
+                uniqueTicket: foodBoxList[index],
+                index: index,
+              ),
             ),
           );
         },
