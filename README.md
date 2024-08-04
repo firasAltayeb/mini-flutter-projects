@@ -50,9 +50,9 @@ Provides a simple interface where users can create an account, log in and send m
   </tr>
 </table>
 
-## Food Boxes (still in development)
+## Food Boxes
 
-This project aims to be a food delivery app with a twist. This project incorporates Firebase authentication, secure API key storage with [envied](https://pub.dev/packages/envied), data preservation using Hive and adaptable design.
+With this app, restaurants can indicate the date and size of food boxes they are available to give away for charity. Registered users can view the restaurant data through a calendar and place an order for the food boxes they want. This project incorporates Firebase Authentication, Cloud Firestore, Riverpod, and an adaptable design.
 
 <table>
   <tr>
