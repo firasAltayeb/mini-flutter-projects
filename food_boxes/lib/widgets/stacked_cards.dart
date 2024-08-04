@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_boxes/screens/expanded_order_screen.dart';
+import 'package:food_boxes/utility/shared_providers.dart';
 import 'package:food_boxes/widgets/ticket_card.dart';
 
 import '../model/food_box.dart';
@@ -8,24 +9,18 @@ import '../utility/shared_functions.dart';
 import '../utility/size_config.dart';
 
 class StackedCards extends ConsumerWidget {
-  const StackedCards({
-    super.key,
-    required this.uniqueBoxes,
-  });
+  const StackedCards({super.key, required this.uniqueTickets});
 
-  final List<FoodBox> uniqueBoxes;
+  final List<FoodBox> uniqueTickets;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: uniqueBoxes.length == 1
-          ? () => orderDetailsDialogue(ref, ticket: uniqueBoxes[0])
+      onTap: uniqueTickets.length == 1
+          ? () => orderDetailsDialogue(ref, ticket: uniqueTickets[0])
           : () {
-              Navigator.pushNamed(
-                context,
-                ExpandedOrderScreen.routeName,
-                arguments: uniqueBoxes,
-              );
+              ref.read(stackedTicketProvider.notifier).state = uniqueTickets;
+              Navigator.pushNamed(context, ExpandedOrderScreen.routeName);
             },
       child: Center(
         child: SizedBox(
@@ -33,11 +28,11 @@ class StackedCards extends ConsumerWidget {
           width: SizeConfig.scaledWidth(90),
           child: Stack(
             children: [
-              for (int index = 0; index < uniqueBoxes.length; index++)
+              for (int index = 0; index < uniqueTickets.length; index++)
                 Positioned(
                   bottom: SizeConfig.scaledHeight(0.5 + 1.5 * index),
                   child: TicketCard(
-                    uniqueTicket: uniqueBoxes.elementAt(index),
+                    uniqueTicket: uniqueTickets.elementAt(index),
                     index: index,
                   ),
                 )

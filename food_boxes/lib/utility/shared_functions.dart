@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_boxes/utility/box_list_notifier.dart';
+import 'package:food_boxes/utility/shared_providers.dart';
 import 'package:food_boxes/utility/ticket_list_notifier.dart';
 import 'package:food_boxes/widgets/stylized_txt_container.dart';
 import 'package:intl/intl.dart';
@@ -25,7 +26,8 @@ void orderDetailsDialogue(
   required FoodBox ticket,
   String? orderDetails,
 }) {
-  final ticketIdx = ref.read(ticketListProvider.notifier).getTixIndex(ticket);
+  final ticketList = ref.read(ticketListProvider);
+  final ticketIdx = ticketList.indexOf(ticket);
   showDialog(
     context: ref.context,
     builder: (BuildContext ctx) {
@@ -76,13 +78,24 @@ void orderDetailsDialogue(
                       final cancelOrder = await yesNoDialogue(ref.context,
                               "Canceling an order is permanent and irreversible") ??
                           false;
+                      final tixCount =
+                          ticketList.where((e) => e == ticket).length;
                       if (cancelOrder) {
                         ref
                             .read(ticketListProvider.notifier)
                             .removeElement(ticketIdx);
+                        if (tixCount == 1) {
+                          ref
+                              .read(stackedTicketProvider.notifier)
+                              .update((state) => [...state..remove(ticket)]);
+                        }
                       }
                       if (ctx.mounted) {
-                        Navigator.of(ref.context).pop();
+                        if (tixCount == 1) {
+                          Navigator.popUntil(ctx, ModalRoute.withName('/'));
+                        } else {
+                          Navigator.pop(ctx);
+                        }
                       }
                     },
                   )

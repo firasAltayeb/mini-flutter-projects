@@ -13,10 +13,6 @@ class TicketListNotifier extends Notifier<List<FoodBox>> {
   @override
   build() => [];
 
-  int getNumberOfTickets(String id) {
-    return state.where((FoodBox element) => element.id == id).length;
-  }
-
   void updateList() {
     final selectedBoxes = ref.read(selectedBoxesProvider);
     state = [
@@ -31,9 +27,5 @@ class TicketListNotifier extends Notifier<List<FoodBox>> {
 
   Map<String, List<FoodBox>> getBoxesForDate() {
     return groupBy(state, (FoodBox e) => formatDate(e.date));
-  }
-
-  int getTixIndex(FoodBox box) {
-    return state.indexOf(box);
   }
 }

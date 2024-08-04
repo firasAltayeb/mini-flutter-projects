@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_boxes/screens/expanded_order_screen.dart';
 
-import 'model/food_box.dart';
 import 'screens/auth_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/reg_screen.dart';
@@ -33,9 +32,7 @@ class AppRouter {
       case ExpandedOrderScreen.routeName:
         return MaterialPageRoute(
           settings: settings,
-          builder: (context) => ExpandedOrderScreen(
-            foodBoxList: settings.arguments as List<FoodBox>,
-          ),
+          builder: (context) => ExpandedOrderScreen(),
         );
       default:
         return MaterialPageRoute(

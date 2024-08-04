@@ -35,6 +35,8 @@ final imageUrlProvider = Provider.family<String, FoodBox>((ref, box) {
       .ticketImages[randomValue(0, AppConstants.ticketImages.length)];
 });
 
+final stackedTicketProvider = StateProvider<List<FoodBox>>((ref) => []);
+
 final appProvidersInitialized = StateProvider<bool>((ref) => false);
 
 final firstNameProvider = StateProvider<String>((ref) => "");

@@ -28,7 +28,7 @@ class TicketsPage extends ConsumerWidget {
             Set.from(groupedBoxesByDate.values.elementAt(index));
         List<FoodBox> uniqueTicketsForDate = uniqueTickets.toList();
         return StackedCards(
-          uniqueBoxes: uniqueTicketsForDate,
+          uniqueTickets: uniqueTicketsForDate,
         );
       },
     );

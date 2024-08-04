@@ -44,9 +44,9 @@ class TicketCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ticketQuantity = ref
-        .read(ticketListProvider.notifier)
-        .getNumberOfTickets(uniqueTicket.id);
+    final ticketList = ref.watch(ticketListProvider);
+    final ticketQuantity =
+        ticketList.where((e) => e.id == uniqueTicket.id).length;
     final imageURL = ref.read(imageUrlProvider(uniqueTicket));
     return SizedBox(
       height: SizeConfig.scaledHeight(ticketHeightScale),
