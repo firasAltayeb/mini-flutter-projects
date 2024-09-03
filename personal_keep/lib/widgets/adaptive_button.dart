@@ -1,9 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'dart:io';
 
-class AdaptiveFlatButton extends StatelessWidget {
-  AdaptiveFlatButton(this.text, this.handler);
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+class AdaptiveButton extends StatelessWidget {
+  const AdaptiveButton({
+    required this.text,
+    required this.handler,
+    super.key,
+  });
 
   final void Function() handler;
   final String text;
@@ -12,6 +17,7 @@ class AdaptiveFlatButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Platform.isIOS
         ? CupertinoButton(
+            onPressed: handler,
             color: Colors.purple,
             child: Text(
               text,
@@ -19,9 +25,9 @@ class AdaptiveFlatButton extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            onPressed: handler,
           )
         : ElevatedButton(
+            onPressed: handler,
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.purple,
             ),
@@ -31,7 +37,6 @@ class AdaptiveFlatButton extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            onPressed: handler,
           );
   }
 }

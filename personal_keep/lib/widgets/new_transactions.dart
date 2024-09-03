@@ -1,71 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:personal_keep/utility/home_functions.dart';
+import 'package:personal_keep/widgets/custom_text_field.dart';
 
-import '../utility/home_functions.dart';
-import '../widgets/adaptive_button.dart';
-import 'custom_text_field.dart';
+import 'adaptive_button.dart';
 
-class NewTransactions extends StatefulWidget {
-  NewTransactions({required this.addTx}) {
-    print('New transaction widget');
-  }
-
-  final Function addTx;
+class NewTransaction extends StatefulWidget {
+  const NewTransaction({
+    super.key,
+    required this.function,
+  });
+  // Takes title, amount, and date
+  final Function function;
 
   @override
-  _NewTransactionsState createState() {
-    print('NewTransaction widget CreateState');
-    return _NewTransactionsState();
-  }
+  State<NewTransaction> createState() => _NewTransactionState();
 }
 
-class _NewTransactionsState extends State<NewTransactions> {
+class _NewTransactionState extends State<NewTransaction> {
+  // Used to control individual fields
   final _amountController = TextEditingController();
   final _titleController = TextEditingController();
+  // Used to check multiple fields that make up a form
   final _formKey = GlobalKey<FormState>();
   DateTime? _selectedDate;
-
-  _NewTransactionsState() {
-    print('NewTransaction constructor state');
-  }
-
-  @override
-  void initState() {
-    print('NewTransaction initState');
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    print('didUpdateWidget');
-    super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    print('dispose');
-    super.dispose();
-  }
 
   void _submitData() {
     if (_formKey.currentState!.validate() == false) return;
 
     if (_selectedDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        messageSnackBar("Please select a date", timeUp: 1000),
+        getSnackBar("Please select a date.", timeUp: 1000),
       );
       return;
     }
     final enteredAmount = double.parse(_amountController.text);
-    final enteredTitle = _titleController.text;
+    final title = _titleController.text;
 
-    widget.addTx(
-      enteredTitle,
-      enteredAmount,
-      _selectedDate,
-    );
-
+    widget.function(title, enteredAmount, _selectedDate);
     Navigator.of(context).pop();
   }
 
@@ -73,61 +46,66 @@ class _NewTransactionsState extends State<NewTransactions> {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
+      firstDate: DateTime.now().subtract(
+        Duration(days: 365),
+      ),
       lastDate: DateTime.now(),
-    ).then((pickedDate) {
-      if (pickedDate == null) {
-        return;
-      }
-      setState(() {
-        _selectedDate = pickedDate;
-      });
-    });
+    ).then(
+      (pickedDate) {
+        if (pickedDate == null) return;
+        setState(() {
+          _selectedDate = pickedDate;
+        });
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     return Padding(
-      padding: EdgeInsets.only(
-        top: 10,
-        left: 10,
-        right: 10,
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
+      padding: EdgeInsets.fromLTRB(10, 10, 10, mediaQuery.viewInsets.bottom),
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.45,
+        height: mediaQuery.orientation == Orientation.landscape
+            ? mediaQuery.size.height * 0.70
+            : mediaQuery.size.height * 0.45,
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           body: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 CustomTxtFormField(
+                  controller: _titleController,
                   validator: (value) {
                     if (value.trim().isEmpty) {
-                      return "Please enter a title";
+                      return "Please enter a title.";
                     }
                     return null;
                   },
-                  decorationLabel: 'title',
-                  controller: _titleController,
+                  decorationLabel: "Title",
                 ),
                 CustomTxtFormField(
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                      RegExp(r'[0-9]'),
+                    ),
+                  ],
+                  keyboardType: TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
+                  controller: _amountController,
                   validator: (value) {
                     if (value.trim().isEmpty ||
-                        double.parse(value.trim()) < 1) {
-                      return "Please enter an amount greater than 0";
+                        (double.parse(value.trim()) < 1 &&
+                            double.parse(value.trim()) > 0)) {
+                      return "Amount greater than zero.";
                     }
                     return null;
                   },
-                  decorationLabel: 'amount',
-                  controller: _amountController,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                  ],
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  decorationLabel: "Amount",
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 40, bottom: 10),
@@ -136,17 +114,24 @@ class _NewTransactionsState extends State<NewTransactions> {
                       Expanded(
                         child: Text(
                           _selectedDate == null
-                              ? 'No Date chosen!'
-                              : 'Picked Date: '
-                                  '${DateFormat.yMd().format(_selectedDate!)}',
+                              ? "No date chosen"
+                              : "Picked date: ${DateFormat.yMd().format(
+                                  _selectedDate!,
+                                )}",
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
-                      AdaptiveFlatButton('Choose Date', _presentDatePicker),
+                      AdaptiveButton(
+                        text: "Choose date",
+                        handler: _presentDatePicker,
+                      ),
                     ],
                   ),
                 ),
-                AdaptiveFlatButton("add transactions", _submitData),
+                AdaptiveButton(
+                  text: "Add transaction",
+                  handler: _submitData,
+                )
               ],
             ),
           ),

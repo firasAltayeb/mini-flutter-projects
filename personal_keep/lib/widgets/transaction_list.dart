@@ -1,52 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:personal_keep/widgets/transaction_item.dart';
 
-import '../widgets/transaction_item.dart';
 import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   const TransactionList({
-    required this.transations,
+    super.key,
+    required this.transactions,
     required this.deleteTx,
   });
 
-  final List<Transaction> transations;
+  final List<Transaction> transactions;
   final Function deleteTx;
 
   @override
   Widget build(BuildContext context) {
-    if (transations.isEmpty)
-      return LayoutBuilder(
-        builder: (ctx, constraints) {
-          return Material(
-            child: Column(
-              children: [
-                const Text('No transactions added yet!'),
-                const SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  height: constraints.maxHeight * 0.6,
-                  child: Image.asset(
-                    'assets/images/waiting.png',
-                    fit: BoxFit.cover,
+    return transactions.isEmpty
+        ? LayoutBuilder(builder: (ctx, constraints) {
+            return Material(
+              child: Column(
+                children: [
+                  Text("No transactions added yet."),
+                  SizedBox(
+                    height: constraints.maxHeight * 0.05,
                   ),
-                ),
-              ],
-            ),
-          );
-        },
-      );
-    else
-      return ListView(
-        children: transations
-            .map(
-              (tx) => TransactionItem(
-                key: ValueKey(tx.id),
-                transation: tx,
-                deleteTx: deleteTx,
+                  Container(
+                    height: constraints.maxHeight * 0.6,
+                    child: Image.asset(
+                      "assets/images/waiting.png",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ],
               ),
-            )
-            .toList(),
-      );
+            );
+          })
+        : ListView(
+            children: transactions
+                .map(
+                  (tx) => TransactionItem(
+                    key: ValueKey(tx.id),
+                    transaction: tx,
+                    deleteTx: deleteTx,
+                  ),
+                )
+                .toList(),
+          );
   }
 }

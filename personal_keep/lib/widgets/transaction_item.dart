@@ -1,30 +1,33 @@
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'dart:math';
 
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:personal_keep/constants.dart';
+
 import '../models/transaction.dart';
-import '../constants.dart';
 
 class TransactionItem extends StatefulWidget {
   const TransactionItem({
-    required this.transation,
+    super.key,
+    required this.transaction,
     required this.deleteTx,
-    Key? key,
-  }) : super(key: key);
+  });
 
-  final Transaction transation;
+  final Transaction transaction;
   final Function deleteTx;
 
   @override
-  _TransactionItemState createState() => _TransactionItemState();
+  State<TransactionItem> createState() => _TransactionItemState();
 }
 
 class _TransactionItemState extends State<TransactionItem> {
-  Color? _bgColor;
+  late final Color _bgColor;
 
   @override
   void initState() {
-    _bgColor = Constants.availableColors[Random().nextInt(4)];
+    _bgColor = AppConstants.availableColors[Random().nextInt(
+      AppConstants.availableColors.length,
+    )];
     super.initState();
   }
 
@@ -32,7 +35,7 @@ class _TransactionItemState extends State<TransactionItem> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
-      margin: const EdgeInsets.symmetric(
+      margin: EdgeInsets.symmetric(
         vertical: 8,
         horizontal: 5,
       ),
@@ -41,10 +44,10 @@ class _TransactionItemState extends State<TransactionItem> {
           backgroundColor: _bgColor,
           radius: 30,
           child: Padding(
-            padding: const EdgeInsets.all(6),
+            padding: EdgeInsets.all(6),
             child: FittedBox(
               child: Text(
-                '\$${widget.transation.amount}',
+                "\$${widget.transaction.amount}",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
@@ -54,28 +57,30 @@ class _TransactionItemState extends State<TransactionItem> {
           ),
         ),
         title: Text(
-          widget.transation.title,
+          widget.transaction.title,
           style: TextStyle(
-            fontFamily: 'OpenSans',
+            fontFamily: "OpenSans",
           ),
         ),
         subtitle: Text(
-          DateFormat.yMMMd().format(widget.transation.date!),
+          DateFormat.yMMMd().format(
+            widget.transaction.date!,
+          ),
         ),
         trailing: MediaQuery.of(context).size.width > 460
             ? TextButton.icon(
-                onPressed: () => widget.deleteTx(widget.transation.id),
-                icon: const Icon(Icons.delete),
-                label: const Text(
-                  'Delete',
+                onPressed: () => widget.deleteTx(widget.transaction.id),
+                icon: Icon(Icons.delete),
+                label: Text(
+                  "Delete",
                   style: TextStyle(
                     color: Colors.red,
                   ),
                 ),
               )
             : IconButton(
-                onPressed: () => widget.deleteTx(widget.transation.id),
-                icon: const Icon(Icons.delete),
+                onPressed: () => widget.deleteTx(widget.transaction.id),
+                icon: Icon(Icons.delete),
                 color: Colors.red,
               ),
       ),

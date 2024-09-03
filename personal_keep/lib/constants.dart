@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'models/transaction.dart';
 
-class Constants {
-  Constants._();
+class AppConstants {
+  AppConstants._();
 
   static const availableColors = [
     Colors.red,
@@ -12,7 +12,7 @@ class Constants {
     Colors.green
   ];
 
-  static List<Transaction> userTransations = [
+  static List<Transaction> userTransactions = [
     Transaction(
       id: 't1',
       title: 'New shoes',
