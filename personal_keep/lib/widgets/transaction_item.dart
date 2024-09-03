@@ -1,26 +1,26 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:personal_keep/constants.dart';
+import 'package:personal_keep/utility/home_functions.dart';
 
 import '../models/transaction.dart';
 
-class TransactionItem extends StatefulWidget {
+class TransactionItem extends ConsumerStatefulWidget {
   const TransactionItem({
     super.key,
     required this.transaction,
-    required this.deleteTx,
   });
 
   final Transaction transaction;
-  final Function deleteTx;
 
   @override
-  State<TransactionItem> createState() => _TransactionItemState();
+  ConsumerState<TransactionItem> createState() => _TransactionItemState();
 }
 
-class _TransactionItemState extends State<TransactionItem> {
+class _TransactionItemState extends ConsumerState<TransactionItem> {
   late final Color _bgColor;
 
   @override
@@ -37,7 +37,7 @@ class _TransactionItemState extends State<TransactionItem> {
       elevation: 5,
       margin: EdgeInsets.symmetric(
         vertical: 8,
-        horizontal: 5,
+        horizontal: 20,
       ),
       child: ListTile(
         leading: CircleAvatar(
@@ -69,7 +69,7 @@ class _TransactionItemState extends State<TransactionItem> {
         ),
         trailing: MediaQuery.of(context).size.width > 460
             ? TextButton.icon(
-                onPressed: () => widget.deleteTx(widget.transaction.id),
+                onPressed: () => deleteTransaction(ref, widget.transaction.id),
                 icon: Icon(Icons.delete),
                 label: Text(
                   "Delete",
@@ -79,7 +79,7 @@ class _TransactionItemState extends State<TransactionItem> {
                 ),
               )
             : IconButton(
-                onPressed: () => widget.deleteTx(widget.transaction.id),
+                onPressed: () => deleteTransaction(ref, widget.transaction.id),
                 icon: Icon(Icons.delete),
                 color: Colors.red,
               ),

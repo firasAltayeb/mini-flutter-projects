@@ -70,3 +70,9 @@ void addNewTxBottomSheet(WidgetRef ref) {
     },
   );
 }
+
+void deleteTransaction(WidgetRef ref, String id) {
+  ref.read(userTransactionProvider.notifier).update(
+        (state) => [...state..removeWhere((tx) => tx.id == id)],
+      );
+}

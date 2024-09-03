@@ -67,73 +67,70 @@ class _NewTransactionState extends State<NewTransaction> {
       padding: EdgeInsets.fromLTRB(10, 10, 10, mediaQuery.viewInsets.bottom),
       child: SizedBox(
         height: mediaQuery.orientation == Orientation.landscape
-            ? mediaQuery.size.height * 0.70
+            ? mediaQuery.size.height * 0.75
             : mediaQuery.size.height * 0.45,
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                CustomTxtFormField(
-                  controller: _titleController,
-                  validator: (value) {
-                    if (value.trim().isEmpty) {
-                      return "Please enter a title.";
-                    }
-                    return null;
-                  },
-                  decorationLabel: "Title",
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              CustomTxtFormField(
+                controller: _titleController,
+                validator: (value) {
+                  if (value.trim().isEmpty) {
+                    return "Please enter a title.";
+                  }
+                  return null;
+                },
+                decorationLabel: "Title",
+              ),
+              CustomTxtFormField(
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(
+                    RegExp(r'[0-9]'),
+                  ),
+                ],
+                keyboardType: TextInputType.numberWithOptions(
+                  decimal: true,
                 ),
-                CustomTxtFormField(
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(
-                      RegExp(r'[0-9]'),
+                controller: _amountController,
+                validator: (value) {
+                  if (value.trim().isEmpty ||
+                      (double.parse(value.trim()) < 1 &&
+                          double.parse(value.trim()) > 0)) {
+                    return "Amount greater than zero.";
+                  }
+                  return null;
+                },
+                decorationLabel: "Amount",
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 40, bottom: 10),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        _selectedDate == null
+                            ? "No date chosen"
+                            : "Picked date: ${DateFormat.yMd().format(
+                                _selectedDate!,
+                              )}",
+                        style: TextStyle(fontSize: 17),
+                      ),
+                    ),
+                    AdaptiveButton(
+                      text: "Choose date",
+                      handler: _presentDatePicker,
                     ),
                   ],
-                  keyboardType: TextInputType.numberWithOptions(
-                    decimal: true,
-                  ),
-                  controller: _amountController,
-                  validator: (value) {
-                    if (value.trim().isEmpty ||
-                        (double.parse(value.trim()) < 1 &&
-                            double.parse(value.trim()) > 0)) {
-                      return "Amount greater than zero.";
-                    }
-                    return null;
-                  },
-                  decorationLabel: "Amount",
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 40, bottom: 10),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          _selectedDate == null
-                              ? "No date chosen"
-                              : "Picked date: ${DateFormat.yMd().format(
-                                  _selectedDate!,
-                                )}",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      ),
-                      AdaptiveButton(
-                        text: "Choose date",
-                        handler: _presentDatePicker,
-                      ),
-                    ],
-                  ),
-                ),
-                AdaptiveButton(
-                  text: "Add transaction",
-                  handler: _submitData,
-                )
-              ],
-            ),
+              ),
+              AdaptiveButton(
+                text: "Add transaction",
+                handler: _submitData,
+              )
+            ],
           ),
         ),
       ),
