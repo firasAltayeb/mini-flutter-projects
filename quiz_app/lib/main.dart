@@ -13,12 +13,23 @@ void main() {
   );
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends StatefulWidget {
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void didChangeDependencies() {
+    if (!SizeConfig.initialized) SizeConfig(context);
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
-      // home: MyHomePage(),
-      title: "myfirstapp",
+      // home: HomeScreen(),
+      title: "Quiz App",
       initialRoute: '/',
       theme: ThemeData(
         appBarTheme: AppBarTheme(
