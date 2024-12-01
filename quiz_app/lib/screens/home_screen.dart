@@ -1,12 +1,13 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quiz_app/app_constants.dart';
 import 'package:quiz_app/utility/enum_land.dart';
 
-import '../screens/result_screen.dart';
 import '../models/question_model.dart';
+import '../models/screen_arguments.dart';
+import '../screens/result_screen.dart';
 import '../utility/home_functions.dart';
 import '../utility/shared_providers.dart';
-import '../models/screen_arguments.dart';
 import '../utility/size_config.dart';
 import '../widgets/choice_option.dart';
 import '../widgets/gesture_container.dart';
@@ -33,7 +34,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 // initState() is never called again afterwards.
   @override
   void initState() {
-    _questionList = getQuizQuestions();
+    _questionList = AppConstants.questions;
     initializeProviders(ref);
     super.initState();
   }
