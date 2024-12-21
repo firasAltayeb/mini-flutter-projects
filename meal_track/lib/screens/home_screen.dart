@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/main_drawer.dart';
-import './favorites_screen.dart';
-import './categories_screen.dart';
+import 'favorites_screen.dart';
+import 'categories_screen.dart';
 import '../models/meal.dart';
 
 class HomeScreen extends StatefulWidget {

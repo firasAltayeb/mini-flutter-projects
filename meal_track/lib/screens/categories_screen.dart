@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../app_constants.dart';
 import '../widgets/category_item.dart';
-import '../constants.dart';
 
 class CategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView(
       padding: const EdgeInsets.all(25),
-      children: Constants.foodCategories
+      children: AppConstants.foodCategories
           .map(
             (catData) => CategoryItem(
               title: catData.title,

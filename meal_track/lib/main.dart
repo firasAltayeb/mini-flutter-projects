@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
-import './screens/meal_detail_screen.dart';
-import './screens/categories_screen.dart';
+import 'screens/meal_detail_screen.dart';
+import 'screens/categories_screen.dart';
 import 'screens/meal_item_screen.dart';
-import './screens/filters_screen.dart';
+import 'screens/filters_screen.dart';
 import 'screens/home_screen.dart';
-import './models/meal.dart';
-import 'constants.dart';
+import 'models/meal.dart';
+import 'app_constants.dart';
+import 'ui_constants.dart';
 
 void main() => runApp(MyApp());
 
@@ -22,13 +23,13 @@ class _MyAppState extends State<MyApp> {
     'vegan': false,
     'vegetarian': false,
   };
-  List<Meal> _availableMeals = Constants.mealDetailsLst;
+  List<Meal> _availableMeals = UiConstants.mealDetailsLst;
   List<Meal> _favoriteMeals = [];
 
   void _setFilters(Map<String, bool> filterData) {
     setState(() {
       _filters = filterData;
-      _availableMeals = Constants.mealDetailsLst.where((meal) {
+      _availableMeals = UiConstants.mealDetailsLst.where((meal) {
         if (_filters['gluten']! && !meal.isGlutenFree) {
           return false;
         }
@@ -56,7 +57,7 @@ class _MyAppState extends State<MyApp> {
     } else {
       setState(() {
         _favoriteMeals.add(
-          Constants.mealDetailsLst.firstWhere((meal) => meal.id == mealId),
+          UiConstants.mealDetailsLst.firstWhere((meal) => meal.id == mealId),
         );
       });
     }
@@ -70,7 +71,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'DeliMeals',
-      theme: Constants.customTheme,
+      theme: AppConstants.customTheme,
       initialRoute: HomeScreen.routeName,
       routes: {
         HomeScreen.routeName: (ctx) {
