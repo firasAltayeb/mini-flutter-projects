@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utility/size_config.dart';
+import '../utility/dimension_extensions.dart';
 
 class TextContainer extends StatelessWidget {
   const TextContainer({required this.textToShow, super.key});
@@ -11,13 +11,13 @@ class TextContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(
-        horizontal: SizeConfig.scaledWidth(3.5),
+        horizontal: context.percentWidth(3.5),
       ),
       width: double.infinity,
       child: Text(
         textToShow,
         style: TextStyle(
-          fontSize: SizeConfig.scaledHeight(3.5),
+          fontSize: context.percentHeight(2.5),
           fontWeight: FontWeight.w500,
         ),
         textAlign: TextAlign.center,

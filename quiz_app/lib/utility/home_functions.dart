@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app_constants.dart';
-import '../utility/size_config.dart';
+import 'dimension_extensions.dart';
 import 'enum_land.dart';
 import 'shared_providers.dart';
 
@@ -47,7 +47,11 @@ Future<void> playSoundEffect(WidgetRef ref, SoundEffect effect) async {
   }
 }
 
-SnackBar messageSnackBar(String message, {timeUp = 750}) {
+SnackBar messageSnackBar(
+  BuildContext context,
+  String message, {
+  int timeUp = 750,
+}) {
   return SnackBar(
     shape: RoundedRectangleBorder(
       borderRadius: AppConstants.circleRadius,
@@ -57,14 +61,14 @@ SnackBar messageSnackBar(String message, {timeUp = 750}) {
       message,
       textAlign: TextAlign.center,
       style: TextStyle(
-        fontSize: SizeConfig.scaledHeight(2.5),
+        fontSize: context.percentHeight(2.5),
       ),
     ),
     behavior: SnackBarBehavior.floating,
     margin: EdgeInsets.only(
-      left: SizeConfig.scaledWidth(20),
-      right: SizeConfig.scaledWidth(20),
-      bottom: SizeConfig.scaledHeight(5),
+      left: context.percentWidth(20),
+      right: context.percentWidth(20),
+      bottom: context.percentHeight(5),
     ),
   );
 }

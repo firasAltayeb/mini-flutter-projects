@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quiz_app/app_constants.dart';
-import 'package:quiz_app/utility/enum_land.dart';
 
+import '../app_constants.dart';
 import '../models/question_model.dart';
 import '../models/screen_arguments.dart';
 import '../screens/result_screen.dart';
+import '../utility/dimension_extensions.dart';
+import '../utility/enum_land.dart';
 import '../utility/home_functions.dart';
 import '../utility/shared_providers.dart';
-import '../utility/size_config.dart';
 import '../widgets/choice_option.dart';
 import '../widgets/gesture_container.dart';
 import '../widgets/gradiant_container.dart';
@@ -37,14 +37,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     _questionList = AppConstants.questions;
     initializeProviders(ref);
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    if (!SizeConfig.initialized) {
-      SizeConfig(context);
-    }
-    super.didChangeDependencies();
   }
 
   void _resetQuiz() {
@@ -98,7 +90,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         _questionList.length <= 0 ? null : _questionList[_questionIdx];
     return Scaffold(
       appBar: AppBar(
-        title: Text("Question #${_questionIdx + 1}"),
+        title: Text(
+          "Question #${_questionIdx + 1}",
+          style: TextStyle(
+            fontSize: context.percentHeight(2.8),
+          ),
+        ),
       ),
       body: GradientContainer(
         containerWidth: double.infinity,

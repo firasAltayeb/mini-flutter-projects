@@ -1,10 +1,10 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:quiz_app/utility/shared_providers.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app_icons.dart';
+import '../utility/dimension_extensions.dart';
 import '../utility/home_functions.dart';
-import '../utility/size_config.dart';
+import '../utility/shared_providers.dart';
 
 class SessionTopSection extends ConsumerWidget {
   const SessionTopSection({
@@ -23,25 +23,25 @@ class SessionTopSection extends ConsumerWidget {
         Expanded(
           child: Padding(
             padding: EdgeInsets.only(
-              bottom: SizeConfig.scaledHeight(10),
-              top: SizeConfig.scaledHeight(2.5),
+              bottom: context.percentHeight(10),
+              top: context.percentHeight(1.75),
             ),
             child: Row(
               children: [
                 SizedBox(
-                  width: SizeConfig.scaledWidth(5),
+                  width: context.percentWidth(4),
                 ),
                 Text(
                   "Lives: ",
                   style: TextStyle(
-                    fontSize: SizeConfig.scaledHeight(2.8),
+                    fontSize: context.percentHeight(2.8),
                     fontWeight: FontWeight.w300,
                   ),
                 ),
                 for (var i = 1; i <= mistakeAttempts; i++)
                   Icon(
                     AppIcons.heart_filled,
-                    size: SizeConfig.scaledHeight(3.3),
+                    size: context.percentHeight(3.3),
                   )
               ],
             ),
@@ -51,14 +51,14 @@ class SessionTopSection extends ConsumerWidget {
           child: Container(
             alignment: Alignment.centerRight,
             padding: EdgeInsets.only(
-              top: SizeConfig.scaledHeight(1.5),
-              right: SizeConfig.scaledWidth(5),
+              top: context.percentHeight(1.5),
+              right: context.percentWidth(5),
             ),
             child: Text(
               counterDisplay(queueIndex, finalItemIdx),
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: SizeConfig.scaledHeight(3),
+                fontSize: context.percentHeight(3),
                 fontWeight: FontWeight.w300,
               ),
             ),

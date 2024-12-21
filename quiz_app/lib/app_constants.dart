@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_app/models/question_model.dart';
+
+import 'models/question_model.dart';
 
 abstract class AppConstants {
   static const circleRadius = BorderRadius.all(Radius.circular(20));

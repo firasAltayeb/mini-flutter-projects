@@ -1,10 +1,10 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app_constants.dart';
+import '../utility/dimension_extensions.dart';
 import '../utility/home_functions.dart';
 import '../utility/shared_providers.dart';
-import '../utility/size_config.dart';
 
 class GestureContainer extends ConsumerWidget {
   const GestureContainer({
@@ -23,16 +23,14 @@ class GestureContainer extends ConsumerWidget {
       onTap: () {
         if (selectedAnswer.isEmpty)
           ScaffoldMessenger.of(context).showSnackBar(
-            messageSnackBar(
-              "Please select a choice",
-            ),
+            messageSnackBar(context, "Please select a choice"),
           );
         else
           passedFunction();
       },
       child: Container(
-        height: SizeConfig.scaledHeight(6),
-        width: SizeConfig.scaledWidth(50),
+        height: context.percentHeight(6),
+        width: context.percentWidth(50),
         decoration: BoxDecoration(
           borderRadius: AppConstants.circleRadius,
           gradient: LinearGradient(
@@ -43,13 +41,13 @@ class GestureContainer extends ConsumerWidget {
           ),
         ),
         padding: EdgeInsets.symmetric(
-          horizontal: SizeConfig.scaledWidth(5),
+          horizontal: context.percentWidth(5),
         ),
         alignment: Alignment.center,
         child: Text(
           textToShow,
           style: TextStyle(
-            fontSize: SizeConfig.scaledHeight(3),
+            fontSize: context.percentHeight(3),
             color: Colors.white,
           ),
         ),

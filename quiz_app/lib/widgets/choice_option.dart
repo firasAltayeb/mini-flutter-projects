@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../utility/shared_providers.dart';
-import '../utility/size_config.dart';
 import '../app_constants.dart';
+import '../utility/dimension_extensions.dart';
+import '../utility/shared_providers.dart';
 
 class ChoiceOption extends ConsumerWidget {
   const ChoiceOption({
@@ -33,12 +33,12 @@ class ChoiceOption extends ConsumerWidget {
       },
       child: Container(
         margin: EdgeInsets.symmetric(
-          vertical: SizeConfig.scaledHeight(0.5),
-          horizontal: SizeConfig.scaledWidth(8),
+          vertical: context.percentHeight(0.5),
+          horizontal: context.percentWidth(8),
         ),
         padding: EdgeInsets.symmetric(
-          vertical: SizeConfig.scaledHeight(2),
-          horizontal: SizeConfig.scaledWidth(2),
+          vertical: context.percentHeight(2),
+          horizontal: context.percentWidth(2),
         ),
         decoration: BoxDecoration(
           color: isSelected ? Colors.blue : Colors.white,
@@ -55,19 +55,19 @@ class ChoiceOption extends ConsumerWidget {
               answerText,
               style: TextStyle(
                 color: isSelected ? Colors.white : Colors.black,
-                fontSize: SizeConfig.scaledHeight(2.25),
+                fontSize: context.percentHeight(2.25),
               ),
             ),
             isSelected
                 ? Row(
                     children: [
                       SizedBox(
-                        width: SizeConfig.scaledWidth(2.5),
+                        width: context.percentWidth(2.5),
                       ),
                       Icon(
                         Icons.check,
                         color: Colors.white,
-                        size: SizeConfig.scaledHeight(2.5),
+                        size: context.percentHeight(2.5),
                       ),
                     ],
                   )

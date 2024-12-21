@@ -1,9 +1,9 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:quiz_app/utility/size_config.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'screens/result_screen.dart';
 import 'screens/home_screen.dart';
+import 'screens/result_screen.dart';
+import 'utility/dimension_extensions.dart';
 
 void main() {
   runApp(
@@ -13,18 +13,7 @@ void main() {
   );
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void didChangeDependencies() {
-    if (!SizeConfig.initialized) SizeConfig(context);
-    super.didChangeDependencies();
-  }
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -36,7 +25,7 @@ class _MyAppState extends State<MyApp> {
             color: Color(0xFF883B96),
             centerTitle: true,
             titleTextStyle: TextStyle(
-              fontSize: SizeConfig.scaledHeight(2.5),
+              fontSize: context.percentHeight(2.5),
               color: Colors.white,
             )),
       ),
