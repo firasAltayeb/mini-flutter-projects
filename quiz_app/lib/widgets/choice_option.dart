@@ -12,13 +12,6 @@ class ChoiceOption extends ConsumerWidget {
     super.key,
   });
 
-  // ChoiceOption(int answerScore, String answerText, dynamic answerClicked) {
-  //   answerText = answerText;
-  //   answerScore = answerScore;
-  //   answerClicked = answerClicked;
-  // }
-
-  // When a parameter is final, it must be required in the constructor
   final String answerText;
   final int accuracy;
 
@@ -26,7 +19,7 @@ class ChoiceOption extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedAnswer = ref.watch(selectedAnswerProvider);
     final isSelected = selectedAnswer == answerText;
-    return InkWell(
+    return GestureDetector(
       onTap: () {
         ref.read(selectedAnsAccuracyProvider.notifier).state = accuracy;
         ref.read(selectedAnswerProvider.notifier).state = answerText;
@@ -36,16 +29,10 @@ class ChoiceOption extends ConsumerWidget {
           vertical: context.percentHeight(0.5),
           horizontal: context.percentWidth(8),
         ),
-        padding: EdgeInsets.symmetric(
-          vertical: context.percentHeight(2),
-          horizontal: context.percentWidth(2),
-        ),
+        padding: EdgeInsets.all(context.percentHeight(2)),
         decoration: BoxDecoration(
           color: isSelected ? Colors.blue : Colors.white,
-          border: Border.all(
-            color: Colors.blue,
-            width: 2,
-          ),
+          border: Border.all(color: Colors.blue, width: 2),
           borderRadius: AppConstants.circleRadius,
         ),
         child: Row(
@@ -58,20 +45,17 @@ class ChoiceOption extends ConsumerWidget {
                 fontSize: context.percentHeight(2.25),
               ),
             ),
-            isSelected
-                ? Row(
-                    children: [
-                      SizedBox(
-                        width: context.percentWidth(2.5),
-                      ),
-                      Icon(
-                        Icons.check,
-                        color: Colors.white,
-                        size: context.percentHeight(2.5),
-                      ),
-                    ],
-                  )
-                : SizedBox.shrink(),
+            if (isSelected)
+              Padding(
+                padding: EdgeInsets.only(
+                  left: context.percentWidth(5),
+                ),
+                child: Icon(
+                  Icons.check,
+                  color: Colors.white,
+                  size: context.percentHeight(2.5),
+                ),
+              ),
           ],
         ),
       ),

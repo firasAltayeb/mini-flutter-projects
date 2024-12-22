@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../app_constants.dart';
 import '../app_icons.dart';
 import '../utility/dimension_extensions.dart';
 import '../utility/home_functions.dart';
@@ -8,11 +9,9 @@ import '../utility/shared_providers.dart';
 
 class SessionTopSection extends ConsumerWidget {
   const SessionTopSection({
-    required this.finalItemIdx,
     required this.queueIndex,
   });
 
-  final int finalItemIdx;
   final int queueIndex;
 
   Widget build(BuildContext context, WidgetRef ref) {
@@ -55,7 +54,7 @@ class SessionTopSection extends ConsumerWidget {
               right: context.percentWidth(5),
             ),
             child: Text(
-              counterDisplay(queueIndex, finalItemIdx),
+              counterDisplay(queueIndex, AppConstants.questions.length),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: context.percentHeight(3),

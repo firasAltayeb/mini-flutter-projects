@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app_constants.dart';
-import '../models/question_model.dart';
 import '../models/screen_arguments.dart';
 import '../screens/result_screen.dart';
 import '../utility/dimension_extensions.dart';
@@ -24,17 +23,11 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  // late final means that the data will be intialized eventually,
-  // and once it is initalized, it can never change.
-  late final List<QuestionModel> _questionList;
   int _questionIdx = 0;
   int _totalScore = 0;
 
-// initState() is called when the widget is first created.
-// initState() is never called again afterwards.
   @override
   void initState() {
-    _questionList = AppConstants.questions;
     initializeProviders(ref);
     super.initState();
   }
@@ -54,7 +47,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     Navigator.of(context).pushNamed(
       ResultScreen.routeName,
       arguments: ScreenArguments(
-        quizQuestions: _questionList,
         resetHandler: _resetQuiz,
         totalScore: _totalScore,
       ),
@@ -73,7 +65,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       }
     } else {
       await playSoundEffect(ref, SoundEffect.correct);
-      if (_questionIdx < _questionList.length - 1) {
+      if (_questionIdx < AppConstants.questions.length - 1) {
         ref.read(selectedAnswerProvider.notifier).state = '';
         setState(() => _questionIdx++);
       } else {
@@ -84,10 +76,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final List<Map<String, dynamic>> answers =
-    //     AppConstants.questions[_questionIdx]["answers"];
-    final QuestionModel? currentQuestion =
-        _questionList.length <= 0 ? null : _questionList[_questionIdx];
+    final currentQuestion = AppConstants.questions[_questionIdx];
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -102,34 +91,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         childWidget: Column(
           children: [
             SessionTopSection(
-              finalItemIdx: _questionList.length,
               queueIndex: _questionIdx,
             ),
-            // Question(
-            //   questionText: AppConstants.questions[_questionIdx]["text"],
-            // ),
-            if (_questionList.length <= 0)
-              CircularProgressIndicator(
-                color: Colors.black,
-                strokeWidth: 4,
-              ),
-            if (_questionList.length != 0) ...[
-              TextContainer(textToShow: currentQuestion!.qusTxt),
-              Spacer(),
-              // ... is called the spread operator and splits
-              // a list of widgets into individual widgets
-              ...currentQuestion.ansList
-                  .map((e) => ChoiceOption(
-                        answerText: e.ansTxt,
-                        accuracy: e.accuracy,
-                      ))
-                  .toList(),
-              Spacer(),
-              GestureContainer(
-                passedFunction: _answerClicked,
-                textToShow: "Submit",
-              ),
-            ],
+            TextContainer(textToShow: currentQuestion.qusTxt),
+            Spacer(),
+            ...currentQuestion.ansList
+                .map((e) => ChoiceOption(
+                      answerText: e.ansTxt,
+                      accuracy: e.accuracy,
+                    ))
+                .toList(),
+            Spacer(),
+            GestureContainer(
+              passedFunction: _answerClicked,
+              textToShow: "Submit",
+            ),
             Spacer(
               flex: 3,
             ),
