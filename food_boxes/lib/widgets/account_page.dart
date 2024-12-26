@@ -3,15 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_boxes/utility/shared_providers.dart';
-import 'package:food_boxes/widgets/text_check_box.dart';
 
 import '../app_constants.dart';
 import '../screens/reset_pw_screen.dart';
+import '../utility/dimension_extensions.dart';
 import '../utility/shared_functions.dart';
-import '../utility/size_config.dart';
+import '../utility/shared_providers.dart';
 import 'custom_txt_field.dart';
 import 'small_list_tile.dart';
+import 'text_check_box.dart';
 
 class AccountPage extends ConsumerStatefulWidget {
   const AccountPage({super.key});
@@ -58,7 +58,7 @@ class _AccountPageState extends ConsumerState<AccountPage> {
       FocusManager.instance.primaryFocus?.unfocus();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          messegeSnackBar("User data has been updated", timeUp: 1000),
+          messegeSnackBar(context, "User data has been updated", timeUp: 1000),
         );
       }
     }
@@ -70,7 +70,7 @@ class _AccountPageState extends ConsumerState<AccountPage> {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
-        horizontal: SizeConfig.scaledWidth(10),
+        horizontal: context.percentWidth(10),
       ),
       child: Form(
         key: _formKey,
@@ -78,20 +78,20 @@ class _AccountPageState extends ConsumerState<AccountPage> {
           child: Column(
             children: [
               SizedBox(
-                height: SizeConfig.scaledHeight(10),
+                height: context.percentHeight(10),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  vertical: SizeConfig.scaledHeight(2),
+                  vertical: context.percentHeight(2),
                 ),
                 child: Icon(
                   Icons.account_circle_outlined,
-                  size: SizeConfig.scaledHeight(10),
+                  size: context.percentHeight(10),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  vertical: SizeConfig.scaledHeight(2),
+                  vertical: context.percentHeight(2),
                 ),
                 child: CustomTxtFormField(
                   controller: _firstNameController,
@@ -120,7 +120,7 @@ class _AccountPageState extends ConsumerState<AccountPage> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  vertical: SizeConfig.scaledHeight(2),
+                  vertical: context.percentHeight(2),
                 ),
                 child: CustomTxtFormField(
                   controller: _ageController,
@@ -142,7 +142,7 @@ class _AccountPageState extends ConsumerState<AccountPage> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  vertical: SizeConfig.scaledHeight(2),
+                  vertical: context.percentHeight(2),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -172,13 +172,13 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                 title: Text(
                   "Logout",
                   style: TextStyle(
-                    fontSize: SizeConfig.scaledHeight(2),
+                    fontSize: context.percentHeight(2),
                     fontWeight: FontWeight.w400,
                   ),
                 ),
                 trailing: Icon(
                   Icons.arrow_forward_ios_rounded,
-                  size: SizeConfig.scaledHeight(2),
+                  size: context.percentHeight(2),
                 ),
                 onTap: () async {
                   bool confirmLogout = true;
@@ -196,7 +196,7 @@ class _AccountPageState extends ConsumerState<AccountPage> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  vertical: SizeConfig.scaledHeight(2),
+                  vertical: context.percentHeight(2),
                 ),
                 child: ListTile(
                   tileColor: Theme.of(context).colorScheme.primary,
@@ -207,13 +207,13 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                   title: Text(
                     "Reset Password",
                     style: TextStyle(
-                      fontSize: SizeConfig.scaledHeight(2),
+                      fontSize: context.percentHeight(2),
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                   trailing: Icon(
                     Icons.arrow_forward_ios_rounded,
-                    size: SizeConfig.scaledHeight(2),
+                    size: context.percentHeight(2),
                   ),
                   onTap: () {
                     Navigator.of(context)
@@ -230,13 +230,13 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                 title: Text(
                   "Delete Account",
                   style: TextStyle(
-                    fontSize: SizeConfig.scaledHeight(2),
+                    fontSize: context.percentHeight(2),
                     fontWeight: FontWeight.w400,
                   ),
                 ),
                 trailing: Icon(
                   Icons.arrow_forward_ios_rounded,
-                  size: SizeConfig.scaledHeight(2),
+                  size: context.percentHeight(2),
                 ),
                 onTap: () => deleteAccount(context),
               ),

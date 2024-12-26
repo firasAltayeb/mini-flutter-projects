@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_boxes/app_constants.dart';
-import 'package:food_boxes/model/food_box.dart';
-import 'package:food_boxes/utility/preference_box.dart';
-import 'package:food_boxes/utility/shared_functions.dart';
+
+import '../app_constants.dart';
+import '../model/food_box.dart';
+import 'preference_box.dart';
+import 'shared_functions.dart';
 
 final intializeMainProviders = Provider.autoDispose(
   (ref) async {

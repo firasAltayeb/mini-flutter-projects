@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_boxes/screens/expanded_order_screen.dart';
-import 'package:food_boxes/utility/shared_providers.dart';
-import 'package:food_boxes/widgets/ticket_card.dart';
 
 import '../model/food_box.dart';
+import '../screens/expanded_order_screen.dart';
+import '../utility/dimension_extensions.dart';
 import '../utility/shared_functions.dart';
-import '../utility/size_config.dart';
+import '../utility/shared_providers.dart';
+import 'ticket_card.dart';
 
 class StackedCards extends ConsumerWidget {
   const StackedCards({super.key, required this.uniqueTickets});
@@ -24,13 +24,13 @@ class StackedCards extends ConsumerWidget {
             },
       child: Center(
         child: SizedBox(
-          height: SizeConfig.scaledHeight(38),
-          width: SizeConfig.scaledWidth(90),
+          height: context.percentHeight(38),
+          width: context.percentWidth(90),
           child: Stack(
             children: [
               for (int index = 0; index < uniqueTickets.length; index++)
                 Positioned(
-                  bottom: SizeConfig.scaledHeight(0.5 + 1.5 * index),
+                  bottom: context.percentHeight(0.5 + 1.5 * index),
                   child: TicketCard(
                     uniqueTicket: uniqueTickets.elementAt(index),
                     index: index,

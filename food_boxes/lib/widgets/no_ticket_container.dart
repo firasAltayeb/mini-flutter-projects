@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../app_constants.dart';
-import '../utility/size_config.dart';
+import '../utility/dimension_extensions.dart';
 
 class NoTicketContainer extends StatelessWidget {
   const NoTicketContainer({super.key});
@@ -10,14 +10,14 @@ class NoTicketContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        height: SizeConfig.scaledHeight(22),
-        width: SizeConfig.scaledWidth(75),
+        height: context.percentHeight(22),
+        width: context.percentWidth(75),
         padding: EdgeInsets.symmetric(
-          vertical: SizeConfig.scaledHeight(2),
-          horizontal: SizeConfig.scaledWidth(10),
+          vertical: context.percentHeight(2),
+          horizontal: context.percentWidth(10),
         ),
         margin: EdgeInsets.only(
-          top: SizeConfig.scaledHeight(5),
+          top: context.percentHeight(5),
         ),
         decoration: BoxDecoration(
           borderRadius: AppConstants.circleRadius,
@@ -30,7 +30,7 @@ class NoTicketContainer extends StatelessWidget {
         child: Text(
           "No active tickets. Please visit the schedule page to place an order.",
           style: TextStyle(
-            fontSize: SizeConfig.scaledHeight(2.5),
+            fontSize: context.percentHeight(2.5),
             fontWeight: FontWeight.w400,
             color: Theme.of(context).colorScheme.primary,
           ),

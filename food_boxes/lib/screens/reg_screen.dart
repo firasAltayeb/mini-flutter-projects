@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utility/size_config.dart';
+import '../utility/dimension_extensions.dart';
 import '../widgets/email_pw_page.dart';
 import 'auth_screen.dart';
 
@@ -16,8 +16,8 @@ class RegisterationScreen extends StatelessWidget {
       body: Container(
         width: double.infinity,
         padding: EdgeInsets.symmetric(
-          vertical: SizeConfig.scaledHeight(10),
-          horizontal: SizeConfig.scaledWidth(10),
+          vertical: context.percentHeight(10),
+          horizontal: context.percentWidth(10),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,7 +42,7 @@ class RegisterationScreen extends StatelessWidget {
                   child: Text(
                     "Login",
                     style: TextStyle(
-                      fontSize: SizeConfig.scaledHeight(2),
+                      fontSize: context.percentHeight(2),
                       color: Theme.of(context).colorScheme.primary,
                     ),
                   ),

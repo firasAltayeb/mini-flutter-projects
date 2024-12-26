@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../app_constants.dart';
 import '../model/food_box.dart';
 import '../utility/box_list_notifier.dart';
-import '../utility/size_config.dart';
+import '../utility/dimension_extensions.dart';
 
 class FoodBoxTile extends ConsumerStatefulWidget {
   const FoodBoxTile({
@@ -63,10 +63,10 @@ class _FoodBoxTileState extends ConsumerState<FoodBoxTile> {
                   },
             splashFactory: NoSplash.splashFactory,
             child: Container(
-              height: SizeConfig.scaledHeight(14),
-              width: SizeConfig.scaledWidth(78),
+              height: context.percentHeight(14),
+              width: context.percentWidth(78),
               padding: EdgeInsets.only(
-                left: SizeConfig.scaledWidth(4.5),
+                left: context.percentWidth(4.5),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -81,7 +81,7 @@ class _FoodBoxTileState extends ConsumerState<FoodBoxTile> {
                   ),
                   Flexible(
                     child: SizedBox(
-                      width: SizeConfig.scaledWidth(78),
+                      width: context.percentWidth(78),
                       child: Text(
                         widget.passedBox.description,
                         style: TextStyle(
@@ -114,16 +114,16 @@ class _FoodBoxTileState extends ConsumerState<FoodBoxTile> {
                       },
                 child: Icon(
                   Icons.add,
-                  size: SizeConfig.scaledHeight(2.5),
+                  size: context.percentHeight(2.5),
                   color: Colors.white,
                 ),
               ),
               Container(
-                height: SizeConfig.scaledHeight(3),
-                width: SizeConfig.scaledWidth(5),
+                height: context.percentHeight(3),
+                width: context.percentWidth(5),
                 alignment: Alignment.center,
                 margin: EdgeInsets.symmetric(
-                  vertical: SizeConfig.scaledHeight(0.5),
+                  vertical: context.percentHeight(0.5),
                 ),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -132,7 +132,7 @@ class _FoodBoxTileState extends ConsumerState<FoodBoxTile> {
                   boxQuantity.toString(),
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: SizeConfig.scaledHeight(2),
+                    fontSize: context.percentHeight(2),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -152,7 +152,7 @@ class _FoodBoxTileState extends ConsumerState<FoodBoxTile> {
                       },
                 child: Icon(
                   Icons.remove,
-                  size: SizeConfig.scaledHeight(2.5),
+                  size: context.percentHeight(2.5),
                   color: Colors.white,
                 ),
               ),

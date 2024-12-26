@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../app_constants.dart';
+import '../utility/dimension_extensions.dart';
 import '../utility/shared_functions.dart';
-import '../utility/size_config.dart';
 import '../widgets/custom_txt_field.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
@@ -25,7 +25,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             .sendPasswordResetEmail(email: _emailController.text);
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            messegeSnackBar("Please follow the directions sent to your email"),
+            messegeSnackBar(
+                context, "Please follow the directions sent to your email"),
           );
         }
       } on FirebaseAuthException catch (e) {
@@ -42,6 +43,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             messegeSnackBar(
+              context,
               snackBarMessege,
               timeUp: 2000,
             ),
@@ -61,8 +63,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       body: Container(
         width: double.infinity,
         padding: EdgeInsets.symmetric(
-          vertical: SizeConfig.scaledHeight(5),
-          horizontal: SizeConfig.scaledWidth(10),
+          vertical: context.percentHeight(5),
+          horizontal: context.percentWidth(10),
         ),
         child: Form(
           key: _formKey,
@@ -81,7 +83,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
               ),
               SizedBox(
-                height: SizeConfig.scaledHeight(5),
+                height: context.percentHeight(5),
               ),
               CustomTxtFormField(
                 validator: (value) {
@@ -94,7 +96,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               ),
               Container(
                 padding: EdgeInsets.symmetric(
-                  vertical: SizeConfig.scaledHeight(1),
+                  vertical: context.percentHeight(1),
                 ),
                 alignment: Alignment.center,
                 child: ElevatedButton(
@@ -105,15 +107,15 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       Text(
                         "Submit",
                         style: TextStyle(
-                          fontSize: SizeConfig.scaledHeight(2),
+                          fontSize: context.percentHeight(2),
                         ),
                       ),
                       SizedBox(
-                        width: SizeConfig.scaledWidth(1),
+                        width: context.percentWidth(1),
                       ),
                       Icon(
                         Icons.arrow_forward_ios_rounded,
-                        size: SizeConfig.scaledHeight(2),
+                        size: context.percentHeight(2),
                       )
                     ],
                   ),
@@ -136,7 +138,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     child: Text(
                       "Go back",
                       style: TextStyle(
-                        fontSize: SizeConfig.scaledHeight(2),
+                        fontSize: context.percentHeight(2),
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ),

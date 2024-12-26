@@ -6,11 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/adapters.dart';
 
 import 'app_constants.dart';
-import 'firebase_options.dart';
 import 'app_router.dart';
+import 'firebase_options.dart';
 import 'screens/auth_screen.dart';
 import 'screens/home_screen.dart';
-import 'utility/size_config.dart';
+import 'utility/dimension_extensions.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,18 +26,7 @@ Future<void> main() async {
   );
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void didChangeDependencies() {
-    if (!SizeConfig.initialized) SizeConfig.int(context);
-    super.didChangeDependencies();
-  }
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -57,17 +46,17 @@ class _MyAppState extends State<MyApp> {
         ),
         textTheme: TextTheme(
           bodyLarge: TextStyle(
-            fontSize: SizeConfig.scaledHeight(4),
+            fontSize: context.percentHeight(4),
             fontWeight: FontWeight.w700,
             color: Colors.black,
           ),
           bodyMedium: TextStyle(
-            fontSize: SizeConfig.scaledHeight(2.5),
+            fontSize: context.percentHeight(2.5),
             fontWeight: FontWeight.w500,
             color: Colors.black,
           ),
           bodySmall: TextStyle(
-            fontSize: SizeConfig.scaledHeight(2),
+            fontSize: context.percentHeight(2),
             fontWeight: FontWeight.w300,
             color: Colors.black,
           ),

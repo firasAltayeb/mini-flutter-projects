@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:food_boxes/utility/shared_functions.dart';
 
 import '../app_constants.dart';
 import '../screens/reg_screen.dart';
-import '../utility/size_config.dart';
+import '../utility/dimension_extensions.dart';
+import '../utility/shared_functions.dart';
 import 'custom_txt_field.dart';
 
 class EmailPasswordPage extends StatefulWidget {
@@ -64,6 +64,7 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             messegeSnackBar(
+              context,
               snackBarMessege,
               timeUp: 1750,
             ),
@@ -97,8 +98,8 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
           ),
           Padding(
             padding: EdgeInsets.only(
-              top: SizeConfig.scaledHeight(5),
-              bottom: SizeConfig.scaledHeight(2),
+              top: context.percentHeight(5),
+              bottom: context.percentHeight(2),
             ),
             child: CustomTxtFormField(
               controller: _emailController,
@@ -129,7 +130,7 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
           ),
           Container(
             padding: EdgeInsets.only(
-              top: SizeConfig.scaledHeight(1),
+              top: context.percentHeight(1),
             ),
             alignment: Alignment.center,
             child: isLoading
@@ -145,15 +146,15 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
                         Text(
                           "Submit",
                           style: TextStyle(
-                            fontSize: SizeConfig.scaledHeight(2),
+                            fontSize: context.percentHeight(2),
                           ),
                         ),
                         SizedBox(
-                          width: SizeConfig.scaledWidth(1),
+                          width: context.percentWidth(1),
                         ),
                         Icon(
                           Icons.arrow_forward_ios_rounded,
-                          size: SizeConfig.scaledHeight(2),
+                          size: context.percentHeight(2),
                         )
                       ],
                     ),

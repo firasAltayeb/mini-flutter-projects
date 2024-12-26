@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_boxes/utility/shared_providers.dart';
 
 import '../app_constants.dart';
 import '../app_icons.dart';
 import '../model/food_box.dart';
+import '../utility/dimension_extensions.dart';
 import '../utility/shared_functions.dart';
-import '../utility/size_config.dart';
+import '../utility/shared_providers.dart';
 import '../utility/ticket_list_notifier.dart';
 
 class TicketCard extends ConsumerWidget {
@@ -21,21 +21,21 @@ class TicketCard extends ConsumerWidget {
   final int index;
   final double ticketHeightScale;
 
-  Widget innerRow(IconData iconData, String text) {
+  Widget innerRow(BuildContext context, IconData iconData, String text) {
     return Row(
       children: [
         Icon(
           iconData,
           color: Colors.black,
-          size: SizeConfig.scaledHeight(2.25),
+          size: context.percentHeight(2.25),
         ),
         SizedBox(
-          width: SizeConfig.scaledWidth(2.75),
+          width: context.percentWidth(2.75),
         ),
         Text(
           text,
           style: TextStyle(
-            fontSize: SizeConfig.scaledHeight(2.25),
+            fontSize: context.percentHeight(2.25),
           ),
         ),
       ],
@@ -49,22 +49,22 @@ class TicketCard extends ConsumerWidget {
         ticketList.where((e) => e.id == uniqueTicket.id).length;
     final imageURL = ref.read(imageUrlProvider(uniqueTicket));
     return SizedBox(
-      height: SizeConfig.scaledHeight(ticketHeightScale),
-      width: SizeConfig.scaledWidth(90),
+      height: context.percentHeight(ticketHeightScale),
+      width: context.percentWidth(90),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: AppConstants.circleRadius,
         ),
         elevation: 4,
         margin: EdgeInsets.only(
-          bottom: SizeConfig.scaledHeight(2.5),
+          bottom: context.percentHeight(2.5),
         ),
         child: Column(
           children: [
             Stack(
               children: [
                 Container(
-                  height: SizeConfig.scaledHeight(25),
+                  height: context.percentHeight(25),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(15),
@@ -77,19 +77,19 @@ class TicketCard extends ConsumerWidget {
                   ),
                 ),
                 Positioned(
-                  bottom: SizeConfig.scaledHeight(2),
-                  right: SizeConfig.scaledWidth(1),
+                  bottom: context.percentHeight(2),
+                  right: context.percentWidth(1),
                   child: Container(
-                    width: SizeConfig.scaledWidth(70),
+                    width: context.percentWidth(70),
                     padding: EdgeInsets.symmetric(
-                      vertical: SizeConfig.scaledHeight(1),
-                      horizontal: SizeConfig.scaledWidth(1.5),
+                      vertical: context.percentHeight(1),
+                      horizontal: context.percentWidth(1.5),
                     ),
                     color: Colors.black54,
                     child: Text(
                       "${uniqueTicket.name} x$ticketQuantity",
                       style: TextStyle(
-                        fontSize: SizeConfig.scaledHeight(3),
+                        fontSize: context.percentHeight(3),
                         color: Colors.white,
                       ),
                     ),
@@ -99,17 +99,19 @@ class TicketCard extends ConsumerWidget {
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                vertical: SizeConfig.scaledHeight(1.5),
-                horizontal: SizeConfig.scaledWidth(5),
+                vertical: context.percentHeight(1.5),
+                horizontal: context.percentWidth(5),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   innerRow(
+                    context,
                     AppIcons.calendar,
                     formatDate(uniqueTicket.date),
                   ),
                   innerRow(
+                    context,
                     Icons.attach_money,
                     (uniqueTicket.price * ticketQuantity).toStringAsFixed(2),
                   ),

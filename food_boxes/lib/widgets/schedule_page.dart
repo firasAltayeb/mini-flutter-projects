@@ -5,8 +5,8 @@ import 'package:table_calendar/table_calendar.dart';
 import '../app_constants.dart';
 import '../model/food_box.dart';
 import '../utility/box_list_notifier.dart';
+import '../utility/dimension_extensions.dart';
 import '../utility/shared_functions.dart';
-import '../utility/size_config.dart';
 import '../utility/ticket_list_notifier.dart';
 import 'food_box_tile.dart';
 
@@ -35,7 +35,7 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
     return Column(
       children: [
         SizedBox(
-          height: SizeConfig.scaledHeight(10),
+          height: context.percentHeight(10),
         ),
         TableCalendar(
           eventLoader: getDateBoxes,
@@ -54,7 +54,7 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
           focusedDay: DateTime.now(),
           calendarStyle: CalendarStyle(
             cellMargin: EdgeInsets.symmetric(
-              vertical: SizeConfig.scaledHeight(1),
+              vertical: context.percentHeight(1),
             ),
             todayTextStyle: TextStyle(
               color: Color(0xFF5C6BC0),
@@ -83,18 +83,18 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
               ),
             ),
             margin: EdgeInsets.symmetric(
-              vertical: SizeConfig.scaledHeight(2),
-              horizontal: SizeConfig.scaledWidth(7.5),
+              vertical: context.percentHeight(2),
+              horizontal: context.percentWidth(7.5),
             ),
             child: Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: SizeConfig.scaledWidth(4),
-                vertical: SizeConfig.scaledHeight(2),
+                horizontal: context.percentWidth(4),
+                vertical: context.percentHeight(2),
               ),
               child: Text(
                 "No food boxes available for the selected date. Please choose another date.",
                 style: TextStyle(
-                  fontSize: SizeConfig.scaledHeight(2.5),
+                  fontSize: context.percentHeight(2.5),
                   fontWeight: FontWeight.w400,
                   color: Theme.of(context).colorScheme.primary,
                 ),
@@ -105,9 +105,9 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
         else
           Container(
             margin: EdgeInsets.symmetric(
-              vertical: SizeConfig.scaledHeight(2),
+              vertical: context.percentHeight(2),
             ),
-            height: SizeConfig.scaledHeight(14),
+            height: context.percentHeight(14),
             child: PageView(
               controller: _controller,
               children: List.generate(
@@ -135,15 +135,16 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
                     ref.read(selectedBoxesProvider.notifier).clearList();
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        messegeSnackBar("Ticket successfully created."),
+                        messegeSnackBar(
+                            context, "Ticket successfully created."),
                       );
                     }
                   }
                 }
               : null,
           child: Container(
-            width: SizeConfig.scaledWidth(40),
-            height: SizeConfig.scaledHeight(7),
+            width: context.percentWidth(40),
+            height: context.percentHeight(7),
             alignment: Alignment.center,
             decoration: BoxDecoration(
               borderRadius: AppConstants.circleRadius,
@@ -154,7 +155,7 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
             child: Text(
               "Create Ticket",
               style: TextStyle(
-                fontSize: SizeConfig.scaledHeight(2),
+                fontSize: context.percentHeight(2),
                 color: Theme.of(context).colorScheme.onPrimary,
               ),
               textAlign: TextAlign.center,

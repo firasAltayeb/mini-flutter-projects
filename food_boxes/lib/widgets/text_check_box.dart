@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_boxes/utility/preference_box.dart';
 
-import '../utility/size_config.dart';
+import '../utility/dimension_extensions.dart';
+import '../utility/preference_box.dart';
 
 class TextCheckBox extends ConsumerWidget {
   const TextCheckBox({
@@ -16,7 +16,7 @@ class TextCheckBox extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final showAlert = ref.watch(provider);
     return SizedBox(
-      height: SizeConfig.scaledHeight(5),
+      height: context.percentHeight(5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

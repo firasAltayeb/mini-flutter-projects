@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_boxes/screens/loading_screen.dart';
-import 'package:food_boxes/utility/box_list_notifier.dart';
-import 'package:food_boxes/utility/shared_providers.dart';
 
 import '../app_constants.dart';
+import '../utility/box_list_notifier.dart';
+import '../utility/shared_providers.dart';
+import 'loading_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});

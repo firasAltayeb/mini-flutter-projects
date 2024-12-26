@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../app_constants.dart';
-import '../utility/size_config.dart';
+import '../utility/dimension_extensions.dart';
 
 class StylizedTxtContainer extends StatelessWidget {
   const StylizedTxtContainer({
@@ -18,8 +18,8 @@ class StylizedTxtContainer extends StatelessWidget {
     return GestureDetector(
       onTap: onTapFunction,
       child: Container(
-        width: SizeConfig.scaledWidth(25),
-        height: SizeConfig.scaledHeight(5),
+        width: context.percentWidth(25),
+        height: context.percentHeight(5),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: AppConstants.circleRadius,
@@ -29,12 +29,12 @@ class StylizedTxtContainer extends StatelessWidget {
           ),
         ),
         margin: EdgeInsets.symmetric(
-          horizontal: SizeConfig.scaledWidth(5),
+          horizontal: context.percentWidth(5),
         ),
         child: Text(
           text,
           style: TextStyle(
-            fontSize: SizeConfig.scaledHeight(2),
+            fontSize: context.percentHeight(2),
             color: Theme.of(context).colorScheme.primary,
           ),
         ),

@@ -4,16 +4,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_boxes/utility/box_list_notifier.dart';
-import 'package:food_boxes/utility/shared_providers.dart';
-import 'package:food_boxes/utility/ticket_list_notifier.dart';
-import 'package:food_boxes/widgets/stylized_txt_container.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../app_constants.dart';
 import '../model/food_box.dart';
-import 'size_config.dart';
+import '../widgets/stylized_txt_container.dart';
+import 'box_list_notifier.dart';
+import 'dimension_extensions.dart';
+import 'shared_providers.dart';
+import 'ticket_list_notifier.dart';
 
 final _rng = Random();
 
@@ -41,29 +41,29 @@ void orderDetailsDialogue(
           children: [
             Padding(
               padding: EdgeInsets.only(
-                top: SizeConfig.scaledHeight(2.5),
+                top: ref.context.percentHeight(2.5),
               ),
               child: Text(
                 "Order Number: #${ticketIdx + 1}",
                 style: TextStyle(
-                  fontSize: SizeConfig.scaledHeight(2.8),
+                  fontSize: ref.context.percentHeight(2.8),
                   fontWeight: FontWeight.w500,
                 ),
               ),
             ),
             QrImageView(
               padding: EdgeInsets.only(
-                top: SizeConfig.scaledHeight(3.5),
-                bottom: SizeConfig.scaledHeight(3.5),
-                left: SizeConfig.scaledWidth(6),
+                top: ref.context.percentHeight(3.5),
+                bottom: ref.context.percentHeight(3.5),
+                left: ref.context.percentWidth(6),
               ),
               data: orderDetails ?? "Not available",
               version: QrVersions.auto,
-              size: SizeConfig.scaledHeight(22),
+              size: ref.context.percentHeight(22),
             ),
             Padding(
               padding: EdgeInsets.only(
-                bottom: SizeConfig.scaledHeight(2),
+                bottom: ref.context.percentHeight(2),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -112,7 +112,7 @@ void orderDetailsDialogue(
 Widget orderSummary(WidgetRef ref, List<FoodBox> boxes) {
   final uniqueItems = Set.from(boxes);
   return Container(
-    height: SizeConfig.scaledHeight(30),
+    height: ref.context.percentHeight(30),
     width: double.infinity,
     decoration: BoxDecoration(
         border: Border(
@@ -123,7 +123,7 @@ Widget orderSummary(WidgetRef ref, List<FoodBox> boxes) {
     )),
     child: ListView.builder(
       padding: EdgeInsets.only(
-        top: SizeConfig.scaledHeight(1.3),
+        top: ref.context.percentHeight(1.3),
       ),
       itemCount: uniqueItems.length,
       itemBuilder: (_, index) {
@@ -138,10 +138,10 @@ Widget orderSummary(WidgetRef ref, List<FoodBox> boxes) {
               children: [
                 Container(
                   margin: EdgeInsets.only(
-                    right: SizeConfig.scaledWidth(1),
+                    right: ref.context.percentWidth(1),
                   ),
-                  height: SizeConfig.scaledHeight(2.75),
-                  width: SizeConfig.scaledWidth(5),
+                  height: ref.context.percentHeight(2.75),
+                  width: ref.context.percentWidth(5),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: AppConstants.grey400,
@@ -149,20 +149,20 @@ Widget orderSummary(WidgetRef ref, List<FoodBox> boxes) {
                   child: Text(
                     boxQuantity.toString(),
                     style: TextStyle(
-                      fontSize: SizeConfig.scaledHeight(1.75),
+                      fontSize: ref.context.percentHeight(1.75),
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
                 SizedBox(
-                  width: SizeConfig.scaledWidth(40),
+                  width: ref.context.percentWidth(40),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         uniqueItems.elementAt(index).name,
                         style: TextStyle(
-                          fontSize: SizeConfig.scaledHeight(2),
+                          fontSize: ref.context.percentHeight(2),
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -171,7 +171,7 @@ Widget orderSummary(WidgetRef ref, List<FoodBox> boxes) {
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           color: AppConstants.grey600,
-                          fontSize: SizeConfig.scaledHeight(1.75),
+                          fontSize: ref.context.percentHeight(1.75),
                         ),
                       )
                     ],
@@ -184,7 +184,7 @@ Widget orderSummary(WidgetRef ref, List<FoodBox> boxes) {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: AppConstants.grey800,
-                      fontSize: SizeConfig.scaledHeight(1.75),
+                      fontSize: ref.context.percentHeight(1.75),
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -212,19 +212,19 @@ Future<bool?> yesNoDialogue(BuildContext context, String messageToDisplay,
         children: [
           Padding(
             padding: EdgeInsets.symmetric(
-              vertical: SizeConfig.scaledHeight(0.5),
+              vertical: context.percentHeight(0.5),
             ),
             child: Text(
               "Are you sure?",
               style: TextStyle(
-                fontSize: SizeConfig.scaledHeight(2.75),
+                fontSize: context.percentHeight(2.75),
                 fontWeight: FontWeight.w700,
               ),
             ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(
-              vertical: SizeConfig.scaledHeight(1.5),
+              vertical: context.percentHeight(1.5),
             ),
             child: Text(
               messageToDisplay,
@@ -240,7 +240,7 @@ Future<bool?> yesNoDialogue(BuildContext context, String messageToDisplay,
           child: Text(
             "Yes",
             style: TextStyle(
-              fontSize: SizeConfig.scaledHeight(2.25),
+              fontSize: context.percentHeight(2.25),
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -250,7 +250,7 @@ Future<bool?> yesNoDialogue(BuildContext context, String messageToDisplay,
           child: Text(
             "No",
             style: TextStyle(
-              fontSize: SizeConfig.scaledHeight(2.25),
+              fontSize: context.percentHeight(2.25),
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -260,22 +260,26 @@ Future<bool?> yesNoDialogue(BuildContext context, String messageToDisplay,
   );
 }
 
-SnackBar messegeSnackBar(String messege, {int? timeUp = 1000}) {
+SnackBar messegeSnackBar(
+  BuildContext context,
+  String messege, {
+  int? timeUp = 1000,
+}) {
   return SnackBar(
     shape: RoundedRectangleBorder(borderRadius: AppConstants.circleRadius),
     duration: Duration(milliseconds: timeUp!),
     content: Text(
       messege,
       style: TextStyle(
-        fontSize: SizeConfig.scaledHeight(2.25),
+        fontSize: context.percentHeight(2.25),
       ),
       textAlign: TextAlign.center,
     ),
     behavior: SnackBarBehavior.floating,
     margin: EdgeInsets.only(
-      left: SizeConfig.scaledWidth(20),
-      right: SizeConfig.scaledWidth(20),
-      bottom: SizeConfig.scaledHeight(5),
+      left: context.percentWidth(20),
+      right: context.percentWidth(20),
+      bottom: context.percentHeight(5),
     ),
   );
 }
@@ -311,10 +315,7 @@ Future<void> deleteAccount(BuildContext context) async {
       }
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          messegeSnackBar(
-            snackBarMessege,
-            timeUp: 1750,
-          ),
+          messegeSnackBar(context, snackBarMessege, timeUp: 1750),
         );
       }
     } catch (e) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:food_boxes/screens/expanded_order_screen.dart';
 
 import 'screens/auth_screen.dart';
+import 'screens/expanded_order_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/reg_screen.dart';
 import 'screens/reset_pw_screen.dart';

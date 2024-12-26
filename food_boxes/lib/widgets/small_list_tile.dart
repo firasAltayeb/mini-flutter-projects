@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../app_constants.dart';
-import '../utility/size_config.dart';
+import '../utility/dimension_extensions.dart';
 
 class SmallListTile extends StatelessWidget {
   const SmallListTile({
@@ -20,8 +20,8 @@ class SmallListTile extends StatelessWidget {
     return GestureDetector(
       onTap: function,
       child: Container(
-        height: SizeConfig.scaledHeight(7),
-        width: SizeConfig.scaledWidth(39),
+        height: context.percentHeight(7),
+        width: context.percentWidth(39),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Colors.green[500],
@@ -35,13 +35,13 @@ class SmallListTile extends StatelessWidget {
               color: Colors.white,
             ),
             SizedBox(
-              width: SizeConfig.scaledWidth(4),
+              width: context.percentWidth(4),
             ),
             Text(
               text,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: SizeConfig.scaledHeight(2.25),
+                fontSize: context.percentHeight(2.25),
                 fontWeight: FontWeight.w400,
               ),
             ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:food_boxes/model/bottom_bar_items.dart';
-import 'package:food_boxes/widgets/account_page.dart';
 
+import 'model/bottom_bar_items.dart';
 import 'model/food_box.dart';
+import 'widgets/account_page.dart';
 import 'widgets/schedule_page.dart';
 import 'widgets/tickets_page.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utility/size_config.dart';
+import '../utility/dimension_extensions.dart';
 import '../widgets/email_pw_page.dart';
 import 'reg_screen.dart';
 import 'reset_pw_screen.dart';
@@ -15,11 +15,11 @@ class AuthenticationScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(),
       body: Container(
-        width: SizeConfig.safeWidth,
-        height: SizeConfig.safeHeight,
+        width: context.safeWidth,
+        height: context.safeHeight,
         padding: EdgeInsets.symmetric(
-          vertical: SizeConfig.scaledHeight(10),
-          horizontal: SizeConfig.scaledWidth(10),
+          vertical: context.percentHeight(10),
+          horizontal: context.percentWidth(10),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,11 +36,11 @@ class AuthenticationScreen extends StatelessWidget {
               },
               child: Container(
                 alignment: Alignment.center,
-                width: SizeConfig.safeWidth,
+                width: context.safeWidth,
                 child: Text(
                   "Forgot Password",
                   style: TextStyle(
-                    fontSize: SizeConfig.scaledHeight(2),
+                    fontSize: context.percentHeight(2),
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
@@ -61,7 +61,7 @@ class AuthenticationScreen extends StatelessWidget {
                   child: Text(
                     "Create an Account",
                     style: TextStyle(
-                      fontSize: SizeConfig.scaledHeight(2),
+                      fontSize: context.percentHeight(2),
                       color: Theme.of(context).colorScheme.primary,
                     ),
                   ),

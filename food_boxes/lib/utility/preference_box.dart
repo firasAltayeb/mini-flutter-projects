@@ -1,5 +1,6 @@
-import 'package:food_boxes/app_constants.dart';
 import 'package:hive/hive.dart';
+
+import '../app_constants.dart';
 
 class PreferenceBox {
   static const _confirmLogoutToggle = "confirmLogoutToggleKey";
