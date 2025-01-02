@@ -17,12 +17,12 @@ class ChoiceOption extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedAnswer = ref.watch(selectedAnswerProvider);
+    final selectedAnswer = ref.watch(selectedAnsTextProvider);
     final isSelected = selectedAnswer == answerText;
     return GestureDetector(
       onTap: () {
         ref.read(selectedAnsAccuracyProvider.notifier).state = accuracy;
-        ref.read(selectedAnswerProvider.notifier).state = answerText;
+        ref.read(selectedAnsTextProvider.notifier).state = answerText;
       },
       child: Container(
         margin: EdgeInsets.symmetric(

@@ -34,7 +34,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void _resetQuiz() {
     ref.read(mistakeAttemptsProvider.notifier).state = 4;
-    ref.read(selectedAnswerProvider.notifier).state = '';
+    ref.read(selectedAnsTextProvider.notifier).state = '';
+    ref.read(selectedAnsAccuracyProvider.notifier).state = -1;
     setState(() {
       _questionIdx = 0;
       _totalScore = 0;
@@ -57,21 +58,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final mistakeAttempts = ref.read(mistakeAttemptsProvider);
     final accuracy = ref.read(selectedAnsAccuracyProvider);
     await stopPlayingSound(ref);
-    if (accuracy == 0) {
+    if (accuracy == AppConstants.correctAnswerAccuracy) {
+      await playSoundEffect(ref, SoundEffect.correct);
+      if (_questionIdx < AppConstants.questions.length - 1) {
+        setState(() => _questionIdx++);
+      } else {
+        _navToResultScrn('Congratulations!! You are trivia master!!');
+      }
+    } else if (accuracy == AppConstants.incorrectAnswerAccuracy) {
       await playSoundEffect(ref, SoundEffect.incorrect);
       ref.read(mistakeAttemptsProvider.notifier).state -= 1;
       if (mistakeAttempts <= 1) {
         _navToResultScrn('You have ran out of lifes. Try again next time');
       }
     } else {
-      await playSoundEffect(ref, SoundEffect.correct);
-      if (_questionIdx < AppConstants.questions.length - 1) {
-        ref.read(selectedAnswerProvider.notifier).state = '';
-        setState(() => _questionIdx++);
-      } else {
-        _navToResultScrn('Congratulations!! You are trivia master!!');
-      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        messageSnackBar(context, "Please select a choice"),
+      );
     }
+    ref.read(selectedAnsAccuracyProvider.notifier).state = -1;
   }
 
   @override
@@ -93,6 +98,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             SessionTopSection(
               queueIndex: _questionIdx,
             ),
+            Spacer(),
             TextContainer(textToShow: currentQuestion.qusTxt),
             Spacer(),
             ...currentQuestion.ansList

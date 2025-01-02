@@ -3,8 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app_constants.dart';
 import '../utility/dimension_extensions.dart';
-import '../utility/home_functions.dart';
-import '../utility/shared_providers.dart';
 
 class GestureContainer extends ConsumerWidget {
   const GestureContainer({
@@ -18,16 +16,8 @@ class GestureContainer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedAnswer = ref.watch(selectedAnswerProvider);
     return GestureDetector(
-      onTap: () {
-        if (selectedAnswer.isEmpty)
-          ScaffoldMessenger.of(context).showSnackBar(
-            messageSnackBar(context, "Please select a choice"),
-          );
-        else
-          passedFunction();
-      },
+      onTap: () => passedFunction(),
       child: Container(
         height: context.percentHeight(6),
         width: context.percentWidth(50),

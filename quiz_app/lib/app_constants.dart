@@ -4,6 +4,8 @@ import 'models/question_model.dart';
 
 abstract class AppConstants {
   static const circleRadius = BorderRadius.all(Radius.circular(20));
+  static const correctAnswerAccuracy = 1;
+  static const incorrectAnswerAccuracy = 0;
 
   static const List<QuestionModel> questions = [
     QuestionModel(

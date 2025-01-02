@@ -16,41 +16,30 @@ class SessionTopSection extends ConsumerWidget {
 
   Widget build(BuildContext context, WidgetRef ref) {
     final mistakeAttempts = ref.watch(mistakeAttemptsProvider);
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(
-              bottom: context.percentHeight(10),
-              top: context.percentHeight(1.75),
-            ),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: context.percentWidth(4),
-                ),
-                Text(
-                  "Lives: ",
-                  style: TextStyle(
-                    fontSize: context.percentHeight(2.8),
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-                for (var i = 1; i <= mistakeAttempts; i++)
-                  Icon(
-                    AppIcons.heart_filled,
-                    size: context.percentHeight(3.3),
-                  )
-              ],
+    return Padding(
+      padding: EdgeInsets.only(
+        left: context.percentWidth(4),
+        top: context.percentHeight(1.75),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Lives: ",
+            style: TextStyle(
+              fontSize: context.percentHeight(2.8),
+              fontWeight: FontWeight.w300,
             ),
           ),
-        ),
-        Expanded(
-          child: Container(
+          for (var i = 1; i <= mistakeAttempts; i++)
+            Icon(
+              AppIcons.heart_filled,
+              size: context.percentHeight(3.3),
+            ),
+          Spacer(),
+          Container(
             alignment: Alignment.centerRight,
             padding: EdgeInsets.only(
-              top: context.percentHeight(1.5),
               right: context.percentWidth(5),
             ),
             child: Text(
@@ -62,8 +51,8 @@ class SessionTopSection extends ConsumerWidget {
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
