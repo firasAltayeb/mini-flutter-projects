@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../app_constants.dart';
 import '../app_icons.dart';
 import '../utility/dimension_extensions.dart';
-import '../utility/home_functions.dart';
 import '../utility/shared_providers.dart';
 
 class SessionTopSection extends ConsumerWidget {
@@ -14,15 +13,21 @@ class SessionTopSection extends ConsumerWidget {
 
   final int queueIndex;
 
+  String counterDisplay(itemNumber) {
+    return itemNumber > 9 && queueIndex + 1 < 10
+        ? "0${queueIndex + 1}/$itemNumber"
+        : "${queueIndex + 1}/$itemNumber";
+  }
+
   Widget build(BuildContext context, WidgetRef ref) {
     final mistakeAttempts = ref.watch(mistakeAttemptsProvider);
     return Padding(
       padding: EdgeInsets.only(
         left: context.percentWidth(4),
         top: context.percentHeight(1.75),
+        right: context.percentWidth(5),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "Lives: ",
@@ -37,18 +42,12 @@ class SessionTopSection extends ConsumerWidget {
               size: context.percentHeight(3.3),
             ),
           Spacer(),
-          Container(
-            alignment: Alignment.centerRight,
-            padding: EdgeInsets.only(
-              right: context.percentWidth(5),
-            ),
-            child: Text(
-              counterDisplay(queueIndex, AppConstants.questions.length),
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: context.percentHeight(3),
-                fontWeight: FontWeight.w300,
-              ),
+          Text(
+            counterDisplay(AppConstants.questions.length),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: context.percentHeight(3),
+              fontWeight: FontWeight.w300,
             ),
           ),
         ],

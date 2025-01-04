@@ -13,10 +13,11 @@ import '../widgets/gesture_container.dart';
 import '../widgets/gradiant_container.dart';
 import '../widgets/session_top_section.dart';
 import '../widgets/text_container.dart';
-// import '../app_constants.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
+
+  static const routeName = "/";
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -34,8 +35,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void _resetQuiz() {
     ref.read(mistakeAttemptsProvider.notifier).state = 4;
-    ref.read(selectedAnsTextProvider.notifier).state = '';
-    ref.read(selectedAnsAccuracyProvider.notifier).state = -1;
     setState(() {
       _questionIdx = 0;
       _totalScore = 0;
@@ -77,6 +76,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       );
     }
     ref.read(selectedAnsAccuracyProvider.notifier).state = -1;
+    ref.read(selectedAnsTextProvider.notifier).state = '';
   }
 
   @override

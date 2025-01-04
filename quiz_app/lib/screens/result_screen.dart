@@ -29,20 +29,22 @@ class ResultScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        centerTitle: true,
-        title: Text("Result Screen"),
+        automaticallyImplyLeading: false,
+        title: Text(
+          "Result Screen",
+          style: TextStyle(
+            fontSize: context.percentHeight(2.8),
+          ),
+        ),
       ),
       body: GradientContainer(
         childWidget: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             TextContainer(
               textToShow: resultScreenMsg,
-              // textToShow: resultPhrase(args.totalScore, args.quizQuestions),
             ),
             SizedBox(
-              width: double.infinity,
               height: context.percentHeight(8),
             ),
             GestureContainer(

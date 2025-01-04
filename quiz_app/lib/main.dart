@@ -18,7 +18,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Quiz App",
-      initialRoute: '/',
       theme: ThemeData(
         appBarTheme: AppBarTheme(
           color: Color(0xFF883B96),
@@ -29,9 +28,12 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
+      initialRoute: HomeScreen.routeName,
       routes: {
-        '/': (context) => HomeScreen(),
-        '/result-screen': (context) {
+        HomeScreen.routeName: (_) {
+          return HomeScreen();
+        },
+        ResultScreen.routeName: (_) {
           return ResultScreen();
         },
       },
