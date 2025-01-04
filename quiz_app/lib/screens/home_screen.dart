@@ -13,10 +13,11 @@ import '../widgets/gesture_container.dart';
 import '../widgets/gradiant_container.dart';
 import '../widgets/session_top_section.dart';
 import '../widgets/text_container.dart';
-// import '../app_constants.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
+
+  static const routeName = "/";
 
   @override
   _HomeScreenState createState() => _HomeScreenState();

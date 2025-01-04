@@ -20,9 +20,9 @@ class SessionTopSection extends ConsumerWidget {
       padding: EdgeInsets.only(
         left: context.percentWidth(4),
         top: context.percentHeight(1.75),
+        right: context.percentWidth(5),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "Lives: ",
@@ -37,18 +37,12 @@ class SessionTopSection extends ConsumerWidget {
               size: context.percentHeight(3.3),
             ),
           Spacer(),
-          Container(
-            alignment: Alignment.centerRight,
-            padding: EdgeInsets.only(
-              right: context.percentWidth(5),
-            ),
-            child: Text(
-              counterDisplay(queueIndex, AppConstants.questions.length),
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: context.percentHeight(3),
-                fontWeight: FontWeight.w300,
-              ),
+          Text(
+            counterDisplay(queueIndex, AppConstants.questions.length),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: context.percentHeight(3),
+              fontWeight: FontWeight.w300,
             ),
           ),
         ],
