@@ -1,6 +1,14 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../app_constants.dart';
+import '../models/question_model.dart';
+
+final questionListProvider = StateProvider<List<QuestionModel>>((ref) {
+  final shuffledList = [...AppConstants.questions]..shuffle();
+  return shuffledList;
+});
+
 final questionIndexProvider = StateProvider<int>((ref) => 0);
 
 final selectedAnsAccuracyProvider = StateProvider<int>((ref) => 0);

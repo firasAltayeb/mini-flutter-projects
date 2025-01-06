@@ -61,8 +61,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final questionList = ref.watch(questionListProvider);
     final questionIndex = ref.watch(questionIndexProvider);
-    final currentQuestion = AppConstants.questions[questionIndex];
+    final currentQuestion = questionList[questionIndex];
     return Scaffold(
       appBar: AppBar(
         title: Text(

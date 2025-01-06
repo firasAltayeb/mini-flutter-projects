@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../app_constants.dart';
 import '../utility/dimension_extensions.dart';
 import '../utility/shared_providers.dart';
 import '../widgets/gradiant_button.dart';
@@ -40,6 +41,8 @@ class ResultScreen extends ConsumerWidget {
               onTap: () {
                 ref.read(mistakeAttemptsProvider.notifier).state = 4;
                 ref.read(questionIndexProvider.notifier).state = 0;
+                final shuffledList = [...AppConstants.questions]..shuffle();
+                ref.read(questionListProvider.notifier).state = shuffledList;
                 Navigator.of(context).pop();
               },
               child: GestureButton(textToShow: "Restart Quiz"),
