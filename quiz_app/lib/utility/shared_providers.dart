@@ -1,6 +1,8 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+final questionIndexProvider = StateProvider<int>((ref) => 0);
+
 final selectedAnsAccuracyProvider = StateProvider<int>((ref) => 0);
 
 final resultScreenMsgProvider = StateProvider<String>((ref) => '');

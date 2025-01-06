@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app_constants.dart';
-import '../models/screen_arguments.dart';
 import '../screens/result_screen.dart';
 import '../utility/dimension_extensions.dart';
 import '../utility/enum_land.dart';
 import '../utility/home_functions.dart';
 import '../utility/shared_providers.dart';
 import '../widgets/choice_option.dart';
-import '../widgets/gesture_container.dart';
+import '../widgets/gradiant_button.dart';
 import '../widgets/gradiant_container.dart';
 import '../widgets/session_top_section.dart';
 import '../widgets/text_container.dart';
@@ -24,51 +23,32 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  int _questionIdx = 0;
-  int _totalScore = 0;
-
   @override
   void initState() {
     initializeProviders(ref);
     super.initState();
   }
 
-  void _resetQuiz() {
-    ref.read(mistakeAttemptsProvider.notifier).state = 4;
-    setState(() {
-      _questionIdx = 0;
-      _totalScore = 0;
-    });
-    Navigator.of(context).pop();
-  }
-
-  void _navToResultScrn(String msg) {
-    ref.read(resultScreenMsgProvider.notifier).state = msg;
-    Navigator.of(context).pushNamed(
-      ResultScreen.routeName,
-      arguments: ScreenArguments(
-        resetHandler: _resetQuiz,
-        totalScore: _totalScore,
-      ),
-    );
-  }
-
-  void _answerClicked() async {
+  void _answerClicked(int questionIndex) async {
     final mistakeAttempts = ref.read(mistakeAttemptsProvider);
     final accuracy = ref.read(selectedAnsAccuracyProvider);
     await stopPlayingSound(ref);
     if (accuracy == AppConstants.correctAnswerAccuracy) {
       await playSoundEffect(ref, SoundEffect.correct);
-      if (_questionIdx < AppConstants.questions.length - 1) {
-        setState(() => _questionIdx++);
+      if (questionIndex < AppConstants.questions.length - 1) {
+        ref.read(questionIndexProvider.notifier).update((state) => state + 1);
       } else {
-        _navToResultScrn('Congratulations!! You are trivia master!!');
+        final msg = 'Congratulations!! You are trivia master!!';
+        ref.read(resultScreenMsgProvider.notifier).state = msg;
+        Navigator.of(context).pushNamed(ResultScreen.routeName);
       }
     } else if (accuracy == AppConstants.incorrectAnswerAccuracy) {
       await playSoundEffect(ref, SoundEffect.incorrect);
       ref.read(mistakeAttemptsProvider.notifier).state -= 1;
       if (mistakeAttempts <= 1) {
-        _navToResultScrn('You have ran out of lifes. Try again next time');
+        final msg = 'You have ran out of lifes. Try again next time';
+        ref.read(resultScreenMsgProvider.notifier).state = msg;
+        Navigator.of(context).pushNamed(ResultScreen.routeName);
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -81,11 +61,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final currentQuestion = AppConstants.questions[_questionIdx];
+    final questionIndex = ref.watch(questionIndexProvider);
+    final currentQuestion = AppConstants.questions[questionIndex];
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Question #${_questionIdx + 1}",
+          "Question #${questionIndex + 1}",
           style: TextStyle(
             fontSize: context.percentHeight(2.8),
           ),
@@ -96,7 +77,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         childWidget: Column(
           children: [
             SessionTopSection(
-              queueIndex: _questionIdx,
+              queueIndex: questionIndex,
             ),
             Spacer(),
             TextContainer(textToShow: currentQuestion.qusTxt),
@@ -108,9 +89,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ))
                 .toList(),
             Spacer(),
-            GestureContainer(
-              passedFunction: _answerClicked,
-              textToShow: "Submit",
+            GestureDetector(
+              onTap: () => _answerClicked(questionIndex),
+              child: GestureButton(textToShow: "Submit"),
             ),
             Spacer(
               flex: 3,
