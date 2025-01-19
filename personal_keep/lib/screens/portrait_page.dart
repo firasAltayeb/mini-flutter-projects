@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:personal_keep/utility/home_functions.dart';
 import 'package:personal_keep/widgets/expenses_chart.dart';
@@ -19,13 +20,13 @@ class PortraitPage extends ConsumerWidget {
     final recentTransactions = ref.watch(recentTransactionsProvider);
     return Column(
       children: [
-        Container(
+        SizedBox(
           height: pageHeight * 0.3,
           child: ExpenseChart(
             recentTransactions: recentTransactions,
           ),
         ),
-        Container(
+        SizedBox(
           height: pageHeight * 0.7,
           child: TransactionList(
             transactions: userTransactions,
