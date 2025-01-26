@@ -46,7 +46,7 @@ class ExpenseChart extends StatelessWidget {
               child: ChartBar(
                 label: data['day'],
                 spendingAmount: data['amount'],
-                spendingPctOfTotal:
+                percentageOfTotal:
                     totalSpending == 0.0 ? 0.0 : data['amount'] / totalSpending,
               ),
             );
