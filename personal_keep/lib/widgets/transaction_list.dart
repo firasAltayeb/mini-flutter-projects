@@ -18,11 +18,16 @@ class TransactionList extends StatelessWidget {
             return Material(
               child: Column(
                 children: [
-                  Text("No transactions added yet."),
-                  SizedBox(
-                    height: constraints.maxHeight * 0.05,
+                  Text(
+                    "No transactions added yet.",
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
                   ),
-                  Container(
+                  SizedBox(
+                    height: constraints.maxHeight * 0.1,
+                  ),
+                  SizedBox(
                     height: constraints.maxHeight * 0.6,
                     child: Image.asset(
                       "assets/images/waiting.png",
