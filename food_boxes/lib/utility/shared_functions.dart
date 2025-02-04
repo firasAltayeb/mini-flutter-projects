@@ -75,23 +75,23 @@ void orderDetailsDialogue(
                   StylizedTxtContainer(
                     text: "Cancel",
                     onTapFunction: () async {
-                      final cancelOrder = await yesNoDialogue(ref.context,
-                              "Canceling an order is permanent and irreversible") ??
-                          false;
-                      final tixCount =
+                      final dialogChoice = yesNoDialogue(ref.context,
+                          "Canceling an order is permanent and irreversible");
+                      final cancelOrder = await dialogChoice ?? false;
+                      final ticketCount =
                           ticketList.where((e) => e == ticket).length;
                       if (cancelOrder) {
                         ref
                             .read(ticketListProvider.notifier)
                             .removeElement(ticketIdx);
-                        if (tixCount == 1) {
+                        if (ticketCount == 1) {
                           ref
                               .read(stackedTicketProvider.notifier)
                               .update((state) => [...state..remove(ticket)]);
                         }
                       }
                       if (ctx.mounted) {
-                        if (tixCount == 1) {
+                        if (ticketCount == 1) {
                           Navigator.popUntil(ctx, ModalRoute.withName('/'));
                         } else {
                           Navigator.pop(ctx);

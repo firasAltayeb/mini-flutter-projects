@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 extension BuildContextDimension on BuildContext {
-  MediaQueryData info() => MediaQuery.of(this);
+  MediaQueryData get info => MediaQuery.of(this);
 
-  Size get windowSize => info().size;
+  Size get windowSize => info.size;
 
-  EdgeInsets get safeAreaPadding => info().padding;
+  EdgeInsets get safeAreaPadding => info.padding;
 
   double get unsafeAreaHorizontal =>
       safeAreaPadding.left + safeAreaPadding.right;
