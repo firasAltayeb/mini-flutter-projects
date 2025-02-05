@@ -17,20 +17,20 @@ class _ChatScreenState extends State<ChatScreen> {
     final fcm = FirebaseMessaging.instance;
     await fcm.requestPermission();
     // could be sent (via HTTP or Firestore SDK) to a backend
-    final token = await fcm.getToken();
-    print("token: $token");
     fcm.subscribeToTopic('chat');
   }
 
   @override
   void initState() {
     super.initState();
-    setupPushNotifications();
+    // setupPushNotifications();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
         appBar: AppBar(
           title: Text('FlutterChat'),
           actions: [
@@ -52,6 +52,8 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
             NewMessage(),
           ],
-        ));
+        ),
+      ),
+    );
   }
 }

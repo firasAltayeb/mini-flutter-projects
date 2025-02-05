@@ -20,35 +20,34 @@ class _NewMessageState extends State<NewMessage> {
 
   void _submitMessage() async {
     final enteredMessage = _messageController.text;
-    if (enteredMessage.trim().isEmpty) {
-      return;
+    if (enteredMessage.trim().isNotEmpty) {
+      FocusScope.of(context).unfocus();
+      _messageController.clear();
+
+      final user = FirebaseAuth.instance.currentUser!;
+      final userData = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+
+      if (userData.data() != null) {
+        FirebaseFirestore.instance.collection('chat').add({
+          'text': enteredMessage,
+          'createdAt': Timestamp.now(),
+          'userId': user.uid,
+          'username': userData.data()!['username'],
+          'userImage': userData.data()!['image_url'],
+        });
+      } else {
+        print("userData is null");
+      }
     }
-    FocusScope.of(context).unfocus();
-    _messageController.clear();
-
-    final user = FirebaseAuth.instance.currentUser!;
-    final userData = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .get();
-
-    FirebaseFirestore.instance.collection('chat').add({
-      'text': enteredMessage,
-      'createdAt': Timestamp.now(),
-      'userId': user.uid,
-      'username': userData.data()!['username'],
-      'userImage': userData.data()!['image_url'],
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        left: 15,
-        right: 5,
-        bottom: 15,
-      ),
+      padding: EdgeInsets.only(left: 15, right: 5, bottom: 30),
       child: Row(
         children: [
           Expanded(
@@ -59,15 +58,15 @@ class _NewMessageState extends State<NewMessage> {
               autocorrect: true,
               decoration: const InputDecoration(
                 labelText: 'Send a message...',
+                contentPadding: EdgeInsets.symmetric(vertical: 12.0),
+                floatingLabelBehavior: FloatingLabelBehavior.never,
               ),
             ),
           ),
           IconButton(
             color: Theme.of(context).colorScheme.primary,
             onPressed: _submitMessage,
-            icon: Icon(
-              Icons.send,
-            ),
+            icon: Icon(Icons.send),
           )
         ],
       ),

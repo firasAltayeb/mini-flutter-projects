@@ -25,63 +25,53 @@ class _AuthScreenState extends State<AuthScreen> {
   var _isAuthenticating = false;
 
   void _submit() async {
-    final isValid = _form.currentState!.validate();
-    if (!isValid || !_isLogin && _selectedImage == null) {
-      // show error message
-      return;
-    }
-
-    _form.currentState!.save();
-
-    try {
-      setState(() {
-        _isAuthenticating = true;
-      });
-      if (_isLogin) {
-        final userCredentials = await _firebase.signInWithEmailAndPassword(
-            email: _enteredEmail, password: _enteredPassword);
-        print("userCredentials $userCredentials");
-      } else {
-        final userCredentials = await _firebase.createUserWithEmailAndPassword(
-            email: _enteredEmail, password: _enteredPassword);
-        // gives access to firebase cloud storage
-        // child targets or creates a new path
-        final storageRef = FirebaseStorage.instance
-            .ref()
-            .child('user_images')
-            .child('${userCredentials.user!.uid}.jpg');
-        await storageRef.putFile(_selectedImage!);
-        final imageUrl = await storageRef.getDownloadURL();
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(userCredentials.user!.uid)
-            .set({
-          'username': _enteredUsername,
-          'email': _enteredEmail,
-          'image_url': imageUrl,
-        });
-      }
-    } on FirebaseAuthException catch (error) {
-      if (error.code == 'email-already-in-use') {
-        //...
-      }
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).clearSnackBars();
+    if (!_form.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            error.message ?? "Authentication failed.",
-          ),
-        ),
+        SnackBar(content: Text("The provided form details are not valid")),
       );
-
-      print("error $error");
-    } catch (e) {
-      print("caught exception $e");
-    } finally {
-      setState(() {
-        _isAuthenticating = false;
-      });
+    } else {
+      _form.currentState!.save();
+      setState(() => _isAuthenticating = true);
+      try {
+        if (_isLogin) {
+          final userCredentials = await _firebase.signInWithEmailAndPassword(
+              email: _enteredEmail, password: _enteredPassword);
+          print("userCredentials $userCredentials");
+        } else {
+          final userCredentials =
+              await _firebase.createUserWithEmailAndPassword(
+                  email: _enteredEmail, password: _enteredPassword);
+          final storageRef = FirebaseStorage.instance
+              .ref() // gives access to firebase cloud storage
+              .child('user_images') // child targets or creates a new path
+              .child('${userCredentials.user!.uid}.jpg');
+          String imageUrl = '';
+          if (_selectedImage != null) {
+            await storageRef.putFile(_selectedImage!);
+            imageUrl = await storageRef.getDownloadURL();
+          }
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(userCredentials.user!.uid)
+              .set({
+            'username': _enteredUsername,
+            'email': _enteredEmail,
+            'image_url': imageUrl,
+          });
+        }
+      } on FirebaseAuthException catch (error) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(error.message ?? "Authentication failed."),
+          ));
+        }
+      } catch (e) {
+        print("caught exception $e");
+      } finally {
+        if (mounted) {
+          setState(() => _isAuthenticating = false);
+        }
+      }
     }
   }
 
@@ -95,10 +85,7 @@ class _AuthScreenState extends State<AuthScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: 15,
-                  vertical: 20,
-                ),
+                margin: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                 width: 100,
                 child: Image.asset(
                   'assets/images/chat.png',
@@ -127,11 +114,8 @@ class _AuthScreenState extends State<AuthScreen> {
                               enableSuggestions: false,
                               autocorrect: false,
                               validator: (value) {
-                                if (value == null ||
-                                    value.isEmpty ||
-                                    value.trim().length < 4) {
-                                  return 'username must contain at '
-                                      'least 4 character.';
+                                if (value == null || value.trim().length < 4) {
+                                  return 'username must contain at least 4 character.';
                                 }
                                 return null;
                               },
@@ -175,7 +159,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             },
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 25,
                           ),
                           if (_isAuthenticating)
                             const CircularProgressIndicator(),
