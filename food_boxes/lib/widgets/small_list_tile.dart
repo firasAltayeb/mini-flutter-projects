@@ -28,23 +28,21 @@ class SmallListTile extends StatelessWidget {
           borderRadius: AppConstants.circleRadius,
         ),
         child: Row(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Icon(
               icon,
               color: Colors.white,
             ),
-            SizedBox(
-              width: context.percentWidth(4),
-            ),
             Text(
               text,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: context.percentHeight(2.25),
+                fontSize: context.percentHeight(2),
                 fontWeight: FontWeight.w400,
               ),
             ),
+            SizedBox.shrink(),
           ],
         ),
       ),

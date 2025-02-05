@@ -217,8 +217,8 @@ Future<bool?> yesNoDialogue(BuildContext context, String messageToDisplay,
             child: Text(
               "Are you sure?",
               style: TextStyle(
-                fontSize: context.percentHeight(2.75),
-                fontWeight: FontWeight.w700,
+                fontSize: context.percentHeight(2.5),
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
@@ -271,15 +271,13 @@ SnackBar messegeSnackBar(
     content: Text(
       messege,
       style: TextStyle(
-        fontSize: context.percentHeight(2.25),
+        fontSize: context.percentHeight(2),
       ),
       textAlign: TextAlign.center,
     ),
     behavior: SnackBarBehavior.floating,
-    margin: EdgeInsets.only(
-      left: context.percentWidth(20),
-      right: context.percentWidth(20),
-      bottom: context.percentHeight(5),
+    margin: EdgeInsets.symmetric(
+      horizontal: context.percentWidth(10),
     ),
   );
 }

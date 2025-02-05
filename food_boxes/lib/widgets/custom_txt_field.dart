@@ -10,7 +10,6 @@ class CustomTxtFormField extends StatefulWidget {
     this.errorLabelColor = const Color(0xFFB71C1C),
     this.labelFocusColor = Colors.blue,
     this.keyboardType = TextInputType.text,
-    this.hideLabelOnFocus = false,
     this.obscureText = false,
     this.maxLines = 1,
     this.prefixIconWidget,
@@ -35,7 +34,6 @@ class CustomTxtFormField extends StatefulWidget {
   final Color errorLabelColor;
   final Color labelFocusColor;
   final TextInputType keyboardType;
-  final bool hideLabelOnFocus;
   final bool obscureText;
   final String decorationLabel;
   final int maxLines;
@@ -53,12 +51,8 @@ class _CustomTxtFormFieldState extends State<CustomTxtFormField> {
 
   @override
   void initState() {
+    _focusNode.addListener(() => setState(() => _focused = !_focused));
     _textVisible = widget.obscureText;
-    _focusNode.addListener(() {
-      setState(() {
-        _focused = !_focused;
-      });
-    });
     super.initState();
   }
 
@@ -71,15 +65,15 @@ class _CustomTxtFormFieldState extends State<CustomTxtFormField> {
                 ? Icon(Icons.visibility)
                 : Icon(Icons.visibility_off),
           )
-        : SizedBox();
+        : SizedBox.shrink();
   }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       style: TextStyle(
-        fontSize: context.percentHeight(2.5),
-        fontWeight: FontWeight.w300,
+        fontSize: context.percentHeight(2),
+        fontWeight: FontWeight.w400,
       ),
       inputFormatters: widget.inputFormatters,
       controller: widget.controller,
@@ -97,14 +91,14 @@ class _CustomTxtFormFieldState extends State<CustomTxtFormField> {
       keyboardType: widget.keyboardType,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(
-          vertical: context.percentHeight(2),
-          horizontal: context.percentWidth(2),
+          vertical: context.percentHeight(1.8),
+          horizontal: context.percentWidth(1.5),
         ),
-        labelText:
-            _focused && widget.hideLabelOnFocus ? null : widget.decorationLabel,
+        labelText: widget.decorationLabel,
+        floatingLabelBehavior: FloatingLabelBehavior.never,
         labelStyle: TextStyle(
           color: _focused ? widget.labelFocusColor : AppConstants.grey500,
-          fontSize: context.percentHeight(2.5),
+          fontSize: context.percentHeight(2),
           fontWeight: FontWeight.w300,
         ),
         errorStyle: TextStyle(

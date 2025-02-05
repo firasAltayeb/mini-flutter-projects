@@ -67,145 +67,110 @@ class _AccountPageState extends ConsumerState<AccountPage> {
   @override
   Widget build(BuildContext context) {
     final hideLogoutDialogue = ref.watch(logoutToggleProvider);
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(
-        horizontal: context.percentWidth(10),
-      ),
-      child: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: context.percentHeight(10),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: context.percentHeight(2),
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(
+          horizontal: context.percentWidth(10),
+        ),
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: context.percentHeight(10),
                 ),
-                child: Icon(
-                  Icons.account_circle_outlined,
-                  size: context.percentHeight(10),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: context.percentHeight(2),
+                  ),
+                  child: Icon(
+                    Icons.account_circle_outlined,
+                    size: context.percentHeight(10),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: context.percentHeight(2),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: context.percentHeight(2),
+                  ),
+                  child: CustomTxtFormField(
+                    controller: _firstNameController,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "Please enter your first name.";
+                      }
+                      return null;
+                    },
+                    keyboardType: TextInputType.text,
+                    prefixIconWidget: Icon(Icons.face),
+                    decorationLabel: "First Name",
+                  ),
                 ),
-                child: CustomTxtFormField(
-                  controller: _firstNameController,
+                CustomTxtFormField(
+                  controller: _lastNameController,
                   validator: (value) {
                     if (value.isEmpty) {
-                      return "Please enter your first name.";
+                      return "Please enter your last name.";
                     }
                     return null;
                   },
                   keyboardType: TextInputType.text,
                   prefixIconWidget: Icon(Icons.face),
-                  decorationLabel: "First Name",
+                  decorationLabel: "Last Name",
                 ),
-              ),
-              CustomTxtFormField(
-                controller: _lastNameController,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return "Please enter your last name.";
-                  }
-                  return null;
-                },
-                keyboardType: TextInputType.text,
-                prefixIconWidget: Icon(Icons.face),
-                decorationLabel: "Last Name",
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: context.percentHeight(2),
-                ),
-                child: CustomTxtFormField(
-                  controller: _ageController,
-                  validator: (value) {
-                    if (value.trim().length > 3 || value.isEmpty) {
-                      return "Please enter an accurate age.";
-                    }
-                    return null;
-                  },
-                  keyboardType: TextInputType.number,
-                  prefixIconWidget: Icon(Icons.numbers),
-                  decorationLabel: "Age",
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(
-                      RegExp(r'[0-9]'),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: context.percentHeight(2),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SmallListTile(
-                        icon: Icons.clear_rounded,
-                        text: "Clear",
-                        function: () {
-                          _firstNameController.clear();
-                          _lastNameController.clear();
-                          _ageController.clear();
-                        }),
-                    SmallListTile(
-                      icon: Icons.save,
-                      text: "Save",
-                      function: _submitFormData,
-                    ),
-                  ],
-                ),
-              ),
-              ListTile(
-                tileColor: Theme.of(context).colorScheme.primary,
-                shape: RoundedRectangleBorder(
-                  borderRadius: AppConstants.circleRadius,
-                ),
-                leading: Icon(Icons.logout),
-                title: Text(
-                  "Logout",
-                  style: TextStyle(
-                    fontSize: context.percentHeight(2),
-                    fontWeight: FontWeight.w400,
+                Padding(
+                  padding: EdgeInsets.only(top: context.percentHeight(2)),
+                  child: CustomTxtFormField(
+                    controller: _ageController,
+                    validator: (value) {
+                      if (value.trim().length > 3 || value.isEmpty) {
+                        return "Please enter an accurate age.";
+                      }
+                      return null;
+                    },
+                    keyboardType: TextInputType.number,
+                    prefixIconWidget: Icon(Icons.numbers),
+                    decorationLabel: "Age",
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(
+                        RegExp(r'[0-9]'),
+                      ),
+                    ],
                   ),
                 ),
-                trailing: Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: context.percentHeight(2),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: context.percentHeight(2),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SmallListTile(
+                          icon: Icons.clear_rounded,
+                          text: "Clear",
+                          function: () {
+                            _firstNameController.clear();
+                            _lastNameController.clear();
+                            _ageController.clear();
+                          }),
+                      SmallListTile(
+                        icon: Icons.save,
+                        text: "Save",
+                        function: _submitFormData,
+                      ),
+                    ],
+                  ),
                 ),
-                onTap: () async {
-                  bool confirmLogout = true;
-                  if (!hideLogoutDialogue) {
-                    confirmLogout = await yesNoDialogue(
-                            context,
-                            "You will have to log back in with your username and password.",
-                            TextCheckBox(provider: logoutToggleProvider)) ??
-                        false;
-                  }
-                  if (confirmLogout) {
-                    FirebaseAuth.instance.signOut();
-                  }
-                },
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: context.percentHeight(2),
-                ),
-                child: ListTile(
+                ListTile(
                   tileColor: Theme.of(context).colorScheme.primary,
                   shape: RoundedRectangleBorder(
                     borderRadius: AppConstants.circleRadius,
                   ),
-                  leading: Icon(Icons.key),
+                  leading: Icon(Icons.logout),
                   title: Text(
-                    "Reset Password",
+                    "Logout",
                     style: TextStyle(
                       fontSize: context.percentHeight(2),
                       fontWeight: FontWeight.w400,
@@ -215,32 +180,68 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                     Icons.arrow_forward_ios_rounded,
                     size: context.percentHeight(2),
                   ),
-                  onTap: () {
-                    Navigator.of(context)
-                        .pushNamed(ResetPasswordScreen.routeName);
+                  onTap: () async {
+                    bool confirmLogout = true;
+                    if (!hideLogoutDialogue) {
+                      confirmLogout = await yesNoDialogue(
+                              context,
+                              "You will have to log back in with your username and password.",
+                              TextCheckBox(provider: logoutToggleProvider)) ??
+                          false;
+                    }
+                    if (confirmLogout) {
+                      FirebaseAuth.instance.signOut();
+                    }
                   },
                 ),
-              ),
-              ListTile(
-                tileColor: Colors.red[700],
-                shape: RoundedRectangleBorder(
-                  borderRadius: AppConstants.circleRadius,
-                ),
-                leading: Icon(Icons.delete_forever),
-                title: Text(
-                  "Delete Account",
-                  style: TextStyle(
-                    fontSize: context.percentHeight(2),
-                    fontWeight: FontWeight.w400,
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: context.percentHeight(2),
+                  ),
+                  child: ListTile(
+                    tileColor: Theme.of(context).colorScheme.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: AppConstants.circleRadius,
+                    ),
+                    leading: Icon(Icons.key),
+                    title: Text(
+                      "Reset Password",
+                      style: TextStyle(
+                        fontSize: context.percentHeight(2),
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: context.percentHeight(2),
+                    ),
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushNamed(ResetPasswordScreen.routeName);
+                    },
                   ),
                 ),
-                trailing: Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: context.percentHeight(2),
+                ListTile(
+                  tileColor: Colors.red[700],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: AppConstants.circleRadius,
+                  ),
+                  leading: Icon(Icons.delete_forever),
+                  title: Text(
+                    "Delete Account",
+                    style: TextStyle(
+                      fontSize: context.percentHeight(2),
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: context.percentHeight(2),
+                  ),
+                  onTap: () => deleteAccount(context),
                 ),
-                onTap: () => deleteAccount(context),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
