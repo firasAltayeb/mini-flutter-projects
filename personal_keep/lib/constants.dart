@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 import 'models/transaction.dart';
 
-class AppConstants {
-  AppConstants._();
-
+abstract class AppConstants {
   static const availableColors = [
     Colors.red,
     Colors.blue,
     Colors.purple,
     Colors.green
   ];
+
+  static const grey500 = Color(0xFF9E9E9E);
 
   static List<Transaction> userTransactions = [
     Transaction(

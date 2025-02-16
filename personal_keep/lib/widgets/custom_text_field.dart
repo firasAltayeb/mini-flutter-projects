@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../constants.dart';
+
 class CustomTxtFormField extends StatefulWidget {
   const CustomTxtFormField({
     required this.decorationLabel,
     this.errorLabelColor = const Color(0xFFB71C1C),
     this.labelFocusColor = Colors.blue,
     this.keyboardType = TextInputType.text,
-    this.hideLabelOnFocus = false,
     this.obscureText = false,
     this.maxLines = 1,
     this.prefixIconWidget,
@@ -32,7 +33,6 @@ class CustomTxtFormField extends StatefulWidget {
   final Color errorLabelColor;
   final Color labelFocusColor;
   final TextInputType keyboardType;
-  final bool hideLabelOnFocus;
   final bool obscureText;
   final String decorationLabel;
   final int maxLines;
@@ -50,12 +50,8 @@ class _CustomTxtFormFieldState extends State<CustomTxtFormField> {
 
   @override
   void initState() {
+    _focusNode.addListener(() => setState(() => _focused = !_focused));
     _textVisible = widget.obscureText;
-    _focusNode.addListener(() {
-      setState(() {
-        _focused = !_focused;
-      });
-    });
     super.initState();
   }
 
@@ -68,12 +64,13 @@ class _CustomTxtFormFieldState extends State<CustomTxtFormField> {
                 ? Icon(Icons.visibility)
                 : Icon(Icons.visibility_off),
           )
-        : SizedBox();
+        : SizedBox.shrink();
   }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
       inputFormatters: widget.inputFormatters,
       controller: widget.controller,
       focusNode: _focusNode,
@@ -89,10 +86,16 @@ class _CustomTxtFormFieldState extends State<CustomTxtFormField> {
       },
       keyboardType: widget.keyboardType,
       decoration: InputDecoration(
-        labelText:
-            _focused && widget.hideLabelOnFocus ? null : widget.decorationLabel,
+        contentPadding: EdgeInsets.symmetric(
+          vertical: 10,
+          horizontal: 15,
+        ),
+        labelText: widget.decorationLabel,
+        floatingLabelBehavior: FloatingLabelBehavior.never,
         labelStyle: TextStyle(
-          color: _focused ? widget.labelFocusColor : Colors.grey[500],
+          color: _focused ? widget.labelFocusColor : AppConstants.grey500,
+          fontSize: 20,
+          fontWeight: FontWeight.w300,
         ),
         errorStyle: TextStyle(
           color: widget.errorLabelColor,

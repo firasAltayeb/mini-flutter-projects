@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:personal_keep/utility/home_functions.dart';
+import 'package:personal_keep/utility/shared_functions.dart';
 import 'package:personal_keep/widgets/custom_text_field.dart';
 
+import '../utility/shared_providers.dart';
 import 'adaptive_button.dart';
 
-class NewTransaction extends StatefulWidget {
-  const NewTransaction({
-    super.key,
-    required this.function,
-  });
-  // Takes title, amount, and date
-  final Function function;
+class NewTransaction extends ConsumerStatefulWidget {
+  const NewTransaction({super.key});
 
   @override
-  State<NewTransaction> createState() => _NewTransactionState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _NewTransactionState();
 }
 
-class _NewTransactionState extends State<NewTransaction> {
-  // Used to control individual fields
+class _NewTransactionState extends ConsumerState<NewTransaction> {
   final _amountController = TextEditingController();
   final _titleController = TextEditingController();
-  // Used to check multiple fields that make up a form
   final _formKey = GlobalKey<FormState>();
   DateTime? _selectedDate;
 
@@ -38,7 +33,7 @@ class _NewTransactionState extends State<NewTransaction> {
     final enteredAmount = double.parse(_amountController.text);
     final title = _titleController.text;
 
-    widget.function(title, enteredAmount, _selectedDate);
+    addTransaction(ref, title, enteredAmount, _selectedDate);
     Navigator.of(context).pop();
   }
 
@@ -126,9 +121,12 @@ class _NewTransactionState extends State<NewTransaction> {
                   ],
                 ),
               ),
-              AdaptiveButton(
-                text: "Add transaction",
-                handler: _submitData,
+              Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: AdaptiveButton(
+                  text: "Add transaction",
+                  handler: _submitData,
+                ),
               )
             ],
           ),

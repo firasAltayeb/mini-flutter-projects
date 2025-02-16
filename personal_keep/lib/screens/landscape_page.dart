@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:personal_keep/utility/home_functions.dart';
 import 'package:personal_keep/widgets/expenses_chart.dart';
 
+import '../utility/shared_providers.dart';
 import '../widgets/transaction_list.dart';
 
 class LandscapePage extends ConsumerStatefulWidget {
@@ -22,7 +22,7 @@ class _HomeScreenState extends ConsumerState<LandscapePage> {
 
   @override
   Widget build(BuildContext context) {
-    final userTransactions = ref.watch(userTransactionProvider);
+    final userTransactions = ref.watch(userTransactionsProvider);
     final recentTransactions = ref.watch(recentTransactionsProvider);
     return Column(
       children: [

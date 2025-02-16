@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:personal_keep/utility/home_functions.dart';
 import 'package:personal_keep/screens/landscape_page.dart';
 import 'package:personal_keep/screens/portrait_page.dart';
+
+import '../widgets/new_transactions.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -12,7 +13,13 @@ class HomeScreen extends ConsumerWidget {
       title: Text("Personal Expenses"),
       actions: [
         IconButton(
-          onPressed: () => addNewTxBottomSheet(ref),
+          onPressed: () {
+            showModalBottomSheet(
+              isScrollControlled: true,
+              context: ref.context,
+              builder: (_) => NewTransaction(),
+            );
+          },
           icon: Icon(Icons.add),
         ),
       ],

@@ -10,33 +10,38 @@ class AdaptiveButton extends StatelessWidget {
     super.key,
   });
 
-  final void Function() handler;
+  final VoidCallback handler;
   final String text;
 
   @override
   Widget build(BuildContext context) {
-    return Platform.isIOS
-        ? CupertinoButton(
-            onPressed: handler,
-            color: Colors.purple,
-            child: Text(
-              text,
-              style: TextStyle(
-                color: Colors.white,
+    return SizedBox(
+      width: 225,
+      child: Platform.isIOS
+          ? CupertinoButton(
+              onPressed: handler,
+              color: Colors.purple,
+              padding: EdgeInsets.zero,
+              child: Text(
+                text,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            )
+          : ElevatedButton(
+              onPressed: handler,
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.zero,
+                backgroundColor: Colors.purple,
+              ),
+              child: Text(
+                text,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
               ),
             ),
-          )
-        : ElevatedButton(
-            onPressed: handler,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.purple,
-            ),
-            child: Text(
-              text,
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          );
+    );
   }
 }
