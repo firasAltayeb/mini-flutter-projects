@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:personal_keep/utility/shared_functions.dart';
 import 'package:personal_keep/widgets/custom_text_field.dart';
 
-import '../utility/shared_providers.dart';
+import '../utility/user_transaction_notifier.dart';
 import 'adaptive_button.dart';
 
 class NewTransaction extends ConsumerStatefulWidget {
@@ -33,7 +33,9 @@ class _NewTransactionState extends ConsumerState<NewTransaction> {
     final enteredAmount = double.parse(_amountController.text);
     final title = _titleController.text;
 
-    addTransaction(ref, title, enteredAmount, _selectedDate);
+    final userTxNotifier = ref.read(userTransactionsProvider.notifier);
+    userTxNotifier.addTransaction(title, enteredAmount, _selectedDate);
+
     Navigator.of(context).pop();
   }
 
