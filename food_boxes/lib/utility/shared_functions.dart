@@ -12,7 +12,6 @@ import '../model/food_box.dart';
 import '../widgets/stylized_txt_container.dart';
 import 'box_list_notifier.dart';
 import 'dimension_extensions.dart';
-import 'shared_providers.dart';
 import 'ticket_list_notifier.dart';
 
 final _rng = Random();
@@ -22,14 +21,16 @@ int randomValue(int min, int max) {
 }
 
 void orderDetailsDialogue(
-  WidgetRef ref, {
+  BuildContext context,
+  TicketListNotifier ticketListNotifier,
+  StateController<List<FoodBox>> stackedTicketListController,
+  List<FoodBox> ticketList, {
   required FoodBox ticket,
   String? orderDetails,
 }) {
-  final ticketList = ref.read(ticketListProvider);
   final ticketIdx = ticketList.indexOf(ticket);
   showDialog(
-    context: ref.context,
+    context: context,
     builder: (BuildContext ctx) {
       return Dialog(
         shape: RoundedRectangleBorder(
@@ -41,60 +42,57 @@ void orderDetailsDialogue(
           children: [
             Padding(
               padding: EdgeInsets.only(
-                top: ref.context.percentHeight(2.5),
+                top: context.percentHeight(2.5),
               ),
               child: Text(
                 "Order Number: #${ticketIdx + 1}",
                 style: TextStyle(
-                  fontSize: ref.context.percentHeight(2.8),
+                  fontSize: context.percentHeight(2.8),
                   fontWeight: FontWeight.w500,
                 ),
               ),
             ),
             QrImageView(
               padding: EdgeInsets.only(
-                top: ref.context.percentHeight(3.5),
-                bottom: ref.context.percentHeight(3.5),
-                left: ref.context.percentWidth(6),
+                top: context.percentHeight(3.5),
+                bottom: context.percentHeight(3.5),
+                left: context.percentWidth(6),
               ),
               data: orderDetails ?? "Not available",
               version: QrVersions.auto,
-              size: ref.context.percentHeight(22),
+              size: context.percentHeight(22),
             ),
             Padding(
               padding: EdgeInsets.only(
-                bottom: ref.context.percentHeight(2),
+                bottom: context.percentHeight(2),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   StylizedTxtContainer(
                     text: "Back",
-                    onTapFunction: () => Navigator.of(ref.context).pop(),
+                    onTapFunction: () => Navigator.of(context).pop(),
                   ),
                   StylizedTxtContainer(
                     text: "Cancel",
                     onTapFunction: () async {
-                      final dialogChoice = yesNoDialogue(ref.context,
+                      final dialogueChoice = yesNoDialogue(context,
                           "Canceling an order is permanent and irreversible");
-                      final cancelOrder = await dialogChoice ?? false;
+                      final cancelOrder = await dialogueChoice ?? false;
                       final ticketCount =
                           ticketList.where((e) => e == ticket).length;
                       if (cancelOrder) {
-                        ref
-                            .read(ticketListProvider.notifier)
-                            .removeElement(ticketIdx);
+                        ticketListNotifier.removeElement(ticketIdx);
                         if (ticketCount == 1) {
-                          ref
-                              .read(stackedTicketProvider.notifier)
+                          stackedTicketListController
                               .update((state) => [...state..remove(ticket)]);
                         }
                       }
                       if (ctx.mounted) {
                         if (ticketCount == 1) {
-                          Navigator.popUntil(ctx, ModalRoute.withName('/'));
+                          Navigator.of(ctx).popUntil(ModalRoute.withName('/'));
                         } else {
-                          Navigator.pop(ctx);
+                          Navigator.of(ctx).pop();
                         }
                       }
                     },

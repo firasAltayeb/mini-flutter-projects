@@ -10,23 +10,17 @@ import 'shared_functions.dart';
 final intializeMainProviders = Provider.autoDispose(
   (ref) async {
     final user = FirebaseAuth.instance.currentUser;
-    final userData = await FirebaseFirestore.instance
+    final data = await FirebaseFirestore.instance
         .collection("users")
         .doc(user?.uid)
         .get();
     ref.read(userIDProvider.notifier).state = user?.uid ?? '';
-    updateProviders(ref, data: userData.data());
+    ref.read(firstNameProvider.notifier).state = data["firstName"] ?? '';
+    ref.read(lastNameProvider.notifier).state = data["lastName"] ?? '';
+    ref.read(ageProvider.notifier).state = data["age"] ?? '';
     ref.read(appProvidersInitialized.notifier).state = true;
   },
 );
-
-void updateProviders(dynamic ref, {Map<String, dynamic>? data}) {
-  if (data != null) {
-    ref.read(firstNameProvider.notifier).state = data["firstName"];
-    ref.read(lastNameProvider.notifier).state = data["lastName"];
-    ref.read(ageProvider.notifier).state = data["age"];
-  }
-}
 
 final imageUrlProvider = Provider.family<String, FoodBox>((ref, box) {
   if (box.imageURL != null && box.imageURL!.isNotEmpty) {

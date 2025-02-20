@@ -54,7 +54,9 @@ class _AccountPageState extends ConsumerState<AccountPage> {
           .collection("users")
           .doc(userID)
           .set(data);
-      updateProviders(ref, data: data);
+      ref.read(firstNameProvider.notifier).state = data["firstName"] ?? '';
+      ref.read(lastNameProvider.notifier).state = data["lastName"] ?? '';
+      ref.read(ageProvider.notifier).state = data["age"] ?? '';
       FocusManager.instance.primaryFocus?.unfocus();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
