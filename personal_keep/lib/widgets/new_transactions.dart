@@ -22,37 +22,32 @@ class _NewTransactionState extends ConsumerState<NewTransaction> {
   DateTime? _selectedDate;
 
   void _submitData() {
-    if (_formKey.currentState!.validate() == false) return;
-
-    if (_selectedDate == null) {
+    if (_formKey.currentState!.validate() == false || _selectedDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        getSnackBar("Please select a date.", timeUp: 1000),
+        getSnackBar("Please ensure all fields are provided"),
       );
-      return;
+      return Navigator.of(context).pop();
     }
-    final enteredAmount = double.parse(_amountController.text);
+    final amount = double.parse(_amountController.text);
     final title = _titleController.text;
 
     final userTxNotifier = ref.read(userTransactionsProvider.notifier);
-    userTxNotifier.addTransaction(title, enteredAmount, _selectedDate);
+    userTxNotifier.addTransaction(title, amount, _selectedDate);
 
     Navigator.of(context).pop();
   }
 
-  void _presentDatePicker() {
+  void _chooseDateHandler() {
     showDatePicker(
       context: context,
+      firstDate: DateTime.now().subtract(Duration(days: 6)),
       initialDate: DateTime.now(),
-      firstDate: DateTime.now().subtract(
-        Duration(days: 365),
-      ),
       lastDate: DateTime.now(),
     ).then(
-      (pickedDate) {
-        if (pickedDate == null) return;
-        setState(() {
-          _selectedDate = pickedDate;
-        });
+      (date) {
+        if (date != null) {
+          setState(() => _selectedDate = date);
+        }
       },
     );
   }
@@ -76,34 +71,29 @@ class _NewTransactionState extends ConsumerState<NewTransaction> {
                 controller: _titleController,
                 validator: (value) {
                   if (value.trim().isEmpty) {
-                    return "Please enter a title.";
+                    return "Please enter a title";
                   }
-                  return null;
                 },
                 decorationLabel: "Title",
               ),
               CustomTxtFormField(
                 inputFormatters: [
-                  FilteringTextInputFormatter.allow(
-                    RegExp(r'[0-9]'),
-                  ),
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                 ],
                 keyboardType: TextInputType.numberWithOptions(
                   decimal: true,
                 ),
                 controller: _amountController,
                 validator: (value) {
-                  if (value.trim().isEmpty ||
-                      (double.parse(value.trim()) < 1 &&
-                          double.parse(value.trim()) > 0)) {
-                    return "Amount greater than zero.";
+                  final temp = value.trim();
+                  if (temp.isEmpty || double.parse(temp) <= 0) {
+                    return "Amount should be greater than zero";
                   }
-                  return null;
                 },
                 decorationLabel: "Amount",
               ),
               Padding(
-                padding: EdgeInsets.only(top: 40, bottom: 10),
+                padding: EdgeInsets.only(top: 40, bottom: 10, left: 10),
                 child: Row(
                   children: [
                     Expanded(
@@ -113,12 +103,13 @@ class _NewTransactionState extends ConsumerState<NewTransaction> {
                             : "Picked date: ${DateFormat.yMd().format(
                                 _selectedDate!,
                               )}",
-                        style: TextStyle(fontSize: 17),
+                        style: TextStyle(
+                            fontSize: _selectedDate == null ? 18 : 20),
                       ),
                     ),
                     AdaptiveButton(
                       text: "Choose date",
-                      handler: _presentDatePicker,
+                      handler: _chooseDateHandler,
                     ),
                   ],
                 ),

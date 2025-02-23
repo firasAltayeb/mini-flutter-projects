@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-SnackBar getSnackBar(String message, {int timeUp = 500}) {
+SnackBar getSnackBar(String message, {int timeUp = 1000}) {
   return SnackBar(
     backgroundColor: Colors.white,
     shape: RoundedRectangleBorder(

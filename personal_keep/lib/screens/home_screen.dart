@@ -15,8 +15,8 @@ class HomeScreen extends ConsumerWidget {
         IconButton(
           onPressed: () {
             showModalBottomSheet(
-              isScrollControlled: true,
               context: ref.context,
+              isScrollControlled: true,
               builder: (_) => NewTransaction(),
             );
           },
