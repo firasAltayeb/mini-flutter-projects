@@ -32,9 +32,11 @@ class _HomeScreenState extends ConsumerState<LandscapePage> {
             Text(
               "Show chart",
               style: TextStyle(
+                fontSize: 20,
                 fontFamily: "OpenSans",
               ),
             ),
+            SizedBox(width: 20),
             Switch.adaptive(
               value: _showChart,
               onChanged: (val) => setState(() => _showChart = val),
@@ -42,15 +44,13 @@ class _HomeScreenState extends ConsumerState<LandscapePage> {
             )
           ],
         ),
-        Container(
+        SizedBox(
           height: widget.pageHeight * 0.7,
           child: _showChart
               ? ExpenseChart(
                   recentTransactions: userTxNotifier.recentTransactions,
                 )
-              : TransactionList(
-                  transactions: userTransactions,
-                ),
+              : TransactionList(transactions: userTransactions),
         )
       ],
     );
