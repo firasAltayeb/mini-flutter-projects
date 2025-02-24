@@ -20,21 +20,23 @@ class _NewTransactionState extends ConsumerState<NewTransaction> {
   final _titleController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   DateTime? _selectedDate;
+  bool? _datePickerUsed;
 
   void _submitData() {
     if (_formKey.currentState!.validate() == false || _selectedDate == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        getSnackBar("Please ensure all fields are provided"),
-      );
-      return Navigator.of(context).pop();
+      showSnackBar("Please ensure all fields are provided");
+      if (_datePickerUsed == null) {
+        setState(() => _datePickerUsed = false);
+      }
+    } else {
+      final amount = double.parse(_amountController.text);
+      final title = _titleController.text;
+
+      final userTxNotifier = ref.read(userTransactionsProvider.notifier);
+      userTxNotifier.addTransaction(title, amount, _selectedDate);
+
+      Navigator.of(context).pop();
     }
-    final amount = double.parse(_amountController.text);
-    final title = _titleController.text;
-
-    final userTxNotifier = ref.read(userTransactionsProvider.notifier);
-    userTxNotifier.addTransaction(title, amount, _selectedDate);
-
-    Navigator.of(context).pop();
   }
 
   void _chooseDateHandler() {
@@ -46,7 +48,10 @@ class _NewTransactionState extends ConsumerState<NewTransaction> {
     ).then(
       (date) {
         if (date != null) {
-          setState(() => _selectedDate = date);
+          setState(() {
+            _selectedDate = date;
+            _datePickerUsed = true;
+          });
         }
       },
     );
@@ -68,32 +73,36 @@ class _NewTransactionState extends ConsumerState<NewTransaction> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               CustomTxtFormField(
+                decorationLabel: "Title",
                 controller: _titleController,
                 validator: (value) {
                   if (value.trim().isEmpty) {
                     return "Please enter a title";
                   }
                 },
-                decorationLabel: "Title",
+                verticalContentPadding:
+                    mediaQuery.orientation == Orientation.landscape ? 5 : 10,
               ),
               CustomTxtFormField(
+                decorationLabel: "Amount",
+                controller: _amountController,
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                 ],
                 keyboardType: TextInputType.numberWithOptions(
                   decimal: true,
                 ),
-                controller: _amountController,
                 validator: (value) {
                   final temp = value.trim();
                   if (temp.isEmpty || double.parse(temp) <= 0) {
                     return "Amount should be greater than zero";
                   }
                 },
-                decorationLabel: "Amount",
+                verticalContentPadding:
+                    mediaQuery.orientation == Orientation.landscape ? 5 : 10,
               ),
               Padding(
-                padding: EdgeInsets.only(top: 40, bottom: 10, left: 10),
+                padding: EdgeInsets.only(top: 30, bottom: 10, left: 10),
                 child: Row(
                   children: [
                     Expanded(
@@ -104,7 +113,12 @@ class _NewTransactionState extends ConsumerState<NewTransaction> {
                                 _selectedDate!,
                               )}",
                         style: TextStyle(
-                            fontSize: _selectedDate == null ? 18 : 20),
+                          fontSize: _selectedDate == null ? 18 : 20,
+                          color: _datePickerUsed != null &&
+                                  _datePickerUsed == false
+                              ? Color(0xFF8F211A)
+                              : Color(0xFF000000),
+                        ),
                       ),
                     ),
                     AdaptiveButton(
@@ -120,7 +134,7 @@ class _NewTransactionState extends ConsumerState<NewTransaction> {
                   text: "Add transaction",
                   handler: _submitData,
                 ),
-              )
+              ),
             ],
           ),
         ),

@@ -38,6 +38,7 @@ dev_dependencies:
   riverpod_generator: ^2.4.0
   custom_lint: ^0.6.4
   riverpod_lint: ^2.3.10
+  fluttertoast: ^8.2.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -7,7 +7,7 @@ class CustomTxtFormField extends StatefulWidget {
   const CustomTxtFormField({
     required this.decorationLabel,
     this.errorLabelColor = const Color(0xFFB71C1C),
-    this.labelFocusColor = Colors.blue,
+    this.labelFocusColor = const Color(0xFF2196F3),
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
     this.maxLines = 1,
@@ -20,6 +20,7 @@ class CustomTxtFormField extends StatefulWidget {
     this.inputFormatters,
     this.autocorrect = false,
     this.textCapitalization = TextCapitalization.none,
+    this.verticalContentPadding = 10,
     super.key,
   });
 
@@ -38,6 +39,7 @@ class CustomTxtFormField extends StatefulWidget {
   final int maxLines;
   final bool autocorrect;
   final TextCapitalization textCapitalization;
+  final double verticalContentPadding;
 
   @override
   State<CustomTxtFormField> createState() => _CustomTxtFormFieldState();
@@ -87,7 +89,7 @@ class _CustomTxtFormFieldState extends State<CustomTxtFormField> {
       keyboardType: widget.keyboardType,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(
-          vertical: 10,
+          vertical: widget.verticalContentPadding,
           horizontal: 15,
         ),
         labelText: widget.decorationLabel,
@@ -99,6 +101,7 @@ class _CustomTxtFormFieldState extends State<CustomTxtFormField> {
         ),
         errorStyle: TextStyle(
           color: widget.errorLabelColor,
+          height: 0.8,
         ),
         prefixIcon: widget.prefixIconWidget,
         suffixIcon: suffixIconWidget(),
