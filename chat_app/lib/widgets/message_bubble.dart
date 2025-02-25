@@ -1,26 +1,20 @@
+import 'package:chat_app/constants.dart';
 import 'package:chat_app/theme_extension.dart';
 import 'package:flutter/material.dart';
 
 class MessageBubble extends StatelessWidget {
-  const MessageBubble.first({
+  const MessageBubble({
     super.key,
     required this.userImage,
-    required this.username,
+    required this.userName,
     required this.message,
     required this.currentUser,
-  }) : isFirstInSequence = true;
-
-  const MessageBubble.next({
-    super.key,
-    required this.message,
-    required this.currentUser,
-  })  : isFirstInSequence = false,
-        userImage = null,
-        username = null;
+    required this.isFirstInSequence,
+  });
 
   final bool isFirstInSequence;
   final String? userImage;
-  final String? username;
+  final String? userName;
   final String message;
   final bool currentUser;
 
@@ -51,14 +45,14 @@ class MessageBubble extends StatelessWidget {
                     : CrossAxisAlignment.start,
                 children: [
                   if (isFirstInSequence) const SizedBox(height: 18),
-                  if (username != null)
+                  if (userName != null)
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 13),
                       child: Text(
-                        username!,
+                        userName!,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                          color: Constants.blackShade,
                         ),
                       ),
                     ),
@@ -79,12 +73,12 @@ class MessageBubble extends StatelessWidget {
                       borderRadius: BorderRadius.only(
                         topLeft: !currentUser && isFirstInSequence
                             ? Radius.zero
-                            : const Radius.circular(12),
+                            : Constants.circularRadius,
                         topRight: currentUser && isFirstInSequence
                             ? Radius.zero
-                            : const Radius.circular(12),
-                        bottomLeft: const Radius.circular(12),
-                        bottomRight: const Radius.circular(12),
+                            : Constants.circularRadius,
+                        bottomLeft: Constants.circularRadius,
+                        bottomRight: Constants.circularRadius,
                       ),
                     ),
                     child: Text(
@@ -92,7 +86,7 @@ class MessageBubble extends StatelessWidget {
                       style: TextStyle(
                         height: 1.3,
                         color: currentUser
-                            ? const Color(0xDD000000)
+                            ? Constants.blackShade
                             : context.onSecondaryColor,
                       ),
                       softWrap: true,
