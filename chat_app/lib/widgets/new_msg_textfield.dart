@@ -2,14 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class NewMessage extends StatefulWidget {
-  const NewMessage({super.key});
+class NewMessageTextField extends StatefulWidget {
+  const NewMessageTextField({super.key});
 
   @override
-  State<NewMessage> createState() => _NewMessageState();
+  State<NewMessageTextField> createState() => _NewMessageTextFieldState();
 }
 
-class _NewMessageState extends State<NewMessage> {
+class _NewMessageTextFieldState extends State<NewMessageTextField> {
   final _messageController = TextEditingController();
 
   @override
@@ -57,7 +57,7 @@ class _NewMessageState extends State<NewMessage> {
               enableSuggestions: true,
               autocorrect: true,
               decoration: const InputDecoration(
-                labelText: 'Send a message...',
+                labelText: 'Type to send a message...',
                 contentPadding: EdgeInsets.symmetric(vertical: 12.0),
                 floatingLabelBehavior: FloatingLabelBehavior.never,
               ),

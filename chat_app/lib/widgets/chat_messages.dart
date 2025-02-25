@@ -40,11 +40,7 @@ class ChatMessages extends StatelessWidget {
         }
         final loadedMessages = snapshot.data!.docs;
         return ListView.builder(
-          padding: EdgeInsets.only(
-            bottom: 40,
-            left: 13,
-            right: 13,
-          ),
+          padding: EdgeInsets.only(bottom: 40, left: 13, right: 13),
           reverse: true,
           itemCount: loadedMessages.length,
           itemBuilder: (context, index) {

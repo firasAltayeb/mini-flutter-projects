@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
-import 'widgets/user_image_picker.dart';
+import '../widgets/user_image_picker.dart';
 
 final _firebase = FirebaseAuth.instance;
 
