@@ -1,3 +1,4 @@
+import 'package:chat_app/theme_extension.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -78,7 +79,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: context.primaryColor,
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -166,9 +167,8 @@ class _AuthScreenState extends State<AuthScreen> {
                           if (!_isAuthenticating) ...[
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  backgroundColor: Theme.of(context)
-                                      .colorScheme
-                                      .primaryContainer),
+                                backgroundColor: context.primaryContainerColor,
+                              ),
                               onPressed: _submit,
                               child: Text(
                                 _isLogin ? 'Login' : 'Signup',

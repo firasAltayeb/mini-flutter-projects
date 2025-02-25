@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chat_app/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -46,7 +47,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
           label: Text(
             'Add Image',
             style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
+              color: context.primaryColor,
             ),
           ),
         )

@@ -1,3 +1,4 @@
+import 'package:chat_app/theme_extension.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +65,7 @@ class _NewMessageTextFieldState extends State<NewMessageTextField> {
             ),
           ),
           IconButton(
-            color: Theme.of(context).colorScheme.primary,
+            color: context.primaryColor,
             onPressed: _submitMessage,
             icon: Icon(Icons.send),
           )

@@ -1,3 +1,4 @@
+import 'package:chat_app/theme_extension.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,7 @@ class _ChatScreenState extends State<ChatScreen> {
               },
               icon: Icon(
                 Icons.exit_to_app,
-                color: Theme.of(context).colorScheme.primary,
+                color: context.primaryColor,
               ),
             )
           ],

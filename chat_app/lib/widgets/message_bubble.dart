@@ -1,3 +1,4 @@
+import 'package:chat_app/theme_extension.dart';
 import 'package:flutter/material.dart';
 
 class MessageBubble extends StatelessWidget {
@@ -6,13 +7,13 @@ class MessageBubble extends StatelessWidget {
     required this.userImage,
     required this.username,
     required this.message,
-    required this.isMe,
+    required this.currentUser,
   }) : isFirstInSequence = true;
 
   const MessageBubble.next({
     super.key,
     required this.message,
-    required this.isMe,
+    required this.currentUser,
   })  : isFirstInSequence = false,
         userImage = null,
         username = null;
@@ -21,7 +22,7 @@ class MessageBubble extends StatelessWidget {
   final String? userImage;
   final String? username;
   final String message;
-  final bool isMe;
+  final bool currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +31,11 @@ class MessageBubble extends StatelessWidget {
         if (userImage != null)
           Positioned(
             top: 15,
-            right: isMe ? 0 : null,
+            right: currentUser ? 0 : null,
             child: CircleAvatar(
               backgroundImage:
                   userImage!.isNotEmpty ? NetworkImage(userImage!) : null,
-              backgroundColor:
-                  Theme.of(context).colorScheme.primary.withAlpha(180),
+              backgroundColor: context.primaryColor.withAlpha(180),
               radius: 23,
             ),
           ),
@@ -43,19 +43,17 @@ class MessageBubble extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 46),
           child: Row(
             mainAxisAlignment:
-                isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+                currentUser ? MainAxisAlignment.end : MainAxisAlignment.start,
             children: [
               Column(
-                crossAxisAlignment:
-                    isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                crossAxisAlignment: currentUser
+                    ? CrossAxisAlignment.end
+                    : CrossAxisAlignment.start,
                 children: [
                   if (isFirstInSequence) const SizedBox(height: 18),
                   if (username != null)
                     Padding(
-                      padding: const EdgeInsets.only(
-                        left: 13,
-                        right: 13,
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 13),
                       child: Text(
                         username!,
                         style: const TextStyle(
@@ -65,25 +63,6 @@ class MessageBubble extends StatelessWidget {
                       ),
                     ),
                   Container(
-                    decoration: BoxDecoration(
-                      color: isMe
-                          ? Colors.grey[300]
-                          : Theme.of(context)
-                              .colorScheme
-                              .secondary
-                              .withAlpha(200),
-                      borderRadius: BorderRadius.only(
-                        topLeft: !isMe && isFirstInSequence
-                            ? Radius.zero
-                            : const Radius.circular(12),
-                        topRight: isMe && isFirstInSequence
-                            ? Radius.zero
-                            : const Radius.circular(12),
-                        bottomLeft: const Radius.circular(12),
-                        bottomRight: const Radius.circular(12),
-                      ),
-                    ),
-                    constraints: const BoxConstraints(maxWidth: 200),
                     padding: const EdgeInsets.symmetric(
                       vertical: 10,
                       horizontal: 14,
@@ -92,13 +71,29 @@ class MessageBubble extends StatelessWidget {
                       vertical: 4,
                       horizontal: 12,
                     ),
+                    constraints: const BoxConstraints(maxWidth: 200),
+                    decoration: BoxDecoration(
+                      color: currentUser
+                          ? const Color(0xFFE0E0E0)
+                          : context.secondaryColor.withAlpha(200),
+                      borderRadius: BorderRadius.only(
+                        topLeft: !currentUser && isFirstInSequence
+                            ? Radius.zero
+                            : const Radius.circular(12),
+                        topRight: currentUser && isFirstInSequence
+                            ? Radius.zero
+                            : const Radius.circular(12),
+                        bottomLeft: const Radius.circular(12),
+                        bottomRight: const Radius.circular(12),
+                      ),
+                    ),
                     child: Text(
                       message,
                       style: TextStyle(
                         height: 1.3,
-                        color: isMe
-                            ? Colors.black87
-                            : Theme.of(context).colorScheme.onSecondary,
+                        color: currentUser
+                            ? const Color(0xDD000000)
+                            : context.onSecondaryColor,
                       ),
                       softWrap: true,
                     ),
