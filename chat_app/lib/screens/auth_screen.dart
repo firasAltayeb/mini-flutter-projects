@@ -1,9 +1,11 @@
+import 'dart:io';
+
+import 'package:chat_app/constants.dart';
 import 'package:chat_app/theme_extension.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
 
 import '../widgets/user_image_picker.dart';
 
@@ -37,14 +39,14 @@ class _AuthScreenState extends State<AuthScreen> {
         if (_isLogin) {
           final userCredentials = await _firebase.signInWithEmailAndPassword(
               email: _enteredEmail, password: _enteredPassword);
-          print("userCredentials $userCredentials");
+          debugPrint("userCredentials $userCredentials");
         } else {
           final userCredentials =
               await _firebase.createUserWithEmailAndPassword(
                   email: _enteredEmail, password: _enteredPassword);
           final storageRef = FirebaseStorage.instance
               .ref() // gives access to firebase cloud storage
-              .child('user_images') // child targets or creates a new path
+              .child(Constants.userImagesKey)
               .child('${userCredentials.user!.uid}.jpg');
           String imageUrl = '';
           if (_selectedImage != null) {
@@ -52,22 +54,24 @@ class _AuthScreenState extends State<AuthScreen> {
             imageUrl = await storageRef.getDownloadURL();
           }
           await FirebaseFirestore.instance
-              .collection('users')
+              .collection(Constants.usersKey)
               .doc(userCredentials.user!.uid)
               .set({
-            'userName': _enteredUsername,
-            'email': _enteredEmail,
-            'userImage': imageUrl,
+            Constants.userNameKey: _enteredUsername,
+            Constants.emailKey: _enteredEmail,
+            Constants.userImageKey: imageUrl,
           });
         }
       } on FirebaseAuthException catch (error) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(error.message ?? "Authentication failed."),
-          ));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(error.message ?? "Authentication failed."),
+            ),
+          );
         }
       } catch (e) {
-        print("caught exception $e");
+        debugPrint("caught exception $e");
       } finally {
         if (mounted) {
           setState(() => _isAuthenticating = false);
@@ -83,17 +87,10 @@ class _AuthScreenState extends State<AuthScreen> {
       body: Center(
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-                width: 100,
-                child: Image.asset(
-                  'assets/images/chat.png',
-                ),
-              ),
+              Image.asset('assets/images/chat.png', width: 100),
               Card(
-                margin: EdgeInsets.all(20),
+                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: EdgeInsets.all(15),

@@ -33,7 +33,7 @@ class _ChatScreenState extends State<ChatScreen> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('FlutterChat'),
+          title: Text('Flutter Chat'),
           actions: [
             IconButton(
               onPressed: () {

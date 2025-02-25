@@ -1,3 +1,4 @@
+import 'package:chat_app/constants.dart';
 import 'package:chat_app/theme_extension.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,17 +28,17 @@ class _NewMessageTextFieldState extends State<NewMessageTextField> {
 
       final user = FirebaseAuth.instance.currentUser!;
       final userData = await FirebaseFirestore.instance
-          .collection('users')
+          .collection(Constants.usersKey)
           .doc(user.uid)
           .get();
 
       if (userData.data() != null) {
-        FirebaseFirestore.instance.collection('chat').add({
-          'text': enteredMessage,
-          'createdAt': Timestamp.now(),
-          'userId': user.uid,
-          'userName': userData.data()!['userName'],
-          'userImage': userData.data()!['userImage'],
+        FirebaseFirestore.instance.collection(Constants.chatKey).add({
+          Constants.textKey: enteredMessage,
+          Constants.createdAtKey: Timestamp.now(),
+          Constants.userIdKey: user.uid,
+          Constants.userNameKey: userData.data()![Constants.userNameKey],
+          Constants.userImageKey: userData.data()![Constants.userImageKey],
         });
       } else {
         print("userData is null");
