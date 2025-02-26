@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 extension ThemeExtension on BuildContext {
@@ -16,4 +18,14 @@ extension ThemeExtension on BuildContext {
   Color get secondaryColor => colorScheme.secondary;
 
   Color get onSecondaryColor => colorScheme.onSecondary;
+
+  Color get randomColor {
+    final random = Random();
+    return Color.fromRGBO(
+      random.nextInt(256),
+      random.nextInt(256),
+      random.nextInt(256),
+      1.0,
+    );
+  }
 }

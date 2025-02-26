@@ -29,7 +29,7 @@ class MessageBubble extends StatelessWidget {
             child: CircleAvatar(
               backgroundImage:
                   userImage!.isNotEmpty ? NetworkImage(userImage!) : null,
-              backgroundColor: context.primaryColor.withAlpha(180),
+              backgroundColor: context.randomColor,
               radius: 23,
             ),
           ),

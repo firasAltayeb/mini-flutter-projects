@@ -9,8 +9,6 @@ import 'package:flutter/material.dart';
 
 import '../widgets/user_image_picker.dart';
 
-final _firebase = FirebaseAuth.instance;
-
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
 
@@ -19,24 +17,25 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  final _form = GlobalKey<FormState>();
+  final _firebase = FirebaseAuth.instance;
+  final _formKey = GlobalKey<FormState>();
+  String _enteredUsername = '';
+  String _enteredPassword = '';
+  String _enteredEmail = '';
+  bool _isAuthenticating = false;
+  bool _isLoginPage = true;
   File? _selectedImage;
-  var _enteredUsername = '';
-  var _enteredPassword = '';
-  var _enteredEmail = '';
-  var _isLogin = true;
-  var _isAuthenticating = false;
 
   void _submit() async {
-    if (!_form.currentState!.validate()) {
+    if (!_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("The provided form details are not valid")),
       );
     } else {
-      _form.currentState!.save();
+      _formKey.currentState!.save();
       setState(() => _isAuthenticating = true);
       try {
-        if (_isLogin) {
+        if (_isLoginPage) {
           final userCredentials = await _firebase.signInWithEmailAndPassword(
               email: _enteredEmail, password: _enteredPassword);
           debugPrint("userCredentials $userCredentials");
@@ -80,6 +79,23 @@ class _AuthScreenState extends State<AuthScreen> {
     }
   }
 
+  Widget _buildTextField({
+    required String label,
+    bool obscureText = false,
+    required String? Function(String?) validator,
+    required void Function(String?) onSaved,
+  }) {
+    return TextFormField(
+      decoration: InputDecoration(labelText: label),
+      textCapitalization: TextCapitalization.none,
+      enableSuggestions: false,
+      autocorrect: false,
+      obscureText: obscureText,
+      validator: validator,
+      onSaved: onSaved,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,101 +107,63 @@ class _AuthScreenState extends State<AuthScreen> {
               Image.asset('assets/images/chat.png', width: 100),
               Card(
                 margin: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Form(
-                      key: _form,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          if (!_isLogin) ...[
-                            UserImagePicker(
-                              onPickImage: (pickedImage) {
-                                _selectedImage = pickedImage;
-                              },
-                            ),
-                            TextFormField(
-                              decoration: InputDecoration(
-                                labelText: 'Username',
-                              ),
-                              enableSuggestions: false,
-                              autocorrect: false,
-                              validator: (value) {
-                                if (value == null || value.trim().length < 4) {
-                                  return 'username must contain at least 4 character.';
-                                }
-                                return null;
-                              },
-                              onSaved: (newValue) {
-                                _enteredUsername = newValue!;
-                              },
-                            ),
-                          ],
-                          TextFormField(
-                            decoration: InputDecoration(
-                              labelText: 'Email Address',
-                            ),
-                            keyboardType: TextInputType.emailAddress,
-                            autocorrect: false,
-                            textCapitalization: TextCapitalization.none,
-                            validator: (value) {
-                              if (value == null ||
-                                  value.trim().isEmpty ||
-                                  !value.contains('@')) {
-                                return 'Please enter a valid email address.';
-                              }
-                              return null;
-                            },
-                            onSaved: (newValue) {
-                              _enteredEmail = newValue!;
-                            },
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (!_isLoginPage) ...[
+                          UserImagePicker(
+                            onPickImage: (img) => _selectedImage = img,
                           ),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              labelText: 'Password',
-                            ),
-                            obscureText: true,
-                            validator: (value) {
-                              if (value == null || value.trim().length < 6) {
-                                return 'Password must be 6 characters long';
-                              }
-                              return null;
-                            },
-                            onSaved: (newValue) {
-                              _enteredPassword = newValue!;
-                            },
+                          _buildTextField(
+                            label: 'User name',
+                            validator: (v) => (v == null || v.trim().length < 4)
+                                ? 'User name must contain at least 4 characters.'
+                                : null,
+                            onSaved: (v) => _enteredUsername = v!,
                           ),
-                          SizedBox(
-                            height: 25,
-                          ),
-                          if (_isAuthenticating)
-                            const CircularProgressIndicator(),
-                          if (!_isAuthenticating) ...[
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: context.primaryContainerColor,
-                              ),
-                              onPressed: _submit,
-                              child: Text(
-                                _isLogin ? 'Login' : 'Signup',
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  _isLogin = !_isLogin;
-                                });
-                              },
-                              child: Text(
-                                _isLogin
-                                    ? 'Create an account'
-                                    : 'I already have an account',
-                              ),
-                            )
-                          ],
                         ],
-                      ),
+                        _buildTextField(
+                          label: 'Email',
+                          validator: (v) => (v == null ||
+                                  v.trim().isEmpty ||
+                                  !v.contains('@'))
+                              ? 'Please enter a valid email address.'
+                              : null,
+                          onSaved: (v) => _enteredEmail = v!,
+                        ),
+                        _buildTextField(
+                          label: 'Password',
+                          obscureText: true,
+                          validator: (v) => (v == null || v.trim().length < 6)
+                              ? 'Password must be 6 characters long'
+                              : null,
+                          onSaved: (v) => _enteredPassword = v!,
+                        ),
+                        const SizedBox(height: 25),
+                        if (!_isAuthenticating) ...[
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: context.primaryContainerColor,
+                            ),
+                            onPressed: _submit,
+                            child: Text(_isLoginPage ? 'Login' : 'Signup'),
+                          ),
+                          TextButton(
+                            onPressed: () =>
+                                setState(() => _isLoginPage = !_isLoginPage),
+                            child: Text(
+                              _isLoginPage
+                                  ? 'Create an account'
+                                  : 'I already have an account',
+                            ),
+                          ),
+                        ] else
+                          const CircularProgressIndicator(),
+                      ],
                     ),
                   ),
                 ),
