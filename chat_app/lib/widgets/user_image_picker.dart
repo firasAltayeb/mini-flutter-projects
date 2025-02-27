@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:chat_app/theme_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 class UserImagePicker extends StatefulWidget {
   const UserImagePicker({super.key, required this.onPickImage});
@@ -29,6 +31,15 @@ class _UserImagePickerState extends State<UserImagePicker> {
     }
   }
 
+  void _getFallbackImage() async {
+    final bytes = await rootBundle.load('assets/images/user-silhouette.png');
+    final tempDir = await getTemporaryDirectory();
+    final file = File('${tempDir.path}/user-icon.png');
+    await file.writeAsBytes(bytes.buffer.asUint8List());
+    setState(() => _pickedImageFile = file);
+    widget.onPickImage(file);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -40,7 +51,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
               _pickedImageFile != null ? FileImage(_pickedImageFile!) : null,
         ),
         TextButton.icon(
-          onPressed: _pickImage,
+          onPressed: Platform.isIOS ? _getFallbackImage : _pickImage,
           icon: const Icon(
             Icons.image,
           ),

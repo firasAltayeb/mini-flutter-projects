@@ -27,9 +27,15 @@ class _AuthScreenState extends State<AuthScreen> {
   File? _selectedImage;
 
   void _submit() async {
-    if (!_formKey.currentState!.validate()) {
+    if (!_formKey.currentState!.validate() || _selectedImage == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("The provided form details are not valid")),
+        SnackBar(
+          content: Text(
+            _selectedImage == null
+                ? "Please add an image"
+                : "The provided form details are not valid",
+          ),
+        ),
       );
     } else {
       _formKey.currentState!.save();
@@ -143,7 +149,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               backgroundColor: context.primaryContainerColor,
                             ),
                             onPressed: _submit,
-                            child: Text(_isLoginPage ? 'Login' : 'Signup'),
+                            child: Text(_isLoginPage ? 'Login' : 'Sign up'),
                           ),
                           TextButton(
                             onPressed: () =>

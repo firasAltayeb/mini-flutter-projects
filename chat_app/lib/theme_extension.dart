@@ -22,9 +22,9 @@ extension ThemeExtension on BuildContext {
   Color get randomColor {
     final random = Random();
     return Color.fromRGBO(
-      random.nextInt(256),
-      random.nextInt(256),
-      random.nextInt(256),
+      random.nextInt(156) + 100, // R: Ensures a minimum brightness of 100
+      random.nextInt(156) + 100, // G: Ensures a minimum brightness of 100
+      random.nextInt(156) + 100, // B: Ensures a minimum brightness of 100
       1.0,
     );
   }
