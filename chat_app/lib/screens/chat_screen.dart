@@ -36,14 +36,12 @@ class _ChatScreenState extends State<ChatScreen> {
           title: Text('Flutter Chat'),
           actions: [
             IconButton(
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-              },
+              onPressed: () => FirebaseAuth.instance.signOut(),
               icon: Icon(
                 Icons.exit_to_app,
                 color: context.primaryColor,
               ),
-            )
+            ),
           ],
         ),
         body: Column(

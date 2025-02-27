@@ -19,9 +19,9 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   final _firebase = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
-  String _enteredUsername = '';
-  String _enteredPassword = '';
-  String _enteredEmail = '';
+  String _username = '';
+  String _password = '';
+  String _userEmail = '';
   bool _isAuthenticating = false;
   bool _isLoginPage = true;
   File? _selectedImage;
@@ -35,46 +35,39 @@ class _AuthScreenState extends State<AuthScreen> {
       _formKey.currentState!.save();
       setState(() => _isAuthenticating = true);
       try {
-        if (_isLoginPage) {
-          final userCredentials = await _firebase.signInWithEmailAndPassword(
-              email: _enteredEmail, password: _enteredPassword);
-          debugPrint("userCredentials $userCredentials");
-        } else {
-          final userCredentials =
-              await _firebase.createUserWithEmailAndPassword(
-                  email: _enteredEmail, password: _enteredPassword);
+        final userCredentials = _isLoginPage
+            ? await _firebase.signInWithEmailAndPassword(
+                email: _userEmail, password: _password)
+            : await _firebase.createUserWithEmailAndPassword(
+                email: _userEmail, password: _password);
+
+        if (!_isLoginPage && _selectedImage != null) {
           final storageRef = FirebaseStorage.instance
-              .ref() // gives access to firebase cloud storage
+              .ref()
               .child(Constants.userImagesKey)
-              .child('${userCredentials.user!.uid}.jpg');
-          String imageUrl = '';
-          if (_selectedImage != null) {
-            await storageRef.putFile(_selectedImage!);
-            imageUrl = await storageRef.getDownloadURL();
-          }
+              .child('${userCredentials.user!.uid}.png');
+
+          await storageRef.putFile(_selectedImage!);
+          final imageUrl = await storageRef.getDownloadURL();
+
           await FirebaseFirestore.instance
               .collection(Constants.usersKey)
               .doc(userCredentials.user!.uid)
               .set({
-            Constants.userNameKey: _enteredUsername,
-            Constants.emailKey: _enteredEmail,
+            Constants.userNameKey: _username,
+            Constants.emailKey: _userEmail,
             Constants.userImageKey: imageUrl,
           });
         }
-      } on FirebaseAuthException catch (error) {
+      } catch (error) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(error.message ?? "Authentication failed."),
-            ),
+            SnackBar(content: Text("Authentication failed")),
           );
         }
-      } catch (e) {
-        debugPrint("caught exception $e");
+        debugPrint(error.toString());
       } finally {
-        if (mounted) {
-          setState(() => _isAuthenticating = false);
-        }
+        if (mounted) setState(() => _isAuthenticating = false);
       }
     }
   }
@@ -123,7 +116,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             validator: (v) => (v == null || v.trim().length < 4)
                                 ? 'User name must contain at least 4 characters.'
                                 : null,
-                            onSaved: (v) => _enteredUsername = v!,
+                            onSaved: (v) => _username = v!,
                           ),
                         ],
                         _buildTextField(
@@ -133,7 +126,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   !v.contains('@'))
                               ? 'Please enter a valid email address.'
                               : null,
-                          onSaved: (v) => _enteredEmail = v!,
+                          onSaved: (v) => _userEmail = v!,
                         ),
                         _buildTextField(
                           label: 'Password',
@@ -141,7 +134,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           validator: (v) => (v == null || v.trim().length < 6)
                               ? 'Password must be 6 characters long'
                               : null,
-                          onSaved: (v) => _enteredPassword = v!,
+                          onSaved: (v) => _password = v!,
                         ),
                         const SizedBox(height: 25),
                         if (!_isAuthenticating) ...[
