@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/data/data_provider/weather_data_provider.dart';
 
-import 'bloc/weather_bloc.dart';
 import 'data/repository/weather_repository.dart';
 import 'presentation/screens/weather_screen.dart';
 
@@ -17,13 +16,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider(
       create: (context) => WeatherRepository(WeatherDataProvider()),
-      child: BlocProvider(
-        create: (context) => WeatherBloc(context.read<WeatherRepository>()),
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData.dark(useMaterial3: true),
-          home: const WeatherScreen(),
-        ),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.dark(useMaterial3: true),
+        home: const WeatherScreen(),
       ),
     );
   }
