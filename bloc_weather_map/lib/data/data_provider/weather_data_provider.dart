@@ -3,15 +3,10 @@ import 'package:http/http.dart' as http;
 import '../../env.dart';
 
 class WeatherDataProvider {
-  Future<String> getCurrentWeather(String cityName) async {
-    try {
-      final res = await http.get(Uri.parse(
-        'https://api.openweathermap.org/data/2.5/forecast?'
-        'q=$cityName&APPID=${Env.openWeatherAPIKey}',
-      ));
-      return res.body;
-    } catch (e) {
-      throw e.toString();
-    }
-  }
+  static const _baseUrl = 'https://api.openweathermap.org/data/2.5/forecast';
+
+  Future<String> getCurrentWeather(String cityName) => http
+      .get(Uri.parse('$_baseUrl?q=$cityName&APPID=${Env.openWeatherAPIKey}'))
+      .then((res) => res.body)
+      .catchError((e) => throw Exception(e.toString()));
 }
