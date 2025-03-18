@@ -1,20 +1,35 @@
 part of 'weather_bloc.dart';
 
 @immutable
-sealed class WeatherState {}
+sealed class WeatherState extends Equatable {
+  const WeatherState();
 
-final class WeatherInitial extends WeatherState {}
+  @override
+  List<Object?> get props => [];
+}
+
+final class WeatherInitial extends WeatherState {
+  const WeatherInitial();
+}
+
+final class WeatherLoading extends WeatherState {
+  const WeatherLoading();
+}
 
 final class WeatherSuccess extends WeatherState {
   final GeneralWeatherModel weatherModel;
 
-  WeatherSuccess({required this.weatherModel});
+  const WeatherSuccess({required this.weatherModel});
+
+  @override
+  List<Object> get props => [weatherModel];
 }
 
 final class WeatherFailure extends WeatherState {
   final String error;
 
-  WeatherFailure({required this.error});
-}
+  const WeatherFailure({required this.error});
 
-final class WeatherLoading extends WeatherState {}
+  @override
+  List<Object> get props => [error];
+}
