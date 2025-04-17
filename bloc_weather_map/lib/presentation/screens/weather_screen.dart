@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/weather_bloc.dart';
+import '../../bloc/weather_event.dart';
+import '../../bloc/weather_state.dart';
 import '../../data/repository/weather_repository.dart';
 import '../widgets/additional_info_widget.dart';
 import '../widgets/hourly_forecast_widget.dart';
@@ -43,21 +45,26 @@ class _WeatherScreenState extends State<WeatherScreen> {
           centerTitle: true,
           actions: [
             IconButton(
-              onPressed: () => _weatherBloc.add(WeatherFetched()),
+              onPressed: () {
+                _weatherBloc.add(WeatherFetched());
+              },
               icon: const Icon(Icons.refresh),
             ),
           ],
         ),
         body: BlocBuilder<WeatherBloc, WeatherState>(
           builder: (_, state) {
-            if (state is WeatherFailure) {
-              return Center(child: Text(state.error));
+            // if (state is WeatherFailure) {
+            if (state.loadState == LoadingStates.weatherFailure) {
+              // return Center(child: Text(state.error));
+              return Center(child: Text("error"));
             }
-            if (state is! WeatherSuccess) {
+            // if (state is! WeatherSuccess) {
+            if (state.loadState != LoadingStates.weatherSuccess) {
               return const Center(child: CircularProgressIndicator.adaptive());
             }
 
-            final hourlyForecast = state.weatherModel.hourlyForecast;
+            final hourlyForecast = state.weatherModel!.hourlyForecast;
             final skyWeather = hourlyForecast.first.currentSkyWeather;
 
             return Padding(
@@ -107,7 +114,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                     ),
                   ),
                   HourlyForecastSection(
-                    hourlyForecast: state.weatherModel.hourlyForecast,
+                    hourlyForecast: state.weatherModel!.hourlyForecast,
                   ),
                   AdditionalInformationSection(
                     weatherData: hourlyForecast.first,

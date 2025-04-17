@@ -1,46 +1,19 @@
-import 'dart:convert';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class CityWeatherModel {
-  final String name;
-  final String country;
-  final int population;
-  final int timezone;
-  final int sunrise;
-  final int sunset;
+part 'city_weather_model.freezed.dart';
+part 'city_weather_model.g.dart';
 
-  CityWeatherModel({
-    required this.name,
-    required this.country,
-    required this.population,
-    required this.timezone,
-    required this.sunrise,
-    required this.sunset,
-  });
+@freezed
+class CityWeatherModel with _$CityWeatherModel {
+  const factory CityWeatherModel({
+    required String name,
+    required String country,
+    required int population,
+    required int timezone,
+    required int sunrise,
+    required int sunset,
+  }) = _CityWeatherModel;
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'name': name,
-      'country': country,
-      'population': population,
-      'timezone': timezone,
-      'sunrise': sunrise,
-      'sunset': sunset,
-    };
-  }
-
-  factory CityWeatherModel.fromMap(Map<String, dynamic> map) {
-    return CityWeatherModel(
-      name: map['name'] as String,
-      country: map['country'] as String,
-      population: map['population'] as int,
-      timezone: map['timezone'] as int,
-      sunrise: map['sunrise'] as int,
-      sunset: map['sunset'] as int,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory CityWeatherModel.fromJson(String source) =>
-      CityWeatherModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory CityWeatherModel.fromJson(Map<String, dynamic> json) =>
+      _$CityWeatherModelFromJson(json);
 }

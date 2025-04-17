@@ -1,18 +1,30 @@
-part of 'weather_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-@immutable
-sealed class WeatherEvent extends Equatable {
-  const WeatherEvent();
+part 'weather_event.freezed.dart';
 
-  @override
-  List<Object?> get props => [];
-}
+// part of 'weather_bloc.dart';
 
-final class WeatherFetched extends WeatherEvent {
-  final String city;
+// @immutable
+// sealed class WeatherEvent extends Equatable {
+//   const WeatherEvent();
 
-  const WeatherFetched({this.city = "London"});
+//   @override
+//   List<Object?> get props => [];
+// }
 
-  @override
-  List<Object> get props => [city];
+// final class WeatherFetched extends WeatherEvent {
+//   final String city;
+
+//   const WeatherFetched({this.city = "London"});
+
+//   @override
+//   List<Object> get props => [city];
+// }
+
+@freezed
+class WeatherEvent with _$WeatherEvent {
+  const factory WeatherEvent.weatherFetched({@Default("London") String city}) =
+      WeatherFetched;
+
+  const factory WeatherEvent.loggedIn() = LoggedIn;
 }

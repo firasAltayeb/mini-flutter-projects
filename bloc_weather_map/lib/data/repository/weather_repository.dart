@@ -16,18 +16,19 @@ class WeatherRepositoryException implements Exception {
 }
 
 class WeatherRepository {
+  const WeatherRepository(this.weatherDataProvider);
+
   final WeatherDataProvider weatherDataProvider;
-  WeatherRepository(this.weatherDataProvider);
 
   Future<GeneralWeatherModel> getCurrentWeather(String cityName) async {
     try {
       final response = await weatherDataProvider.getCurrentWeather(cityName);
-      final Map<String, dynamic> data = jsonDecode(response);
-      if (data['cod'].toString() != '200') {
-        final msg = data['message'] ?? 'Unexpected error';
-        throw WeatherRepositoryException('Error ${data['cod']}: $msg', data);
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return GeneralWeatherModel.fromJson(data);
+      } else {
+        throw WeatherRepositoryException("Error response", null);
       }
-      return GeneralWeatherModel.fromJson(data);
     } catch (e) {
       throw WeatherRepositoryException('Failed to fetch weather data', e);
     }

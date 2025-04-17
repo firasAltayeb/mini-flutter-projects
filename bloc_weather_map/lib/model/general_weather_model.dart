@@ -17,7 +17,7 @@ class GeneralWeatherModel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'list': hourlyForecast.map((x) => x.toMap()).toList(),
-      'cityData': cityData.toMap(),
+      'cityData': cityData.toJson(),
       'cod': cod,
     };
   }
@@ -26,7 +26,7 @@ class GeneralWeatherModel {
     final value = map['list'] as List<dynamic>;
     return GeneralWeatherModel(
       hourlyForecast: value.map((x) => HourlyWeatherModel.fromMap(x)).toList(),
-      cityData: CityWeatherModel.fromMap(map['city']),
+      cityData: CityWeatherModel.fromJson(map['city']),
       cod: map['cod'] as String,
     );
   }
