@@ -16,16 +16,19 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     Emitter<WeatherState> emit,
   ) async {
     // emit(WeatherLoading());
-    emit(state.copyWith(loadState: LoadingStates.weatherLoading));
+    emit(state.copyWith(loadState: LoadingStates.loading));
     try {
       final weather = await weatherRepository.getCurrentWeather(event.city);
       // emit(WeatherSuccess(weatherModel: weather));
-      emit(state.copyWith(loadState: LoadingStates.weatherSuccess));
-      emit(state.copyWith(weatherModel: weather));
+      if (weather != null) {
+        emit(state.copyWith(weatherModel: weather));
+      }
     } catch (e) {
       // emit(WeatherFailure(error: e.toString()));
-      emit(state.copyWith(loadState: LoadingStates.weatherFailure));
+      emit(state.copyWith(loadState: LoadingStates.failure));
       rethrow;
+    } finally {
+      emit(state.copyWith(loadState: LoadingStates.success));
     }
   }
 }

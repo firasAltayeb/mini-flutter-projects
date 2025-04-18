@@ -55,12 +55,13 @@ class _WeatherScreenState extends State<WeatherScreen> {
         body: BlocBuilder<WeatherBloc, WeatherState>(
           builder: (_, state) {
             // if (state is WeatherFailure) {
-            if (state.loadState == LoadingStates.weatherFailure) {
+            if (state.loadState == LoadingStates.failure ||
+                state.weatherModel == null) {
               // return Center(child: Text(state.error));
               return Center(child: Text("error"));
             }
             // if (state is! WeatherSuccess) {
-            if (state.loadState != LoadingStates.weatherSuccess) {
+            if (state.loadState != LoadingStates.success) {
               return const Center(child: CircularProgressIndicator.adaptive());
             }
 

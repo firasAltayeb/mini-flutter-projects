@@ -20,17 +20,16 @@ class WeatherRepository {
 
   final WeatherDataProvider weatherDataProvider;
 
-  Future<GeneralWeatherModel> getCurrentWeather(String cityName) async {
+  Future<GeneralWeatherModel?> getCurrentWeather(String cityName) async {
     try {
       final response = await weatherDataProvider.getCurrentWeather(cityName);
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         return GeneralWeatherModel.fromJson(data);
-      } else {
-        throw WeatherRepositoryException("Error response", null);
       }
     } catch (e) {
       throw WeatherRepositoryException('Failed to fetch weather data', e);
     }
+    return null;
   }
 }

@@ -39,16 +39,16 @@ part 'weather_state.freezed.dart';
 // }
 
 enum LoadingStates {
-  weatherInitial,
-  weatherLoading,
-  weatherSuccess,
-  weatherFailure,
+  none,
+  loading,
+  success,
+  failure,
 }
 
 @freezed
 class WeatherState with _$WeatherState {
   factory WeatherState({
-    @Default(LoadingStates.weatherInitial) LoadingStates loadState,
+    @Default(LoadingStates.none) LoadingStates loadState,
     GeneralWeatherModel? weatherModel,
   }) = _WeatherState;
 }
