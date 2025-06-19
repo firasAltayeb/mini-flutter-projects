@@ -10,6 +10,14 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
 
   WeatherBloc(this.weatherRepository) : super(WeatherState()) {
     on<WeatherFetched>(_getCurrentWeather);
+    on<Initialize>(_onInitialize);
+  }
+
+  Future<void> _onInitialize(
+    Initialize event,
+    Emitter<WeatherState> emit,
+  ) async {
+    add(WeatherFetched(city: state.chosenCity));
   }
 
   Future<void> _getCurrentWeather(

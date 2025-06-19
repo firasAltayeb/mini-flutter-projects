@@ -49,6 +49,7 @@ enum LoadingStates {
 class WeatherState with _$WeatherState {
   factory WeatherState({
     @Default(LoadingStates.none) LoadingStates loadState,
+    @Default("London") String chosenCity,
     GeneralWeatherModel? weatherModel,
   }) = _WeatherState;
 }

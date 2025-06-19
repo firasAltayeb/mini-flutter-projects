@@ -23,8 +23,8 @@ part 'weather_event.freezed.dart';
 
 @freezed
 class WeatherEvent with _$WeatherEvent {
-  const factory WeatherEvent.weatherFetched({@Default("London") String city}) =
+  const factory WeatherEvent.weatherFetched({required String city}) =
       WeatherFetched;
 
-  const factory WeatherEvent.loggedIn() = LoggedIn;
+  const factory WeatherEvent.initialize() = Initialize;
 }

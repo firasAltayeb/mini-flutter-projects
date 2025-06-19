@@ -18,12 +18,18 @@ class WeatherScreen extends StatefulWidget {
 
 class _WeatherScreenState extends State<WeatherScreen> {
   late final WeatherBloc _weatherBloc;
+  final FocusNode _focusNode = FocusNode();
+  String _chosenCity = "";
+  bool _focused = false;
 
   @override
   void initState() {
     super.initState();
     _weatherBloc = WeatherBloc(context.read<WeatherRepository>());
-    _weatherBloc.add(WeatherFetched());
+    _weatherBloc.add(Initialize());
+    _focusNode.addListener(
+      () => setState(() => _focused = _focusNode.hasFocus),
+    );
   }
 
   @override
@@ -46,7 +52,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
           actions: [
             IconButton(
               onPressed: () {
-                _weatherBloc.add(WeatherFetched());
+                if (_chosenCity.isNotEmpty) {
+                  _weatherBloc.add(WeatherFetched(city: _chosenCity));
+                }
               },
               icon: const Icon(Icons.refresh),
             ),
@@ -65,6 +73,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
             final hourlyForecast = state.weatherModel!.hourlyForecast;
             final skyWeather = hourlyForecast.first.currentSkyWeather;
+            _chosenCity = state.chosenCity;
 
             return Padding(
               padding: const EdgeInsets.all(16),
@@ -74,7 +83,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 children: [
                   SearchBar(
                     leading: const Icon(Icons.search, size: 30),
-                    hintText: state.weatherModel?.cityData.name,
+                    hintText:
+                        _focused ? null : state.weatherModel?.cityData.name,
                     elevation: WidgetStatePropertyAll(4),
                     padding: WidgetStatePropertyAll(
                       EdgeInsets.symmetric(horizontal: 16),
@@ -84,6 +94,10 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
+                    focusNode: _focusNode,
+                    onTapOutside: (_) {
+                      FocusScope.of(context).unfocus();
+                    },
                   ),
                   Card(
                     elevation: 10,
