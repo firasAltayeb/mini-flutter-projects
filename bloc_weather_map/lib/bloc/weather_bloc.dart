@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/bloc/weather_event.dart';
 import 'package:weather_app/bloc/weather_state.dart';
@@ -23,12 +24,11 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       if (weather != null) {
         emit(state.copyWith(weatherModel: weather));
       }
+      emit(state.copyWith(loadState: LoadingStates.success));
     } catch (e) {
       // emit(WeatherFailure(error: e.toString()));
       emit(state.copyWith(loadState: LoadingStates.failure));
-      rethrow;
-    } finally {
-      emit(state.copyWith(loadState: LoadingStates.success));
+      debugPrint(e.toString());
     }
   }
 }

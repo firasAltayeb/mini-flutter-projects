@@ -4,9 +4,9 @@ class HourlyWeatherModel {
   final double currentTemp;
   final String currentSkyWeather;
   final String currentTime;
-  final int currentPressure;
+  final double currentPressure;
   final double currentWindSpeed;
-  final int currentHumidity;
+  final double currentHumidity;
 
   HourlyWeatherModel({
     required this.currentTemp,
@@ -17,13 +17,16 @@ class HourlyWeatherModel {
     required this.currentTime,
   });
 
+  double get tempInCelsius =>
+      double.parse((currentTemp - 273.15).toStringAsFixed(2));
+
   HourlyWeatherModel copyWith({
     double? currentTemp,
     String? currentSkyWeather,
     String? currentTime,
-    int? currentPressure,
+    double? currentPressure,
     double? currentWindSpeed,
-    int? currentHumidity,
+    double? currentHumidity,
   }) {
     return HourlyWeatherModel(
       currentTemp: currentTemp ?? this.currentTemp,
@@ -48,11 +51,11 @@ class HourlyWeatherModel {
 
   factory HourlyWeatherModel.fromJson(Map<String, dynamic> json) {
     return HourlyWeatherModel(
-      currentTemp: json['main']['temp'],
+      currentTemp: (json['main']['temp'] as num).toDouble(),
       currentSkyWeather: json['weather'][0]['main'],
-      currentPressure: json['main']['pressure'],
-      currentWindSpeed: json['wind']['speed'],
-      currentHumidity: json['main']['humidity'],
+      currentPressure: (json['main']['pressure'] as num).toDouble(),
+      currentWindSpeed: (json['wind']['speed'] as num).toDouble(),
+      currentHumidity: (json['main']['humidity'] as num).toDouble(),
       currentTime: json['dt_txt'],
     );
   }
