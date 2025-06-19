@@ -10,13 +10,11 @@ class AdditionalInformationSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 8,
       children: [
-        Padding(
-          padding: EdgeInsets.only(top: 20, bottom: 8),
-          child: Text(
-            'Additional Information',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
+        Text(
+          'Additional Information',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

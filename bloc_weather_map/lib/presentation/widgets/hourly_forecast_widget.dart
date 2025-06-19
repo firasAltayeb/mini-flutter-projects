@@ -15,13 +15,11 @@ class HourlyForecastSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 8,
       children: [
-        const Padding(
-          padding: EdgeInsets.only(top: 20, bottom: 8),
-          child: Text(
-            'Hourly Forecast',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
+        Text(
+          'Hourly Forecast',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         SizedBox(
           height: 120,
@@ -33,7 +31,7 @@ class HourlyForecastSection extends StatelessWidget {
               final time = DateTime.parse(forecast.currentTime);
               return HourlyForecastItem(
                 time: DateFormat.j().format(time),
-                temperature: forecast.currentTemp.toString(),
+                temperature: forecast.tempInCelsius.toString(),
                 icon: _weatherIcon(forecast.currentSkyWeather),
               );
             },

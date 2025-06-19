@@ -55,9 +55,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
         body: BlocBuilder<WeatherBloc, WeatherState>(
           builder: (_, state) {
             // if (state is WeatherFailure) {
-            if (state.loadState == LoadingStates.failure ||
-                state.weatherModel == null) {
-              // return Center(child: Text(state.error));
+            if (state.loadState == LoadingStates.failure) {
               return Center(child: Text("error"));
             }
             // if (state is! WeatherSuccess) {
@@ -72,43 +70,55 @@ class _WeatherScreenState extends State<WeatherScreen> {
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 16,
                 children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
+                  SearchBar(
+                    leading: const Icon(Icons.search, size: 30),
+                    hintText: state.weatherModel?.cityData.name,
+                    elevation: WidgetStatePropertyAll(4),
+                    padding: WidgetStatePropertyAll(
+                      EdgeInsets.symmetric(horizontal: 16),
+                    ),
+                    shape: WidgetStatePropertyAll(
+                      RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Column(
-                              children: [
-                                Text(
-                                  '${hourlyForecast.first.currentTemp} K',
-                                  style: const TextStyle(
-                                    fontSize: 32,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                    ),
+                  ),
+                  Card(
+                    elevation: 10,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Column(
+                            children: [
+                              Text(
+                                '${hourlyForecast.first.tempInCelsius} K',
+                                style: const TextStyle(
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                const SizedBox(height: 16),
-                                Icon(
-                                  skyWeather == 'Clouds' || skyWeather == 'Rain'
-                                      ? Icons.cloud
-                                      : Icons.sunny,
-                                  size: 64,
-                                ),
-                                const SizedBox(height: 16),
-                                Text(
-                                  hourlyForecast.first.currentSkyWeather,
-                                  style: const TextStyle(fontSize: 20),
-                                ),
-                              ],
-                            ),
+                              ),
+                              const SizedBox(height: 16),
+                              Icon(
+                                skyWeather == 'Clouds' || skyWeather == 'Rain'
+                                    ? Icons.cloud
+                                    : Icons.sunny,
+                                size: 64,
+                              ),
+                              const SizedBox(height: 16),
+                              Text(
+                                hourlyForecast.first.currentSkyWeather,
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                            ],
                           ),
                         ),
                       ),
