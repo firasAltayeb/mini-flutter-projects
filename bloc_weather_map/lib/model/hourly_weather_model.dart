@@ -35,30 +35,25 @@ class HourlyWeatherModel {
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
+  String toJson() {
+    return json.encode({
       'currentTemp': currentTemp,
       'currentSky': currentSkyWeather,
       'currentPressure': currentPressure,
       'currentWindSpeed': currentWindSpeed,
       'currentHumidity': currentHumidity,
       'dt_txt': currentTime,
-    };
+    });
   }
 
-  factory HourlyWeatherModel.fromMap(Map<String, dynamic> currentWeatherData) {
+  factory HourlyWeatherModel.fromJson(Map<String, dynamic> json) {
     return HourlyWeatherModel(
-      currentTemp: currentWeatherData['main']['temp'],
-      currentSkyWeather: currentWeatherData['weather'][0]['main'],
-      currentPressure: currentWeatherData['main']['pressure'],
-      currentWindSpeed: currentWeatherData['wind']['speed'],
-      currentHumidity: currentWeatherData['main']['humidity'],
-      currentTime: currentWeatherData['dt_txt'],
+      currentTemp: json['main']['temp'],
+      currentSkyWeather: json['weather'][0]['main'],
+      currentPressure: json['main']['pressure'],
+      currentWindSpeed: json['wind']['speed'],
+      currentHumidity: json['main']['humidity'],
+      currentTime: json['dt_txt'],
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory HourlyWeatherModel.fromJson(String source) =>
-      HourlyWeatherModel.fromMap(jsonDecode(source) as Map<String, dynamic>);
 }
