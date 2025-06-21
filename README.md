@@ -1,10 +1,10 @@
 # Mini_flutter_projects
 
-A number of miscellaneous projects that can be improved before releaseing to Apple/Google app stores. 
+A bundle of projects used for teaching and learning Flutter
 
 ## Quiz App 
 
-Is a simple quiz game where users have to answer 48 questions to win. Users get four attempts (represented by hearts). Answering a question correctly or incorrectly plays a corresponding audio clip. This project incorporates state management with Riverpod and the audioplayers packages. 
+A quiz game with 48 questions to win, where users have four attempts (hearts). Correct or incorrect answers trigger corresponding audio clips. Built using Riverpod for state management and the audioplayers package.
 
 <table>
   <tr>
@@ -16,7 +16,7 @@ Is a simple quiz game where users have to answer 48 questions to win. Users get 
 
 ## Personal Keep 
 
-Is a simple expense tracker. Users can add items to the track, which will be reflected in the top section chart. This project supports both orientation (landscape & portrait) and platform-appropriate widgets (FloatingActionButton for Android). 
+An expense tracker app that lets users add purchases, set budgets, and view spending from the past week. Supports both landscape and portrait modes and uses platform-specific widgets like FloatingActionButton on Android.
 
 <table>
   <tr>
@@ -28,7 +28,7 @@ Is a simple expense tracker. Users can add items to the track, which will be ref
 
 ## Meal Track 
 
-Is a simple recipe book app. The home screen displays a grid with different recipe categories. Users can navigate through them and choose their favourite recipes for easy access. This project incorporates models, enums and a custom theme.   
+A recipe book app where users can browse recipes organized into categories displayed in a clean grid. Users can mark favorite recipes for easy access later. The project utilizes models, enums, and a custom theme.
 
 <table>
   <tr>
@@ -40,7 +40,7 @@ Is a simple recipe book app. The home screen displays a grid with different reci
 
 ## Chat App 
 
-Provides a simple interface where users can create an account, log in and send messages to all the users with an account. This project uses a whole suite of Firebase tools: authentication to store users' login details, storage to store users' profile pictures, Firestore database to store chat messages and meta-data and messaging to notify users of new chat messages.  
+An app that allows users to create accounts, log in, and send messages to all registered users. It uses Firebase Authentication for login, Storage for profile pictures, Firestore for chat messages and metadata, and Firebase Messaging for notifications.
 
 <table>
   <tr>
@@ -50,9 +50,21 @@ Provides a simple interface where users can create an account, log in and send m
   </tr>
 </table>
 
+## Weather Map
+
+An app that allows users to query and see weather data for any city. The app uses clean archtiure, bloc event-driven state management, the Open-Weather api, (dot)env files to obscure said api keys and a number of new properties and widget introduce in Flutter version 3.27.
+
+<table>
+  <tr>
+    <td><img src="./screenshots/weather-map-01.png" alt="weather-map-01"></td>
+    <td><img src="./screenshots/weather-map-02.png" alt="weather-map-02"></td>
+    <td><img src="./screenshots/weather-map-03.png" alt="weather-map-03"></td>
+  </tr>
+</table>
+
 ## Food Boxes
 
-With this app, restaurants can indicate the date and size of food boxes they are available to give away for charity. Registered users can view the restaurant data through a calendar and place an order for the food boxes they want. This project incorporates Firebase Authentication, Cloud Firestore, Riverpod, and an adaptable design.
+An app where restaurants and users can upload and view available food boxes for charity giveaways. Users can browse availability via a calendar and place orders. Built with Firebase Authentication, Cloud Firestore, Riverpod, and a responsive design.
 
 <table>
   <tr>
@@ -61,3 +73,4 @@ With this app, restaurants can indicate the date and size of food boxes they are
     <td><img src="./screenshots/food-boxes-03.png" alt="food-boxes-03"></td>
   </tr>
 </table>
+
