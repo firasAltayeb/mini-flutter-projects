@@ -39,10 +39,9 @@ part 'weather_state.freezed.dart';
 // }
 
 enum LoadingStates {
+  data,
   none,
   loading,
-  success,
-  failure,
 }
 
 @freezed

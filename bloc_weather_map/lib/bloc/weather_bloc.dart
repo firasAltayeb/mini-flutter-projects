@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:weather_app/bloc/weather_event.dart';
 import 'package:weather_app/bloc/weather_state.dart';
 
@@ -24,19 +25,25 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     WeatherFetched event,
     Emitter<WeatherState> emit,
   ) async {
-    // emit(WeatherLoading());
     emit(state.copyWith(loadState: LoadingStates.loading));
     try {
       final weather = await weatherRepository.getCurrentWeather(event.city);
-      // emit(WeatherSuccess(weatherModel: weather));
       if (weather != null) {
-        emit(state.copyWith(weatherModel: weather));
+        emit(state.copyWith(chosenCity: event.city, weatherModel: weather));
+      } else {
+        await Fluttertoast.showToast(
+          msg: "No data available for your search query. Please try again!",
+          toastLength: Toast.LENGTH_SHORT,
+        );
       }
-      emit(state.copyWith(loadState: LoadingStates.success));
     } catch (e) {
-      // emit(WeatherFailure(error: e.toString()));
-      emit(state.copyWith(loadState: LoadingStates.failure));
+      await Fluttertoast.showToast(
+        msg: "Ops, something wrong happend. Please try again!",
+        toastLength: Toast.LENGTH_SHORT,
+      );
       debugPrint(e.toString());
+    } finally {
+      emit(state.copyWith(loadState: LoadingStates.data));
     }
   }
 }

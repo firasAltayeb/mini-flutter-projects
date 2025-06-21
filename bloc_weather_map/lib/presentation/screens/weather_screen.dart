@@ -18,7 +18,8 @@ class WeatherScreen extends StatefulWidget {
 
 class _WeatherScreenState extends State<WeatherScreen> {
   late final WeatherBloc _weatherBloc;
-  final FocusNode _focusNode = FocusNode();
+  final _controller = TextEditingController();
+  final _focusNode = FocusNode();
   String _chosenCity = "";
   bool _focused = false;
 
@@ -35,6 +36,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
   @override
   void dispose() {
     _weatherBloc.close();
+    _controller.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -62,12 +65,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
         ),
         body: BlocBuilder<WeatherBloc, WeatherState>(
           builder: (_, state) {
-            // if (state is WeatherFailure) {
-            if (state.loadState == LoadingStates.failure) {
-              return Center(child: Text("error"));
-            }
-            // if (state is! WeatherSuccess) {
-            if (state.loadState != LoadingStates.success) {
+            if (state.loadState != LoadingStates.data) {
               return const Center(child: CircularProgressIndicator.adaptive());
             }
 
@@ -82,9 +80,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 spacing: 16,
                 children: [
                   SearchBar(
+                    controller: _controller,
                     leading: const Icon(Icons.search, size: 30),
-                    hintText:
-                        _focused ? null : state.weatherModel?.cityData.name,
+                    hintText: _focused ? null : _chosenCity,
                     elevation: WidgetStatePropertyAll(4),
                     padding: WidgetStatePropertyAll(
                       EdgeInsets.symmetric(horizontal: 16),
@@ -97,6 +95,11 @@ class _WeatherScreenState extends State<WeatherScreen> {
                     focusNode: _focusNode,
                     onTapOutside: (_) {
                       FocusScope.of(context).unfocus();
+                      _controller.clear();
+                    },
+                    onSubmitted: (value) {
+                      _weatherBloc.add(WeatherFetched(city: value));
+                      _controller.clear();
                     },
                   ),
                   Card(
@@ -114,7 +117,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           child: Column(
                             children: [
                               Text(
-                                '${hourlyForecast.first.tempInCelsius} K',
+                                '${hourlyForecast.first.tempInCelsius} C',
                                 style: const TextStyle(
                                   fontSize: 32,
                                   fontWeight: FontWeight.bold,
