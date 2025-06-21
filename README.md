@@ -1,6 +1,6 @@
 # Mini_flutter_projects
 
-A bundle of projects used for teaching and learning Flutter
+A collection of projects designed for teaching and learning Flutter!!
 
 ## Quiz App 
 
