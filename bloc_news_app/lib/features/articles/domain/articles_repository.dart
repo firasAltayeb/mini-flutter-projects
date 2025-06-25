@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:news_app/features/articles/data/article_data_provider.dart';
-import 'package:news_app/features/articles/models/article.dart';
+import 'package:news_app/features/articles/data/source/article_data_provider.dart';
+import 'package:news_app/features/articles/data/models/article.dart';
 
 class ArticlesRepository {
   const ArticlesRepository(this._articleDataProvider);

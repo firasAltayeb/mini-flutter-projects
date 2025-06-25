@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/features/articles/data/article_data_provider.dart';
+import 'package:news_app/features/articles/data/source/article_data_provider.dart';
 import 'package:news_app/features/articles/screens/articles_screen.dart';
 import 'package:news_app/helpers/network_helper.dart';
 

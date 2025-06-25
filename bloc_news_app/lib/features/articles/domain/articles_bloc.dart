@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/features/articles/domain/articles_contract.dart';
 import 'package:news_app/features/articles/domain/articles_repository.dart';
-import 'package:news_app/features/articles/models/article.dart';
+import 'package:news_app/features/articles/data/models/article.dart';
 
 class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesData> {
   final ArticlesRepository articlesRepository;
