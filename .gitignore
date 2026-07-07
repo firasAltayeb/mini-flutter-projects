@@ -45,5 +45,10 @@ app.*.symbols
 # Obfuscation related
 app.*.map.json
 
+# Generated and secret files
+**/.env
+**/*.g.dart
+**/*.freezed.dart
+
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
